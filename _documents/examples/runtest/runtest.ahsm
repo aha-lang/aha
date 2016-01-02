@@ -1,0 +1,218 @@
+﻿attribute
+.module "runtest"
+endattr
+
+refer
+"libtest"
+endrefer
+
+nativerefer
+"testdll.dll"
+endnativerefer
+
+data
+"a"
+"Program"
+"foo"
+"Library"
+"Func"
+"bar"
+# ".ctor"
+enddata
+
+typeinfo
+
+internal normal class Program
+	private var classof int32 a
+		( 123 )
+
+	private func classof void Main
+		( )
+	{
+		ldc_i8 1
+		conv_i32
+		call [0]1::2
+		add
+		call [1]3::4
+		sub
+		dup
+		stvar 0
+		call [0]1::5
+		# newobj [0]1::6
+		ret
+	}
+
+	private func classof int32 foo
+		( )
+	{
+		ldc_i16 9
+		conv_i32
+		ret
+	}
+
+	private func classof void bar
+		( int32 )
+	{
+		native cdecl [0]::5
+	}
+
+	public func instof void .ctor
+		( )
+	{
+		ret
+	}
+endclass
+
+endtype
+
+#				00 41 48 45 "\0AHE" (Aha mark)
+#				18 00 00 00 0x00000018 (Attr size)
+#				14 00 00 00 0x00000014 (Refer size)
+#				1C 00 00 00 0x0000001C (NativeRefer size)
+#				58 00 00 00 0x00000058 (StrData size)
+#				56 01 00 00 0x00000156 (TypeInfo size)
+#
+# attribute
+# .module "runtest"	18 00 00 00 0x00000018 (size)
+#				00 00 00 00 0x00000000 MODULE_ATTRIBUTE
+#				72 00 75 00 6E 00 74 00 65 00 73 00 74 00 00 00 u"runtest"
+# endattr
+#
+# refer
+# "libtest"			14 00 00 00 0x00000014 (size)
+#				6C 00 69 00 62 00 74 00 65 00 73 00 74 00 00 00 u"libtest"
+# endrefer
+#
+# nativerefer
+# "testdll.dll"		1C 00 00 00 0x0000001C (size)
+#				74 00 65 00 73 00 74 00 64 00 6C 00 6C 00 2E 00 64 00 6C 00 6C 00 00 00
+# endnativerefer
+#
+# data
+# "a"					08 00 00 00 0x00000008 (size)
+#				61 00 00 00 u"a"
+# "Program"			14 00 00 00 0x00000014 (size)
+#				50 00 72 00 6F 00 67 00 72 00 61 00 6D 00 00 00 u"Program"
+# "foo"				0C 00 00 00 0x0000000C (size)
+#				66 00 6F 00 6F 00 00 00 u"foo"
+# "Library"			14 00 00 00 0x00000014 (size)
+#				4C 00 69 00 62 00 72 00 61 00 72 00 79 00 00 00 u"Library"
+# "Func"				10 00 00 00 0x00000010 (size)
+#				46 00 75 00 6E 00 63 00 00 00 00 00 u"Func"
+# "bar"				0C 00 00 00 0x0000000C (size)
+#				62 00 61 00 72 00 00 00
+# enddata
+#
+# typeinfo
+#
+# internal static class Program
+#				56 01 00 00 0x00000156 (size)
+#				03 00 00 00 AHA_INTERNAL
+#				00 00 00 00 AHA_CLS_NORMAL
+#				20 00 00 00 name pointer
+#				00 00 00 00 base pointer (null)
+#				00 00 00 00 interfaces pointer (null)
+#				30 00 00 00 members pointer
+#				00 01 00 00 0x00000100 (SizeOfMembers)
+#				<name>
+#				50 00 72 00 6F 00 67 00 72 00 61 00 6D 00 00 00 u"Program"
+#
+#	private var classof int32 a
+#				34 00 00 00 0x00000034 (size_member)
+#				04 00 00 00 AHA_PRIVATE
+#				01 00 00 00 AHA_MEMBER_VAR
+#				00 00 00 00 AHA_CONT_MEMBER_CLASSOF
+#				05 00 00 00 AHA_TYPE_INT32
+#				00 00 00 00 TypeName pointer (null)
+#				04 00 00 00 0x00000004 (size_opcode)
+#				30 00 00 00 opcode pointer
+#				2C 00 00 00 name pointer
+#				00 00 00 00 params pointer
+#				00 00 00 00 0x00000000 (params count)
+#				<name>
+#				61 00 00 00 u"a"
+#				<init value>
+#		( 0x123 )	23 01 00 00
+#
+#	private func classof void Main
+#		( )
+#				<members>
+#				74 00 00 00 0x00000074 (size_member)
+#				04 00 00 00 AHA_PRIVATE
+#				00 00 00 00 AHA_MEMBER_FUNC
+#				00 00 00 00 AHA_CONT_MEMBER_CLASSOF
+#				00 00 00 00 AHA_TYPE_VOID
+#				00 00 00 00 TypeName pointer (null)
+#				3C 00 00 00 0x0000003C (size_opcode)
+#				38 00 00 00 opcode pointer
+#				2C 00 00 00 name pointer
+#				00 00 00 00 params pointer (null)
+#				00 00 00 00 0x00000000 (params count)
+#				<name>
+#				4D 00 61 00 69 00 6E 00 00 00 00 00 u"Main"
+#				<opcode>
+#	{
+#		ldc_i8 1		12 01
+#		conv_i32		25
+#		call [0]1::2	19 00 00 00 00 01 00 00 00 02 00 00 00
+#		add				00
+#		call [1]3::4	19 01 00 00 00 03 00 00 00 04 00 00 00
+#		sub				01
+#		dup				0A
+#		stvar 0			0E 00 00 00 00
+#		call [0]1::5	19 00 00 00 00 01 00 00 00 05 00 00 00
+#		newobj [0]1		2B 00 00 00 00 01 00 00 00
+#		ret				1A
+#	}	// padding
+#
+#	private func classof int32 foo
+#		( )
+#				<members>
+#				3C 00 00 00 0x0000003C (size_member)
+#				04 00 00 00 AHA_PRIVATE
+#				00 00 00 00 AHA_MEMBER_FUNC
+#				00 00 00 00 AHA_CONT_MEMBER_CLASSOF
+#				05 00 00 00 AHA_TYPE_INT32
+#				00 00 00 00 TypeName pointer (null)
+#				05 00 00 00 0x00000005 (size_opcode)
+#				34 00 00 00 opcode pointer
+#				2C 00 00 00 name pointer
+#				00 00 00 00 params pointer (null)
+#				00 00 00 00 0x00000000 (params count)
+#				<name>
+#				66 00 6F 00 6F 00 00 00 u"foo"
+#				<opcode>
+#	{
+#		ldc_i16 9	13 09 00
+#		conv_i32	25
+#		ret			1A
+#	} 00 00 00 //padding
+#
+#	private func classof void bar
+#		( int32 )
+#				<members>
+#				44 00 00 00 0x00000040 (size_member)
+#				04 00 00 00 AHA_PRIVATE
+#				00 00 00 00 AHA_MEMBER_FUNC
+#				00 00 00 00 AHA_CONT_MEMBER_CLASSOF
+#				00 00 00 00 AHA_TYPE_VOID
+#				00 00 00 00 TypeName pointer (null)
+#				0A 00 00 00 0x0000000A (size_opcode)
+#				38 00 00 00 opcode pointer
+#				2C 00 00 00 name pointer
+#				34 00 00 00 params pointer (null)
+#				01 00 00 00 0x00000001 (params count)
+#				<name>
+#				62 00 61 00 72 00 00 00 u"bar"
+#				<params>
+#				05 00 00 00 AHA_TYPE_INT32
+#				<opcode>
+#	{
+#		native cdecl [0]::5		2A 01 00 00 00 00 05 00 00 00
+#	} 00 00 //padding
+#
+# endclass
+#
+# endtype
+
+end

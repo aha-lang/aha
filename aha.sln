@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_documents", "_documents\_documents.csproj", "{7B51BF5D-53BF-4112-BE52-0336D68CC14A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "aha", "aha\aha.vcxproj", "{F49E7478-6E9B-46D4-A539-4005CFAF7080}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7747D132-6014-4AC7-AD67-5A85C0F5FDB6} = {7747D132-6014-4AC7-AD67-5A85C0F5FDB6}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ahdsm", "ahdsm\ahdsm.vcxproj", "{0BB8624D-358C-4CA3-9CD9-C8C5A200EAD6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7747D132-6014-4AC7-AD67-5A85C0F5FDB6} = {7747D132-6014-4AC7-AD67-5A85C0F5FDB6}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ahsm", "ahsm\ahsm.vcxproj", "{3CBBB0BB-EE2C-487F-91A0-898830CF6EB1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7747D132-6014-4AC7-AD67-5A85C0F5FDB6} = {7747D132-6014-4AC7-AD67-5A85C0F5FDB6}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libahabin", "libahabin\libahabin.vcxproj", "{7747D132-6014-4AC7-AD67-5A85C0F5FDB6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{70AE1FC6-C1B1-4C0A-8290-659ADD5CDA31}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7B51BF5D-53BF-4112-BE52-0336D68CC14A}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{7B51BF5D-53BF-4112-BE52-0336D68CC14A}.Release|Win32.ActiveCfg = Release|Any CPU
+		{7B51BF5D-53BF-4112-BE52-0336D68CC14A}.Release|Win32.Build.0 = Release|Any CPU
+		{F49E7478-6E9B-46D4-A539-4005CFAF7080}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F49E7478-6E9B-46D4-A539-4005CFAF7080}.Debug|Win32.Build.0 = Debug|Win32
+		{F49E7478-6E9B-46D4-A539-4005CFAF7080}.Release|Win32.ActiveCfg = Release|Win32
+		{F49E7478-6E9B-46D4-A539-4005CFAF7080}.Release|Win32.Build.0 = Release|Win32
+		{0BB8624D-358C-4CA3-9CD9-C8C5A200EAD6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0BB8624D-358C-4CA3-9CD9-C8C5A200EAD6}.Debug|Win32.Build.0 = Debug|Win32
+		{0BB8624D-358C-4CA3-9CD9-C8C5A200EAD6}.Release|Win32.ActiveCfg = Release|Win32
+		{0BB8624D-358C-4CA3-9CD9-C8C5A200EAD6}.Release|Win32.Build.0 = Release|Win32
+		{3CBBB0BB-EE2C-487F-91A0-898830CF6EB1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3CBBB0BB-EE2C-487F-91A0-898830CF6EB1}.Debug|Win32.Build.0 = Debug|Win32
+		{3CBBB0BB-EE2C-487F-91A0-898830CF6EB1}.Release|Win32.ActiveCfg = Release|Win32
+		{3CBBB0BB-EE2C-487F-91A0-898830CF6EB1}.Release|Win32.Build.0 = Release|Win32
+		{7747D132-6014-4AC7-AD67-5A85C0F5FDB6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7747D132-6014-4AC7-AD67-5A85C0F5FDB6}.Debug|Win32.Build.0 = Debug|Win32
+		{7747D132-6014-4AC7-AD67-5A85C0F5FDB6}.Release|Win32.ActiveCfg = Release|Win32
+		{7747D132-6014-4AC7-AD67-5A85C0F5FDB6}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

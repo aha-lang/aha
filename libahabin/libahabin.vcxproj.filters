@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ahabin">
+      <UniqueIdentifier>{13824607-bcda-45be-8411-e546f086c4f6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ahabin\ahabindef.h">
+      <Filter>ahabin</Filter>
+    </ClInclude>
+    <ClInclude Include="ahabin\Result.h">
+      <Filter>ahabin</Filter>
+    </ClInclude>
+    <ClInclude Include="ahabin\MemoryStream.h">
+      <Filter>ahabin</Filter>
+    </ClInclude>
+    <ClInclude Include="ahabin\AhaModule.h">
+      <Filter>ahabin</Filter>
+    </ClInclude>
+    <ClInclude Include="util.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ahabin\AhaRefer.h">
+      <Filter>ahabin</Filter>
+    </ClInclude>
+    <ClInclude Include="ahabin\StringUTF16.h">
+      <Filter>ahabin</Filter>
+    </ClInclude>
+    <ClInclude Include="ahabin\AhaStrings.h">
+      <Filter>ahabin</Filter>
+    </ClInclude>
+    <ClInclude Include="ahabin\ArrayList.h">
+      <Filter>ahabin</Filter>
+    </ClInclude>
+    <ClInclude Include="ahabin\AhaNativeRefer.h">
+      <Filter>ahabin</Filter>
+    </ClInclude>
+    <ClInclude Include="ahabin\AhaBody.h">
+      <Filter>ahabin</Filter>
+    </ClInclude>
+    <ClInclude Include="ahabin\ReadStream.h">
+      <Filter>ahabin</Filter>
+    </ClInclude>
+    <ClInclude Include="ahabin\AhaAccess.h">
+      <Filter>ahabin</Filter>
+    </ClInclude>
+    <ClInclude Include="ahabin\AhaType.h">
+      <Filter>ahabin</Filter>
+    </ClInclude>
+    <ClInclude Include="ahabin\AhaClsMember.h">
+      <Filter>ahabin</Filter>
+    </ClInclude>
+    <ClInclude Include="ahabin\AhaClass.h">
+      <Filter>ahabin</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryStream.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="AhaModule.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="AhaRefer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="StringUTF16.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="AhaStrings.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="AhaNativeRefer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="AhaBody.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadStream.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="AhaClass.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

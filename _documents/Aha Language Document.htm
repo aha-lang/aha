@@ -1,0 +1,345 @@
+﻿<!DOCTYPE html>
+
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<title>Aha Language Document</title>
+</head>
+<body>
+
+	<h1><strong>Aha Language Document</strong></h1>
+
+	<div>
+		<h2>목차</h2>
+		<ol type="1" start="0">
+			<li>
+				<a href="#Before">들어가기 전에</a>
+			</li>
+			<li>
+				<a href="#Outline">Aha 개론</a>
+				<ol type="I">
+					<li><a href="#Intro">Aha 언어 소개</a></li>
+					<li><a href="#CompileCourse">Aha 언어 컴파일 과정</a></li>
+				</ol>
+			</li>
+			<li>
+				<a href="#Grammar">Aha 문법</a>
+				<ol type="I">
+					<li><a href="#Variable">변수</a></li>
+					<li><a href="#operator">연산자</a></li>
+					<li><a href="#Condition">조건문</a></li>
+					<li><a href="#Iterator">반복문</a></li>
+					<li><a href="#Control">흐름 제어문</a></li>
+					<li><a href="#function">함수</a></li>
+					<li><a href="#class">클래스</a></li>
+				</ol>
+			</li>
+			<li>
+				<a href="#Ahsm">Ahsm &amp; AhaOp</a>
+				<ol type="I">
+					<li><a href="#Opcode">Opcode</a></li>
+					<li><a href="#PrimitiveType">Primitive Type</a></li>
+					<li><a href="#TypeInfo">TypeInfo</a></li>
+					<li><a href="#ErrorCode">ErrorCode</a></li>
+				</ol>
+			</li>
+		</ol>
+	</div>
+
+	<div>
+		<a name="Before"><h1>0. 들어가기 전에</h1></a>
+		언어 명세 중 &lt; ~ &gt;는 생략해선 안 되는 것입니다.<br/>
+		&lt;&lt; ~ &gt;&gt;는 사용자가 입력해야 하는, 생략해선 안 되는 것입니다.<br/>
+		[[ ~ ]]는 생략 가능한 것입니다.<br/>
+		A | B | C 는 A, B, C 셋 중 하나라는 의미입니다.<br/>
+	</div>
+
+	<div>
+		<a name="Outline"><h1>1. Aha 개론</h1></a>
+		<div>
+			<a name="Intro"><h3>I. Aha 언어 소개</h3></a>
+		</div>
+		<div>
+			<a name="CompileCourse"><h3>II. Aha 언어 컴파일 과정</h3></a>
+			Aha 언어에선 자체적으로 만든 Opcode 어셈블러를 사용합니다.<br />
+			Aha 언어의 컴파일 순서는 다음과 같습니다.<br />
+			어휘 분석기->구문 분석기(ahsm파일 생성)->Opcode Assembler (opcode 생성)<br />
+			최종적으로, Aha 언어 실행기에서는 컴파일된 opcode를 실행하게 됩니다.<br />
+		</div>
+	</div>
+
+	<div>
+		<a name="Grammar"><h1>2. Aha 문법</h1></a>
+		<div>
+			<a name="Variable"><h3>I. 변수</h3></a>
+			1.	변수 명명 규칙<br />
+				- 변수는 영문자의 대문자와 소문자, 밑줄기호(_) 및 숫자로 이루어질 수 있으나, 첫 글자로 숫자를 사용할 수는 없다<br />
+				- 키워드를 사용할 수 없다<br />
+				- 대/소문자를 구분한다<br />
+				- 변수는 처리 전에 반드시 미리 선언 되어야 한다<br />
+			<br />
+			2.	변수 선언문 형식<br />
+				[데이터 형] [변수명1], [변수명2]…;<br />
+			<br />
+			3.	변수 초기화 방법<br />
+				[데이터 형] [변수명1]=[초기화값];<br />
+			<br />
+		</div>
+		<div>
+			<a name="operator"><h3>II. 연산자</h3></a>
+			1. 이항 연산자<br />
+			<table border="1">
+				<tr><th><b>연산자</b></th><th><b>설명</b></th><th><b>예</b></th></tr>
+				<tr><th>+</th><th>A와 B를 더한다</th><th>A + B</th></tr>
+				<tr><th>-</th><th>A에서 B를 뺀다</th><th>A - B</th></tr>
+				<tr><th>*</th><th>A와 B를 곱한다</th><th>A * B</th></tr>
+				<tr><th>/</th><th>A를 B로 나눈다</th><th>A / B</th></tr>
+				<tr><th>%</th><th>A를 B로 나눈 나머지</th><th>A % B</th></tr>
+				<tr><th>=</th><th>A에 B값을 대입한다</th><th>A + B</th></tr>
+				<tr><th>+=</th><th>A와 B를 더한 값을 A에 대입한다</th><th>A += B</th></tr>
+				<tr><th>-=</th><th>A에서 B를 뺀 값을 A에 대입한다</th><th>A -= B</th></tr>
+				<tr><th>*=</th><th>A와 B를 곱한 값을 A에 대입한다</th><th>A *= B</th></tr>
+				<tr><th>/=</th><th>A를 B로 나눈 값을 A에 대입한다</th><th>A /= B</th></tr>
+				<tr><th>%=</th><th>A를 B로 나눌 때의 나머지 값을 A에 대입한다</th><th>A %= B</th></tr>
+				<tr><th><</th><th>A가 B보다 작다</th><th>A < B</th></tr>
+				<tr><th><=</th><th>A가 B보다 작거나 같다</th><th>A <= B</th></tr>
+				<tr><th>></th><th>A가 B보다 크다</th><th>A > B</th></tr>
+				<tr><th>>=</th><th>A가 B보다 크거나 같다</th><th>A >= B</th></tr>
+				<tr><th>==</th><th>A와 B가 같다</th><th>A == B</th></tr>
+				<tr><th>!=</th><th>A와 B가 다르다</th><th>A != B</th></tr>
+				<tr><th>&&</th><th>A와 B가 true일 때 true 반환</th><th>A && B</th></tr>
+				<tr><th>||</th><th>A나 B가 true일 때 true 반환</th><th>A || B</th></tr>
+			</table>
+			<br />
+			2. 단항 연산자<br />
+			<table border="1">
+				<tr><th><b>연산자</b></th><th><b>설명</b></th><th><b>예</b></th></tr>
+				<tr><th>++</th><th>A의 값 1증가</th><th>A++</th></tr>
+				<tr><th>--</th><th>A의 값 1감소</th><th>A--</th></tr>
+				<tr><th>-</th><th>A의 부호를 바꾼다</th><th>-A</th></tr>
+				<tr><th>!</th><th>A를 부정</th><th>!A</th></tr>
+			</table>
+			<br />
+			3. 조건 연산자<br />
+			조건식 ? 표현식1 : 표현식2<br />
+			<br />
+			4. 연산자 우선순위<br/>
+			<table border="1">
+				<tr><th><b>종류</b></th><th><b>연산자</b></th><th><b>순위</b></th></tr>
+				<tr><th>기본</th><th>( ) [ ] .</th><th>1</th>
+				<tr><th>단항</th><th>부호(+, -) ++ -- !</th>	<th>2</th>
+				<tr><th>사칙</th><th>* / %</th><th>3</th>
+				<tr><th>사칙</th><th>+ - (이항 연산자)</th><th>4</th>
+				<tr><th>관계</th><th>< <= > >=</th><th>5</th>
+				<tr><th>관계</th><th>== !=</th><th>6</th>
+				<tr><th>논리</th><th>&& ||</th><th>7</th>
+			</table>
+			<br />
+		</div>
+		<div>
+			<a name="Condition"><h3>III. 조건문</h3></a>
+			1.	if문<br />
+				(조건문) { 문장1; }<br />
+				else { 문장2; }<br />
+				의 형태로 쓰이며, 조건문이 true로 판정 났을 경우, 문장 1의 내용을 실행시키고,<br />
+				false 일 경우 문장 2의 내용을 실행시킨다<br />
+			<br />
+			2.	switch<br />
+				switch(정수 표현식) {<br />
+				case 상수 1: 문장 1;<br />
+				case 상수 2: 문장 2;<br />
+				case 상수 3: 문장 3;<br />
+				…<br />
+				default : 문장 n;<br />
+				의 형태로 쓰이며, 조건의 값을 검사한 후 정수 표현식의 값에 해당하는 레이블이 붙은 행으로 이동하게 된다,<br />
+				그리고 나서 break와 같은 다른 분기 명령이 없으면, 선택된 case 문 아래에 있는 나머지 명령문들이 실행된다.<br />
+				만약 정수 표현식에 대응하는 case문이 없으면 default 문으로 점프한다. default문은 선택적이다<br />
+			<br />
+		</div>
+		<div>
+			<a name="Iteartor"><h3>IV. 반복문</h3></a>
+			1.	while 문<br />
+				while(조건식) 문장;<br />
+				의 형태로 쓰이며, 조건식이 참인 경우, 계속적으로 문장을 반복하게 된다.<br />
+				조건식이 거짓인경우나 중간에 break; 와 같은 분기문이 있으면 루프 밖을 나가게 된다.<br />
+			<br />
+			2.	do while 문<br />
+				do 문장; while(조건식)<br />
+				의 형태로 쓰이며, 문장을 한번은 실행시킨후, 조건식이 참인 경우,<br />
+				계속적으로 문장을 반복하게 된다. 조건식이 거짓인경우나 중간에 break; 와 같은 분기문이 있으면 루프 밖을 나가게 된다.<br />
+			<br />
+			3.	for 문<br />
+				for(초기 수식; 조건식; 조건 변경식) 문장;<br />
+				의 형태로 쓰이며, 초기식 부분에는 제어변수의 초기값을 설정하는 식이 들어가고,<br />
+				조건식 부분에는 루프를 계속 실행시킬 것인지의 조건이 들어가며,<br />
+				조건 변경식에는 제어변수를 변경하는 식이 들어간다.<br />
+			<br />
+		</div>
+		<div>
+			<a name="Control">V. 흐름 제어문</a>
+			1.	continue 문<br />
+				switch 문을 제외한 while, do-while 및 for문 등에서 사용되며,<br />
+				반복문의 나머지 부분을 수행하지 않고 다음 반복을 시작하고자 할 때 사용된다.<br />
+			<br />
+			2.	break 문<br />
+				switch, while, do-while, for 문등의 반복문으로부터 제어를 이동시키는 기능을 실행한다.<br />
+			<br />
+		</div>
+		<div>
+			<a name="function"><h3>VI. 함수</h3></a>
+			1.	함수 정의<br />
+				[반환 데이터형] [함수이름]([매개변수 리스트])<br />
+				{<br />
+				}<br />
+			<br />
+			2.	함수 호출<br />
+				함수이름(인수);<br />
+			<br />
+		</div>
+		<div>
+			<a name="class"><h3>VII. 클래스</h3></a>
+			1. 클래스 정의<br />
+				class [클래스 이름] : [상속받을 클래스], [상속받을 인터페이스...]<br />
+				{<br />
+				}<br />
+			<br />
+			2. 클래스를 자료형으로 갖는 변수의 선언<br />
+				[클래스 이름] [변수 이름];<br />
+			<br />
+			3. 클래스를 자료형으로 갖는 변수의 초기화<br />
+				[변수이름] = new [클래스 이름]([생성자 인수]);<br />
+			<br />
+		</div>
+	</div>
+
+	<div>
+		<a name="Ahsm"><h1>3. Ahsm &amp; AhaOp</h1></a>
+		<div>
+			<a name="Opcode"><h3>I. Opcode</h3></a>
+			<table border="1">
+				<tr><th><b>opcode</b></th><th><b>Ahsm</b></th><th><b>하는 일</b></th></tr>
+				<tr><td>00</td><td>add</td><td>push [스택2]+[스택1]</td></tr>
+				<tr><td>01</td><td>sub</td><td>push [스택2]-[스택1]</td></tr>
+				<tr><td>02</td><td>mul</td><td>push [스택2]*[스택1]</td></tr>
+				<tr><td>03</td><td>div</td><td>push [스택2]/[스택1] (B=0 -> 0으로 나누기 예외)</td></tr>
+				<tr><td>04</td><td>or</td><td>push [스택2]|[스택1]</td></tr>
+				<tr><td>05</td><td>and</td><td>push [스택2]&amp;[스택1]</td></tr>
+				<tr><td>06</td><td>xor</td><td>push [스택2]^[스택1]</td></tr>
+				<tr><td>07</td><td>shl</td><td>push [스택2]&lt;&lt;[스택1]</td></tr>
+				<tr><td>08</td><td>shr</td><td>push [스택2]&gt;&gt;[스택1]</td></tr>
+				<tr><td>09</td><td>not</td><td>push ~[스택1]</td></tr>
+				<tr><td>0A</td><td>dup</td><td>push [스택1] ([스택1]을 pop하지 않음)</td></tr>
+				<tr><td>0B</td><td>ldloc A</td><td>지역변수 A를 스택에 push</td></tr>
+				<tr><td>0C</td><td>stloc A</td><td>스택 맨 위를 지역변수 A로 pop</td></tr>
+				<tr><td>0D</td><td>ldvar A</td><td>멤버변수 A를 스택에 push</td></tr>
+				<tr><td>0E</td><td>stvar A</td><td>스택 맨 위를 멤버변수 A로 pop</td></tr>
+				<tr><td>0F</td><td>ldstr A</td><td>문자열 상수 A를 스택에 push</td></tr>
+				<tr><td>10</td><td>ldc_bool A</td><td>bool 상수 A를 스택에 push</td></tr>
+				<tr><td>11</td><td>ldc_byte A</td><td>byte 상수 A를 스택에 push</td></tr>
+				<tr><td>12</td><td>ldc_i8 A</td><td>int8 상수 A를 스택에 push</td></tr>
+				<tr><td>13</td><td>ldc_i16 A</td><td>int16 상수 A를 스택에 push</td></tr>
+				<tr><td>14</td><td>ldc_i32 A</td><td>int32 상수 A를 스택에 push</td></tr>
+				<tr><td>15</td><td>ldc_i64 A</td><td>int64 상수 A를 스택에 push</td></tr>
+				<tr><td>16</td><td>ldc_f32 A</td><td>float32 상수 A를 스택에 push</td></tr>
+				<tr><td>17</td><td>ldc_f64 A</td><td>float64 상수 A를 스택에 push</td></tr>
+				<tr><td>18</td><td>jmp A</td><td>goto A</td></tr>
+				<tr><td>19</td><td>call [Lib]Cls::Func</td><td>Lib 모듈의 Cls::Func 호출</td></tr>
+				<tr><td>1A</td><td>ret</td><td>스택 맨 위값을 return</td></tr>
+				<tr><td>1B</td><td>locals ( int32, char )</td><td>지역변수 선언</td></tr>
+				<tr><td>1C</td><td>je A</td><td>[스택1] == [스택2] -> jmp A</td></tr>
+				<tr><td>1D</td><td>jne A</td><td>[스택1] != [스택2] -> jmp A</td></tr>
+				<tr><td>1E</td><td>jl A</td><td>[스택1] < [스택2] -> jmp A</td></tr>
+				<tr><td>1F</td><td>jle A</td><td>[스택1] <= [스택2] -> jmp A</td></tr>
+				<tr><td>20</td><td>jg A</td><td>[스택1] > [스택2] -> jmp A</td></tr>
+				<tr><td>21</td><td>jge A</td><td>[스택1] >= [스택2] -> jmp A</td></tr>
+				<tr><td>22</td><td>conv_byte</td><td>[스택1]을 byte형으로 캐스팅 후 push</td></tr>
+				<tr><td>23</td><td>conv_i8</td><td>[스택1]을 int8형으로 캐스팅 후 push</td></tr>
+				<tr><td>24</td><td>conv_i16</td><td>[스택1]을 int16형으로 캐스팅 후 push</td></tr>
+				<tr><td>25</td><td>conv_i32</td><td>[스택1]을 int32형으로 캐스팅 후 push</td></tr>
+				<tr><td>26</td><td>conv_i64</td><td>[스택1]을 int64형으로 캐스팅 후 push</td></tr>
+				<tr><td>27</td><td>conv_f32</td><td>[스택1]을 float32형으로 캐스팅 후 push</td></tr>
+				<tr><td>28</td><td>conv_f64</td><td>[스택1]을 float64형으로 캐스팅 후 push</td></tr>
+				<tr><td>29</td><td>conv_ip</td><td>[스택1]을 intptr형으로 캐스팅 후 push</td></tr>
+				<tr><td>2A</td><td>native</td><td>네이티브 함수 호출</td></tr>
+				<tr><td>2B</td><td>newobj [Lib]Cls::ctor</td><td>[Lib]Cls를 ctor 생성자로 new한 후 push</td></tr>
+				<tr><td>2C</td><td>ldnull</td><td>null을 push</td></tr>
+			</table>
+			<ul>
+				<li>[스택1], [스택2]는 스택에 push되어 있는 변수를 지칭합니다. 스택에 1개만 push 했을 경우 [스택1]이 그것이 되며, 2개를 push했을 경우 처음 push한 것이 [스택2], 그다음 push한 것이 [스택1]이 됩니다. (선입후출 원리.)</li>
+				<li>dup 명령어를 제외한 모든 스택 조작 명령어는 명령 수행에 사용한 스택을 꺼냅니다.</li>
+				<li>conv_XXX 명령어는 primitive type에만 적용됩니다.</li>
+				<li>native 명령어와 locals 명령어는 함수의 맨 앞에 한 개만 올 수 있습니다.</li>
+				<li>
+					call 명령어는 다음과 같이 사용합니다.
+					<ul>
+						<li>Ahsm: call [refer]classname::funcname</li>
+						<li>AhaOp: 1A refer classname funcname</li>
+						<li>)refer - refer 섹션에 있는 모듈의 인덱스입니다. 단, 이 인덱스는 1을 시작점으로 합니다. 0은 자기 자신을 의미합니다.</li>
+						<li>)classname - 클래스 이름이 있는 StrData 인덱스입니다.</li>
+						<li>)funcname - 함수 이름이 있는 StrData 인덱스니다.</li>
+					</ul>
+				</li>
+				<li>
+					native 명령어는 다음과 같이 사용합니다.
+					<ul>
+						<li>Ahsm: native &lt;&lt;stdcall | cdecl&gt;&gt; [nativerefer]::funcname</li>
+						<li>AhaOp: 2C &lt;&lt;00 | 01&gt;&gt; nativerefer funcname</li>
+						<li>)nativerefer - nativerefer 섹션에 있는 라이브러리의 인덱스입니다.</li>
+						<li>)funcname - 함수의 이름이 있는 StrData 인덱스니다.</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<div>
+			<a name="PrimitiveType"><h3>II. Primitive Type</h3></a>
+			<table border="1">
+				<tr><th><b>opcode</b></th><th><b>type</b></th><th><b>설명</b></th></tr>
+				<tr><td>00</td><td>void</td><td>void</td></tr>
+				<tr><td>01</td><td>bool</td><td>진위형</td></tr>
+				<tr><td>02</td><td>byte</td><td>1바이트 부호없는 정수</td></tr>
+				<tr><td>03</td><td>int8</td><td>1바이트 정수</td></tr>
+				<tr><td>04</td><td>int16</td><td>2바이트 정수</td></tr>
+				<tr><td>05</td><td>int32</td><td>4바이트 정수</td></tr>
+				<tr><td>06</td><td>int64</td><td>8바이트 정수</td></tr>
+				<tr><td>07</td><td>float32</td><td>4바이트 부동소수점</td></tr>
+				<tr><td>08</td><td>float64</td><td>8바이트 부동소수점</td></tr>
+				<tr><td>09</td><td>float128</td><td>16바이트 부동소수점</td></tr>
+				<tr><td>0A</td><td>intptr</td><td>포인터 호환 정수</td></tr>
+				<tr><td>0B</td><td>(null)</td><td>참조 형식</td></tr>
+			</table>
+		</div>
+		<div>
+			<a name="TypeInfo"><h3>III. TypeInfo</h3></a>
+			<p>
+				<pre>
+&lt;public | protected | protected internal | internal | private&gt;
+&lt;normal | abstract | sealed | static | interface&gt;
+class &lt;&lt;name&gt;&gt; [[ : &lt;&lt;Base&gt;&gt; [[, &lt;&lt;interfaces&gt;&gt;, ...]] ]]
+[[
+	&lt;public | protected | protected internal | internal | private&gt;
+	&lt;func | var&gt;
+	&lt;classof | instof&gt;
+	&lt;&lt;Return type&gt;&gt;
+	&lt;&lt;Name&gt;&gt;
+	[[( params )]]
+	// 여기까지 한 줄
+	// interface의 경우 var는 에러
+	{
+		// func일 경우 opcode
+	}
+, ...]]
+endclass		</pre>
+			</p>
+		</div>
+		<div>
+			<a name="ErrorCode"><h3>IV. ErrorCode</h3></a>
+			<table border="1">
+				<tr><th><b>Error Code</b></th><th><b>설명</b></th></tr>
+				<tr><td>AHSM0001</td><td>알수없는 식별자 입니다</td></tr>
+				<tr><td>AHSM0002</td><td>선언문중 일부가 생략되었습니다</td></tr>
+				<tr><td>AHSM0003</td><td>인터페이스에서는 멤버변수가 올 수 없습니다</td></tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

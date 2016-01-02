@@ -1,0 +1,17 @@
+import aha.system;
+
+static protected internal class Program
+{
+	public A Anomyous;
+	public 테스트 a = 4;
+	
+	public int func(int num1, int num2 = 4)
+	{
+		return num1 + num2;
+	}
+
+	private void Main()
+	{
+		Console.printf("Hell World!");
+	}
+};

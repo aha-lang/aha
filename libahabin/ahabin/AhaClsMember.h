@@ -1,0 +1,64 @@
+#pragma once
+
+#include "ahabindef.h"
+#include "Result.h"
+#include "AhaAccess.h"
+#include "AhaType.h"
+#include "ArrayList.h"
+
+namespace ahabin
+{
+	class ReadStream;
+
+	enum AhaClsMemberType
+	{
+		AHA_CLSMEM_TYPE_FUNC,
+		AHA_CLSMEM_TYPE_VAR,
+		COUNT_AHA_CLSMEM
+	};
+
+	enum AhaClsMemberStorage
+	{
+		AHA_CLSMEM_STORAGE_CLASSOF,
+		AHA_CLSMEM_STORAGE_INSTOF,
+		COUNT_AHA_CLSMEM_STORAGE
+	};
+
+	struct AhaClsMember_raw
+	{
+		aha_i32 size;
+		AhaAccess access;
+		AhaClsMemberType type;
+		AhaClsMemberStorage storage;
+		aha_i32 name;
+
+		union
+		{
+			struct
+			{
+				AhaType type;
+				AhaVariable var;
+			} variable;
+
+			struct
+			{
+				AhaType rettype;
+				aha_i32 CountOfParams;
+				aha_i32 SizeOfOpcode;
+				// AhaType params[CountOfParams];
+				// aha_byte opcode[SizeOfOpcode];
+			} function;
+		};
+	};
+
+	class AhaClsMember
+	{
+	private:
+		AhaClsMember_raw m_raw;
+		ArrayList<AhaType> m_params;
+		ArrayList<aha_byte> m_opcode;
+
+	public:
+		static Result Create(ReadStream& strm, AhaClass& obj);
+	};
+}
