@@ -32,6 +32,11 @@ namespace ahabin
 		AhaBody m_Body;
 
 	public:
-		static Result Create(ReadStream& strm, AhaModule& obj);
+		Result Read(ReadStream& strm);
+
+		AhaStrings& GetStrings();
+		AhaRefer& GetRefer();
+		AhaNativeRefer& GetNativeRefer();
+		AhaBody& GetBody();
 	};
 }

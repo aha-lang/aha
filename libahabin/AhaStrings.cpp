@@ -5,7 +5,7 @@
 
 namespace ahabin
 {
-	Result AhaStrings::Create(aha_i32 SizeOfStrings, ReadStream& strm, AhaStrings& obj)
+	Result AhaStrings::Read(aha_i32 SizeOfStrings, ReadStream& strm)
 	{
 		Result rs;
 
@@ -20,34 +20,31 @@ namespace ahabin
 
 			read += sizeof(size);
 			if (read >= SizeOfStrings)
-				return R_BAD_STRINGS;
+				return R_BAD_IMAGE_STRINGS;
 			if (RESULT_FAIL(rs = strm.Read(&size, sizeof(size))))
-				return rs;
+				return (rs == R_END_OF_FILE) ? R_BAD_IMAGE_STRINGS : rs;
 
 			if (size % sizeof(aha_i16) != 0)
-				return R_BAD_STRINGS;
+				return R_BAD_IMAGE_STRINGS;
 
 			read += size;
 			if (read > SizeOfStrings)
-				return R_BAD_STRINGS;
+				return R_BAD_IMAGE_STRINGS;
 			if (RESULT_FAIL(rs = StringUTF16::Create(strm, size / sizeof(aha_i16), str)))
-				return R_BAD_STRINGS;
+				return rs;
 
 			strings.PushBack(std::move(str));
 		}
 
 		if (read != SizeOfStrings)
-			return R_BAD_STRINGS;
+			return R_BAD_IMAGE_STRINGS;
 
-		obj.m_strings = std::move(strings);
+		m_strings = std::move(strings);
 		return R_SUCCESS;
 	}
 
-	const StringUTF16* AhaStrings::GetString(aha_i32 idx) const
+	const ArrayList<StringUTF16>& AhaStrings::Get() const
 	{
-		if (idx < m_strings.GetLength())
-			return &m_strings[idx];
-		else
-			return nullptr;
+		return m_strings;
 	}
 }

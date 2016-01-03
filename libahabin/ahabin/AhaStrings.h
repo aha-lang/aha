@@ -15,8 +15,8 @@ namespace ahabin
 		ArrayList<StringUTF16> m_strings;
 
 	public:
-		static Result Create(aha_i32 SizeOfStrings, ReadStream& strm, AhaStrings& obj);
+		Result Read(aha_i32 SizeOfStrings, ReadStream& strm);
 
-		const StringUTF16* GetString(aha_i32 idx) const;
+		const ArrayList<StringUTF16>& Get() const;
 	};
 }

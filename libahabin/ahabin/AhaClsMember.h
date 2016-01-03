@@ -26,7 +26,6 @@ namespace ahabin
 
 	struct AhaClsMember_raw
 	{
-		aha_i32 size;
 		AhaAccess access;
 		AhaClsMemberType type;
 		AhaClsMemberStorage storage;
@@ -59,6 +58,10 @@ namespace ahabin
 		ArrayList<aha_byte> m_opcode;
 
 	public:
-		static Result Create(ReadStream& strm, AhaClass& obj);
+		Result Read(ReadStream& strm, size_t& read);
+
+		const AhaClsMember_raw& GetRaw() const;
+		const ArrayList<AhaType>& GetParams() const;
+		const ArrayList<aha_byte>& GetOpcode() const;
 	};
 }

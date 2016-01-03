@@ -9,28 +9,48 @@ namespace
 
 namespace ahabin
 {
-	Result AhaModule::Create(ReadStream& strm, AhaModule& obj)
+	Result AhaModule::Read(ReadStream& strm)
 	{
 		Result rs;
 
-		if (RESULT_FAIL(rs = strm.Read(&obj.m_Header, sizeof(obj.m_Header))))
+		if (RESULT_FAIL(rs = strm.Read(&m_Header, sizeof(m_Header))))
+			return (rs == R_END_OF_FILE) ? R_BAD_IMAGE_HEADER : rs;
+
+		if (memcmp(&m_Header.mark, &abf_mark, sizeof(abf_mark)) != 0)
+			return R_BAD_IMAGE_HEADER;
+
+		if (RESULT_FAIL(rs = m_Strings.Read(m_Header.SizeOfStrings, strm)))
 			return rs;
 
-		if (memcmp(&obj.m_Header.mark, &abf_mark, sizeof(abf_mark)) != 0)
-			return R_BAD_HEADER;
-
-		if (RESULT_FAIL(rs = AhaStrings::Create(obj.m_Header.SizeOfStrings, strm, obj.m_Strings)))
+		if (RESULT_FAIL(rs = m_Refer.Read(m_Header.SizeOfRefer, strm)))
 			return rs;
 
-		if (RESULT_FAIL(rs = AhaRefer::Create(obj.m_Header.SizeOfRefer, strm, obj.m_Refer)))
+		if (RESULT_FAIL(rs = m_NativeRefer.Read(m_Header.SizeOfNativeRefer, strm)))
 			return rs;
 
-		if (RESULT_FAIL(rs = AhaNativeRefer::Create(obj.m_Header.SizeOfNativeRefer, strm, obj.m_NativeRefer)))
-			return rs;
-
-		if (RESULT_FAIL(rs = AhaBody::Create(obj.m_Header.SizeOfBody, strm, obj.m_Body)))
+		if (RESULT_FAIL(rs = m_Body.Read(m_Header.SizeOfBody, strm)))
 			return rs;
 
 		return R_SUCCESS;
+	}
+
+	AhaStrings& AhaModule::GetStrings()
+	{
+		return m_Strings;
+	}
+
+	AhaRefer& AhaModule::GetRefer()
+	{
+		return m_Refer;
+	}
+
+	AhaNativeRefer& AhaModule::GetNativeRefer()
+	{
+		return m_NativeRefer;
+	}
+
+	AhaBody& AhaModule::GetBody()
+	{
+		return m_Body;
 	}
 }

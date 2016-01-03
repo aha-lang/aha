@@ -52,7 +52,7 @@ namespace ahabin
 		return R_SUCCESS;
 	}
 
-	Result StringUTF16::Create(Stream& strm, aha_i32 length, StringUTF16& obj)
+	Result StringUTF16::Create(ReadStream& strm, aha_i32 length, StringUTF16& obj)
 	{
 		free(obj.m_str);
 

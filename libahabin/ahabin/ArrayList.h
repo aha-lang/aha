@@ -107,7 +107,8 @@ namespace ahabin
 			}
 		}
 
-		Result Relength(size_t length, T&& data)
+		template <typename U>
+		Result Relength(size_t length, U&& data)
 		{
 			Result rs;
 
@@ -124,7 +125,7 @@ namespace ahabin
 				m_ar[i].~T();
 
 			for (size_t i = m_length; i < length; ++i)
-				new (&m_ar[i]) T(std::forward<T>(data));
+				new (&m_ar[i]) T(std::forward<U>(data));
 
 			m_length = length;
 			return R_SUCCESS;
@@ -134,13 +135,20 @@ namespace ahabin
 			Relength(length, T());
 		}
 
-		void PushBack(T&& data)
+		template <typename U>
+		Result PushBack(U&& data)
 		{
+			Result rs;
+
 			m_length++;
 			if (m_length > m_capacity)
-				reserve(m_capacity * 2);
+			{
+				if (RESULT_FAIL(rs = Reserve(m_capacity * 2)))
+					return rs;
+			}
 
-			new (&m_ar[m_length - 1]) T(std::forward<T>(data));
+			new (&m_ar[m_length - 1]) T(std::forward<U>(data));
+			return R_SUCCESS;
 		}
 	};
 }

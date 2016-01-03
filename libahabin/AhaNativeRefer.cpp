@@ -3,13 +3,14 @@
 
 namespace ahabin
 {
-	Result AhaNativeRefer::Create(aha_i32 SizeOfNativeRefer, ReadStream& strm, AhaNativeRefer& obj)
+	Result AhaNativeRefer::Read(aha_i32 SizeOfNativeRefer, ReadStream& strm)
 	{
-		return AhaStrings::Create(SizeOfNativeRefer, strm, obj.m_impl);
+		Result rs = m_impl.Read(SizeOfNativeRefer, strm);
+		return (rs == R_BAD_IMAGE_STRINGS) ? R_BAD_IMAGE_NATIVE_REFER : rs;
 	}
 
-	const StringUTF16* AhaNativeRefer::GetNativeRefer(aha_i32 idx) const
+	const ArrayList<StringUTF16>& AhaNativeRefer::Get() const
 	{
-		return m_impl.GetString(idx);
+		return m_impl.Get();
 	}
 }

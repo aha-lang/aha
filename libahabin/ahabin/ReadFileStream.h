@@ -6,13 +6,15 @@
 
 namespace ahabin
 {
-	class MemoryStream : public ReadStream
+	class ReadFileStream : public ReadStream
 	{
 	private:
-		const char *m_pMemory, *m_pNow;
-		size_t m_size, m_left;
+		FILE* m_fp = nullptr;
+
 	public:
-		explicit MemoryStream(const void *pMem, size_t size);
+		Result Create(const char* filename);
+
 		virtual Result Read(void *buf, size_t size) override;
+		virtual bool EndOfFile() override;
 	};
 }

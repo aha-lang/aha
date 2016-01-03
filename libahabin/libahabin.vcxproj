@@ -138,10 +138,12 @@
     <ClInclude Include="ahabin\AhaClsMember.h" />
     <ClInclude Include="ahabin\AhaModule.h" />
     <ClInclude Include="ahabin\AhaNativeRefer.h" />
+    <ClInclude Include="ahabin\AhaOpcode.h" />
     <ClInclude Include="ahabin\AhaRefer.h" />
     <ClInclude Include="ahabin\AhaStrings.h" />
     <ClInclude Include="ahabin\ArrayList.h" />
-    <ClInclude Include="ahabin\MemoryStream.h" />
+    <ClInclude Include="ahabin\ReadFileStream.h" />
+    <ClInclude Include="ahabin\ReadMemoryStream.h" />
     <ClInclude Include="ahabin\Result.h" />
     <ClInclude Include="ahabin\ReadStream.h" />
     <ClInclude Include="ahabin\StringUTF16.h" />
@@ -152,11 +154,13 @@
   <ItemGroup>
     <ClCompile Include="AhaBody.cpp" />
     <ClCompile Include="AhaClass.cpp" />
+    <ClCompile Include="AhaClsMember.cpp" />
     <ClCompile Include="AhaModule.cpp" />
     <ClCompile Include="AhaNativeRefer.cpp" />
     <ClCompile Include="AhaRefer.cpp" />
     <ClCompile Include="AhaStrings.cpp" />
-    <ClCompile Include="MemoryStream.cpp" />
+    <ClCompile Include="ReadFileStream.cpp" />
+    <ClCompile Include="ReadMemoryStream.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

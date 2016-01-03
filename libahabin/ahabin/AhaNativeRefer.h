@@ -12,8 +12,8 @@ namespace ahabin
 		AhaStrings m_impl;
 
 	public:
-		static Result Create(aha_i32 SizeOfNativeRefer, ReadStream& strm, AhaNativeRefer& obj);
+		Result Read(aha_i32 SizeOfNativeRefer, ReadStream& strm);
 
-		const StringUTF16* GetNativeRefer(aha_i32 idx) const;
+		const ArrayList<StringUTF16>& Get() const;
 	};
 }

@@ -15,6 +15,6 @@ namespace ahabin
 		ArrayList<AhaClass> m_ClassList;
 
 	public:
-		static Result Create(aha_i32 SizeOfBody, ReadStream& strm, AhaBody& obj);
+		Result Read(aha_i32 SizeOfBody, ReadStream& strm);
 	};
 }

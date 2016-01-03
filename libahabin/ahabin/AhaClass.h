@@ -27,8 +27,8 @@ namespace ahabin
 		aha_i32 name;
 		aha_i32 base;			// 없을 경우 -1
 		aha_i32 interfaces;		// "Inter1\0Inter2\0\0"
-		size_t SizeOfMembers;
-		// AhaClsMember members[SizeOfMembers];
+		size_t CountOfMembers;
+		// AhaClsMember members[CountOfMembers];
 	};
 
 	class AhaClass
@@ -38,6 +38,6 @@ namespace ahabin
 		ArrayList<AhaClsMember> m_members;
 
 	public:
-		static Result Create(ReadStream& strm, AhaClass& obj);
+		Result Read(ReadStream& strm, size_t& read);
 	};
 }

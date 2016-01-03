@@ -2,7 +2,7 @@
 
 #include "ahabindef.h"
 #include "Result.h"
-#include "Stream.h"
+#include "ReadStream.h"
 
 namespace ahabin
 {
