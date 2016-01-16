@@ -5,4 +5,14 @@
 # include <crtdbg.h>
 #endif
 
+#include <stdio.h>
+#include <uchar.h>
+
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <locale>
+#include <codecvt>
+
 #include <boost/scope_exit.hpp>

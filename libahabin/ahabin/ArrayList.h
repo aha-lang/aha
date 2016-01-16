@@ -132,7 +132,7 @@ namespace ahabin
 		}
 		Result Relength(size_t length)
 		{
-			Relength(length, T());
+			return Relength(length, T());
 		}
 
 		template <typename U>

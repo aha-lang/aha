@@ -27,7 +27,7 @@ namespace ahabin
 		aha_i32 name;
 		aha_i32 base;			// 없을 경우 -1
 		aha_i32 interfaces;		// "Inter1\0Inter2\0\0"
-		size_t CountOfMembers;
+		aha_i32 CountOfMembers;
 		// AhaClsMember members[CountOfMembers];
 	};
 
@@ -39,5 +39,8 @@ namespace ahabin
 
 	public:
 		Result Read(ReadStream& strm, size_t& read);
+
+		const AhaClass_raw GetRaw() const;
+		const ArrayList<AhaClsMember>& GetMembers() const;
 	};
 }

@@ -14,7 +14,7 @@ namespace ahabin
 
 	struct AhaModuleHeader
 	{
-		aha_byte mark[4];
+		aha_u8 mark[4];
 		aha_i32 SizeOfStrings;
 		aha_i32 SizeOfRefer;
 		aha_i32 SizeOfNativeRefer;

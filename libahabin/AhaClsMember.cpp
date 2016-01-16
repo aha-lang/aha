@@ -43,7 +43,7 @@ namespace ahabin
 		return m_params;
 	}
 
-	const ArrayList<aha_byte>& AhaClsMember::GetOpcode() const
+	const ArrayList<aha_u8>& AhaClsMember::GetOpcode() const
 	{
 		return m_opcode;
 	}

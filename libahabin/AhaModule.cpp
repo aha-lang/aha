@@ -4,7 +4,7 @@
 
 namespace
 {
-	static constexpr ahabin::aha_byte abf_mark[4] = { '\0', 'A', 'H', 'E' };
+	static constexpr ahabin::aha_u8 abf_mark[4] = { '\0', 'A', 'H', 'E' };
 }
 
 namespace ahabin

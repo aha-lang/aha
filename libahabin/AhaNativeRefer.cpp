@@ -6,10 +6,10 @@ namespace ahabin
 	Result AhaNativeRefer::Read(aha_i32 SizeOfNativeRefer, ReadStream& strm)
 	{
 		Result rs = m_impl.Read(SizeOfNativeRefer, strm);
-		return (rs == R_BAD_IMAGE_STRINGS) ? R_BAD_IMAGE_NATIVE_REFER : rs;
+		return (rs == R_BAD_IMAGE_REFER) ? R_BAD_IMAGE_NATIVE_REFER : rs;
 	}
 
-	const ArrayList<StringUTF16>& AhaNativeRefer::Get() const
+	const ArrayList<aha_i32>& AhaNativeRefer::Get() const
 	{
 		return m_impl.Get();
 	}

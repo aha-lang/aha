@@ -9,6 +9,7 @@ namespace ahabin
 		m_pNow = (const char *)pMem;
 		m_size = size;
 		m_left = size;
+		return R_SUCCESS;
 	}
 
 	Result ReadMemoryStream::Read(void *buf, size_t size)
@@ -31,7 +32,7 @@ namespace ahabin
 	bool ReadMemoryStream::EndOfFile()
 	{
 		if (m_pMemory == nullptr)
-			return R_INVALID_OPERATION;
+			return false;
 
 		return (m_left == 0);
 	}

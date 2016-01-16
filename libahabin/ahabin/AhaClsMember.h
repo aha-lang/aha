@@ -55,13 +55,13 @@ namespace ahabin
 	private:
 		AhaClsMember_raw m_raw;
 		ArrayList<AhaType> m_params;
-		ArrayList<aha_byte> m_opcode;
+		ArrayList<aha_u8> m_opcode;
 
 	public:
 		Result Read(ReadStream& strm, size_t& read);
 
 		const AhaClsMember_raw& GetRaw() const;
 		const ArrayList<AhaType>& GetParams() const;
-		const ArrayList<aha_byte>& GetOpcode() const;
+		const ArrayList<aha_u8>& GetOpcode() const;
 	};
 }

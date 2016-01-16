@@ -1,16 +1,34 @@
 #include "stdafx.h"
 #include "ahabin/AhaRefer.h"
+#include "ahabin/ReadStream.h"
 
 namespace ahabin
 {
-	Result AhaRefer::Read(aha_i32 SizeOfRefer, ReadStream& strm, AhaRefer& obj)
+	Result AhaRefer::Read(aha_i32 SizeOfRefer, ReadStream& strm)
 	{
-		Result rs = m_implRead(SizeOfRefer, strm);
-		return (rs == R_BAD_IMAGE_STRINGS) ? R_BAD_IMAGE_REFER : rs;
+		Result rs;
+
+		ArrayList<aha_i32> refers;
+
+		if (SizeOfRefer % sizeof(aha_i32) != 0)
+			return R_BAD_IMAGE_STRINGS;
+
+		if (RESULT_FAIL(rs = strm.Read(&refers[0], SizeOfRefer)))
+			return R_BAD_IMAGE_STRINGS;
+
+		/*
+		for (ahabin::aha_i32 i = 0; i < refers.Get().GetLength(); ++i)
+		{
+			// TODO: validate
+		}
+		*/
+
+		m_refers = std::move(refers);
+		return R_SUCCESS;
 	}
 
-	const ArrayList<StringUTF16>& AhaRefer::Get() const
+	const ArrayList<aha_i32>& AhaRefer::Get() const
 	{
-		return m_impl.Get();
+		return m_refers;
 	}
 }

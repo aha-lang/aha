@@ -11,15 +11,15 @@ namespace ahabin
 
 		ArrayList<StringUTF16> strings;
 
-		size_t read = 0;
+		size_t read = 0, szofstr = (size_t)SizeOfStrings;
 
-		while (read < SizeOfStrings)
+		while (read < szofstr)
 		{
 			StringUTF16 str;
 			aha_i32 size;
 
 			read += sizeof(size);
-			if (read >= SizeOfStrings)
+			if (read >= szofstr)
 				return R_BAD_IMAGE_STRINGS;
 			if (RESULT_FAIL(rs = strm.Read(&size, sizeof(size))))
 				return (rs == R_END_OF_FILE) ? R_BAD_IMAGE_STRINGS : rs;
@@ -28,7 +28,7 @@ namespace ahabin
 				return R_BAD_IMAGE_STRINGS;
 
 			read += size;
-			if (read > SizeOfStrings)
+			if (read > szofstr)
 				return R_BAD_IMAGE_STRINGS;
 			if (RESULT_FAIL(rs = StringUTF16::Create(strm, size / sizeof(aha_i16), str)))
 				return rs;
@@ -36,7 +36,7 @@ namespace ahabin
 			strings.PushBack(std::move(str));
 		}
 
-		if (read != SizeOfStrings)
+		if (read != szofstr)
 			return R_BAD_IMAGE_STRINGS;
 
 		m_strings = std::move(strings);

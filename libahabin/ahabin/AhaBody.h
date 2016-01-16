@@ -16,5 +16,7 @@ namespace ahabin
 
 	public:
 		Result Read(aha_i32 SizeOfBody, ReadStream& strm);
+
+		const ArrayList<AhaClass>& Get() const;
 	};
 }

@@ -2,18 +2,18 @@
 
 #include "ahabindef.h"
 #include "Result.h"
-#include "AhaStrings.h"
+#include "AhaRefer.h"
 
 namespace ahabin
 {
 	class AhaNativeRefer
 	{
 	private:
-		AhaStrings m_impl;
+		AhaRefer m_impl;
 
 	public:
 		Result Read(aha_i32 SizeOfNativeRefer, ReadStream& strm);
 
-		const ArrayList<StringUTF16>& Get() const;
+		const ArrayList<aha_i32>& Get() const;
 	};
 }

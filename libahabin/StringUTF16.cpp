@@ -34,18 +34,18 @@ namespace ahabin
 		std::swap(m_length, other.m_length);
 	}
 
-	Result StringUTF16::Create(const aha_i16* str, StringUTF16& obj)
+	Result StringUTF16::Create(const aha_u16* str, StringUTF16& obj)
 	{
 		free(obj.m_str);
 
 		aha_i32 length;
 		for (length = 0; str[length] != 0; ++length) { }
 
-		util::malloc_unique_ptr<aha_i16> newstr((aha_i16*)malloc(sizeof(aha_i16) * length));
+		util::malloc_unique_ptr<aha_u16> newstr((aha_u16*)malloc(sizeof(aha_u16) * length));
 		if (newstr == nullptr)
 			return R_OUT_OF_MEMORY;
 
-		memcpy(newstr.get(), str, sizeof(aha_i16) * length);
+		memcpy(newstr.get(), str, sizeof(aha_u16) * length);
 
 		obj.m_str = newstr.release();
 		obj.m_length = length;
@@ -58,7 +58,7 @@ namespace ahabin
 
 		Result rs;
 
-		util::malloc_unique_ptr<aha_i16> newstr((aha_i16*)malloc(sizeof(aha_i16) * length));
+		util::malloc_unique_ptr<aha_u16> newstr((aha_u16*)malloc(sizeof(aha_u16) * length));
 		if (newstr == nullptr)
 			return R_OUT_OF_MEMORY;
 
@@ -75,12 +75,12 @@ namespace ahabin
 		return m_length;
 	}
 
-	aha_i16& StringUTF16::operator[](aha_i32 idx)
+	aha_u16& StringUTF16::operator[](aha_i32 idx)
 	{
-		return const_cast<aha_i16&>(static_cast<const StringUTF16&>(*this)[idx]);
+		return const_cast<aha_u16&>(static_cast<const StringUTF16&>(*this)[idx]);
 	}
 
-	const aha_i16& StringUTF16::operator[](aha_i32 idx) const
+	const aha_u16& StringUTF16::operator[](aha_i32 idx) const
 	{
 		return m_str[idx];
 	}

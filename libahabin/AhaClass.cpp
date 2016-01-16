@@ -24,4 +24,14 @@ namespace ahabin
 
 		return R_SUCCESS;
 	}
+
+	const AhaClass_raw AhaClass::GetRaw() const
+	{
+		return m_raw;
+	}
+
+	const ArrayList<AhaClsMember>& AhaClass::GetMembers() const
+	{
+		return m_members;
+	}
 }
