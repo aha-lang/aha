@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Utf16StrBuilder.h"
+#include "StrBuilder.h"
 
 #include <ahabin/ReadFileStream.h>
 #include <ahabin/AhaModule.h>
@@ -7,8 +7,9 @@ using ahabin::RESULT_FAIL;
 using ahabin::RESULT_SUCS;
 
 // opcode.cpp
-std::wstring DisasOpcode(const ahabin::ArrayList<ahabin::aha_u8>& opcodes, const ahabin::AhaStrings& strings);
+std::wstring DisasOpcode(const ahabin::ArrayList<ahabin::aha_u8>& opcodes, const ahabin::AhaStrings& strings, const wchar_t* prefix);
 
+void OutputStrings(const ahabin::AhaStrings& strings);
 void OutputRefer(const ahabin::AhaRefer& refer, const ahabin::AhaStrings& strings);
 void OutputNativeRefer(const ahabin::AhaNativeRefer& nrefer, const ahabin::AhaStrings& strings);
 void OutputBody(const ahabin::AhaBody& body, const ahabin::AhaStrings& strings);
@@ -20,25 +21,17 @@ void OutputString(const ahabin::StringUTF16& str);
 
 void OutputTypeStr(ahabin::AhaType type, const ahabin::AhaStrings& strings);
 
+std::wstring InitialValStr(ahabin::AhaType type, ahabin::AhaVariable initial);
+
 const char16_t* AccessStr(ahabin::AhaAccess access);
 const char16_t* ClassTypeStr(ahabin::AhaClassType type);
 const char16_t* MemberTypeStr(ahabin::AhaClsMemberType type);
 const char16_t* MemberStorageStr(ahabin::AhaClsMemberStorage ckind);
 
-void BinaryDump(const void* memory, unsigned size);
-
-Utf16StrBuilder output_builder;
+StrBuilder output_builder;
 
 int main(int argc, char *argv[])
 {
-#if defined(_MSC_VER) && defined(_DEBUG)
-	BOOST_SCOPE_EXIT(void)
-	{
-		_CrtDumpMemoryLeaks();
-	}
-	BOOST_SCOPE_EXIT_END;
-#endif
-
 	if (argc != 2)
 	{
 		fprintf(stderr, "Usage : %s [abf file]", argv[0]);
@@ -60,15 +53,36 @@ int main(int argc, char *argv[])
 		return -2;
 	}
 
+	output_builder.write(u".module ");
+	output_builder.write(module.GetStrings().Get()[module.GetModuleName()]);
+	output_builder.write(u"\n\n");
+
+	OutputStrings(module.GetStrings());
 	OutputRefer(module.GetRefer(), module.GetStrings());
 	OutputNativeRefer(module.GetNativeRefer(), module.GetStrings());
 	OutputBody(module.GetBody(), module.GetStrings());
+
 	output_builder.write(u"end\n");
 
 	std::wstring result_str = output_builder.make();
 	std::wcout << result_str;
 
 	return 0;
+}
+
+void OutputStrings(const ahabin::AhaStrings& strings)
+{
+	output_builder.write(u"strings\n");
+
+	auto& lst = strings.Get();
+
+	for (ahabin::aha_i32 i = 0; (size_t)i < lst.GetLength(); ++i)
+	{
+		OutputString(lst[i]);
+		output_builder.write(u"\n");
+	}
+
+	output_builder.write(u"endstrings\n\n");
 }
 
 void OutputRefer(const ahabin::AhaRefer& refer, const ahabin::AhaStrings& strings)
@@ -79,7 +93,10 @@ void OutputRefer(const ahabin::AhaRefer& refer, const ahabin::AhaStrings& string
 
 	for (ahabin::aha_i32 i = 0; (size_t)i < lst.GetLength(); ++i)
 	{
+		output_builder.write(std::to_wstring(lst[i]));
+		output_builder.write(u" # ");
 		OutputString(strings.Get()[lst[i]]);
+		output_builder.write(u"\n");
 	}
 
 	output_builder.write(u"endrefer\n\n");
@@ -93,7 +110,10 @@ void OutputNativeRefer(const ahabin::AhaNativeRefer& nrefer, const ahabin::AhaSt
 
 	for (ahabin::aha_i32 i = 0; (size_t)i < lst.GetLength(); ++i)
 	{
+		output_builder.write(std::to_wstring(lst[i]));
+		output_builder.write(u" # ");
 		OutputString(strings.Get()[lst[i]]);
+		output_builder.write(u"\n");
 	}
 
 	output_builder.write(u"endnrefer\n\n");
@@ -108,6 +128,7 @@ void OutputBody(const ahabin::AhaBody& body, const ahabin::AhaStrings& strings)
 	for (ahabin::aha_i32 i = 0; (size_t)i < lst.GetLength(); ++i)
 	{
 		OutputClass(lst[i], strings);
+		output_builder.write(u"\n");
 	}
 
 	output_builder.write(u"endbody\n\n");
@@ -115,9 +136,9 @@ void OutputBody(const ahabin::AhaBody& body, const ahabin::AhaStrings& strings)
 
 void OutputClass(const ahabin::AhaClass& cls, const ahabin::AhaStrings& strings)
 {
-	output_builder.write_u16(u'\t');
+	output_builder.write(u"\t");
 	output_builder.write(AccessStr(cls.GetRaw().access));
-	output_builder.write_u16(u' ');
+	output_builder.write(u" ");
 	output_builder.write(ClassTypeStr(cls.GetRaw().type));
 	output_builder.write(u" class ");
 	output_builder.write(strings.Get()[cls.GetRaw().name]);
@@ -160,23 +181,23 @@ void OutputClass(const ahabin::AhaClass& cls, const ahabin::AhaStrings& strings)
 		OutputClsMember(lst[i], strings);
 	}
 
-	output_builder.write(u"endclass\n\n");
+	output_builder.write(u"\tendclass\n");
 }
 
 void OutputClsMember(const ahabin::AhaClsMember& clsmem, const ahabin::AhaStrings& strings)
 {
 	output_builder.write(u"\t\t");
 	output_builder.write(AccessStr(clsmem.GetRaw().access));
-	output_builder.write_u16(u' ');
+	output_builder.write(u" ");
 	output_builder.write(MemberTypeStr(clsmem.GetRaw().type));
-	output_builder.write_u16(u' ');
+	output_builder.write(u" ");
 	output_builder.write(MemberStorageStr(clsmem.GetRaw().storage));
-	output_builder.write_u16(u' ');
+	output_builder.write(u" ");
 	OutputTypeStr(clsmem.GetRaw().function.rettype, strings);
-	//OutputTypeStr(clsmem.GetRaw().variable.type, strings);
-	output_builder.write_u16(u' ');
+	//OutputTypeStr(clsmem.GetRaw().variable.vartype, strings);
+	output_builder.write(u" ");
 	output_builder.write(strings.Get()[clsmem.GetRaw().name]);
-	output_builder.write_u16(u'\n');
+	output_builder.write(u"\n");
 
 	if (clsmem.GetRaw().type == ahabin::AHA_CLSMEM_TYPE_FUNC)
 	{
@@ -194,31 +215,26 @@ void OutputClsMember(const ahabin::AhaClsMember& clsmem, const ahabin::AhaString
 		}
 
 		if (i != 0)
-			output_builder.write_u16(u' ');
+			output_builder.write(u" ");
 		output_builder.write(u")\n\t\t{\n");
 
-		// TODOn
-		output_builder.write(u"\t\t\t");
-		BinaryDump(clsmem.GetOpcode().data(), clsmem.GetOpcode().GetLength());
+		output_builder.write(DisasOpcode(clsmem.GetOpcode(), strings, L"\t\t\t"));
 
 		output_builder.write(u"\t\t}\n");
 	}
 	else
 	{
 		output_builder.write(u"\t\t\t( ");
-
-		// TODO
-		output_builder.write(u"**not-implemented**");
-
-		output_builder.write(u")\n");
+		output_builder.write(InitialValStr(clsmem.GetRaw().variable.vartype, clsmem.GetRaw().variable.initial));
+		output_builder.write(u" )\n");
 	}
 
-	output_builder.write_u16(u'\n');
+	output_builder.write(u"\n");
 }
 
 void OutputString(const ahabin::StringUTF16& str)
 {
-	output_builder.write_u16(u'\"');
+	output_builder.write(u"\"");
 
 	for (ahabin::aha_i32 j = 0; j < str.GetLength(); ++j)
 	{
@@ -236,11 +252,12 @@ void OutputString(const ahabin::StringUTF16& str)
 		}
 		else
 		{
-			output_builder.write_u16(str[j]);
+			char16_t s[2] = { (char16_t)str[j], u'\0' };
+			output_builder.write(s);
 		}
 	}
 
-	output_builder.write_u16(u'\"');
+	output_builder.write(u"\"");
 }
 
 void OutputTypeStr(ahabin::AhaType type, const ahabin::AhaStrings& strings)
@@ -270,6 +287,62 @@ void OutputTypeStr(ahabin::AhaType type, const ahabin::AhaStrings& strings)
 	{
 		output_builder.write(strings.Get()[type]);
 	}
+}
+
+std::wstring InitialValStr(ahabin::AhaType type, ahabin::AhaVariable initial)
+{
+	if (type & 0x80000000)
+	{
+		switch (type)
+		{
+			case ahabin::AHA_TYPE_BOOL:
+				return initial.v_bool ? L"true" : L"false";
+				break;
+			case ahabin::AHA_TYPE_INT8:
+				return std::to_wstring(initial.v_int8);
+				break;
+			case ahabin::AHA_TYPE_UINT8:
+				return std::to_wstring(initial.v_uint8);
+				break;
+			case ahabin::AHA_TYPE_INT16:
+				return std::to_wstring(initial.v_int16);
+				break;
+			case ahabin::AHA_TYPE_UINT16:
+				return std::to_wstring(initial.v_uint16);
+				break;
+			case ahabin::AHA_TYPE_INT32:
+				return std::to_wstring(initial.v_int32);
+				break;
+			case ahabin::AHA_TYPE_UINT32:
+				return std::to_wstring(initial.v_uint32);
+				break;
+			case ahabin::AHA_TYPE_INT64:
+				return std::to_wstring(initial.v_int64);
+				break;
+			case ahabin::AHA_TYPE_UINT64:
+				return std::to_wstring(initial.v_uint64);
+				break;
+			case ahabin::AHA_TYPE_FLOAT32:
+				return std::to_wstring(initial.v_float32);
+				break;
+			case ahabin::AHA_TYPE_FLOAT64:
+				return std::to_wstring(initial.v_float64);
+				break;
+			case ahabin::AHA_TYPE_INTPTR:
+				return std::to_wstring(initial.v_intptr);
+				break;
+			case ahabin::AHA_TYPE_UINTPTR:
+				return std::to_wstring(initial.v_uintptr);
+				break;
+		}
+	}
+	else
+	{
+		return L"null";
+	}
+
+	assert(false);
+	return L"errrrrrrrrrr";
 }
 
 const char16_t* AccessStr(ahabin::AhaAccess access)
@@ -312,19 +385,4 @@ const char16_t* MemberStorageStr(ahabin::AhaClsMemberStorage ckind)
 		u"instof",
 	};
 	return str[ckind];
-}
-
-void BinaryDump(const void* memory, unsigned size)
-{
-	const uint8_t* mem = (const uint8_t*)memory;
-	const uint8_t* p;
-
-	for (p = mem; p < mem + size; p++)
-	{
-		if (p != mem)
-			putchar(' ');
-		printf("%02x", *p);
-	}
-
-	putchar('\n');
 }

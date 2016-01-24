@@ -38,5 +38,6 @@ namespace ahabin
 		AhaRefer& GetRefer();
 		AhaNativeRefer& GetNativeRefer();
 		AhaBody& GetBody();
+		aha_i32 GetModuleName() const;
 	};
 }

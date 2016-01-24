@@ -35,13 +35,15 @@ namespace ahabin
 		{
 			struct
 			{
-				AhaType type;
-				AhaVariable var;
+				AhaType vartype;
+				aha_i32 _padding;
+				AhaVariable initial;
 			} variable;
 
 			struct
 			{
 				AhaType rettype;
+				aha_i32 _padding;
 				aha_i32 CountOfParams;
 				aha_i32 SizeOfOpcode;
 				// AhaType params[CountOfParams];

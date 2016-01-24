@@ -8,6 +8,8 @@ namespace ahabin
 	{
 		Result rs;
 
+		aha_u8 padding[4];
+
 		m_params.Relength(0);
 		m_opcode.Relength(0);
 
@@ -23,11 +25,19 @@ namespace ahabin
 				return (rs == R_END_OF_FILE) ? R_BAD_IMAGE_CLSMEM : rs;
 			read += sizeof(AhaType) * m_raw.function.CountOfParams;
 
-			if (RESULT_FAIL(rs = m_params.Relength(m_raw.function.SizeOfOpcode)))
+			if (RESULT_FAIL(rs = m_opcode.Relength(m_raw.function.SizeOfOpcode)))
 				return rs;
-			if (RESULT_FAIL(rs = strm.Read(m_params.data(), m_raw.function.SizeOfOpcode)))
+			if (RESULT_FAIL(rs = strm.Read(m_opcode.data(), m_raw.function.SizeOfOpcode)))
 				return (rs == R_END_OF_FILE) ? R_BAD_IMAGE_CLSMEM : rs;
 			read += m_raw.function.SizeOfOpcode;
+
+			if (m_raw.function.SizeOfOpcode % 4 != 0)
+			{
+				size_t padding_sz = 4 - m_raw.function.SizeOfOpcode % 4;
+				if (RESULT_FAIL(rs = strm.Read(padding, padding_sz)))
+					return (rs == R_END_OF_FILE) ? R_BAD_IMAGE_CLSMEM : rs;
+				read += padding_sz;
+			}
 		}
 
 		return R_SUCCESS;

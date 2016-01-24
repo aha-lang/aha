@@ -53,4 +53,9 @@ namespace ahabin
 	{
 		return m_Body;
 	}
+
+	aha_i32 AhaModule::GetModuleName() const
+	{
+		return m_Header.ModuleName;
+	}
 }

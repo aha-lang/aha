@@ -25,11 +25,15 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Utf16StrBuilder.cpp" />
+    <ClCompile Include="StrBuilder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="Utf16StrBuilder.h" />
+    <ClInclude Include="StrBuilder.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="runtest.abf" />
+    <None Include="runtest.ahsm" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0BB8624D-358C-4CA3-9CD9-C8C5A200EAD6}</ProjectGuid>
@@ -84,16 +88,16 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>$(OutDir);$(BOOST_STAGE_32)\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(BOOST_DIRECTORY);$(SolutionDir)libahabin;$(IncludePath)</IncludePath>
+    <LibraryPath>$(OutDir);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)libahabin;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>$(OutDir);$(BOOST_STAGE_32)\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(BOOST_DIRECTORY);$(SolutionDir)libahabin;$(IncludePath)</IncludePath>
+    <LibraryPath>$(OutDir);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)libahabin;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>

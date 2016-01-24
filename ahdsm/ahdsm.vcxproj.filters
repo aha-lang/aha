@@ -21,10 +21,10 @@
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Utf16StrBuilder.cpp">
+    <ClCompile Include="opcode.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="opcode.cpp">
+    <ClCompile Include="StrBuilder.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,8 +32,12 @@
     <ClInclude Include="stdafx.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Utf16StrBuilder.h">
+    <ClInclude Include="StrBuilder.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="runtest.ahsm" />
+    <None Include="runtest.abf" />
   </ItemGroup>
 </Project>

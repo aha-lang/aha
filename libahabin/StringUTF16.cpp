@@ -62,7 +62,7 @@ namespace ahabin
 		if (newstr == nullptr)
 			return R_OUT_OF_MEMORY;
 
-		if (RESULT_FAIL(rs = strm.Read(newstr.get(), length)))
+		if (RESULT_FAIL(rs = strm.Read(newstr.get(), sizeof(aha_u16) * length)))
 			return rs;
 
 		obj.m_str = newstr.release();

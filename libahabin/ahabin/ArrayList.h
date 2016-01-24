@@ -26,10 +26,13 @@ namespace ahabin
 
 		~ArrayList()
 		{
-			for (size_t i = 0; i < m_length; ++i)
-				m_ar[i].~T();
+			if (m_ar != nullptr)
+			{
+				for (size_t i = 0; i < m_length; ++i)
+					m_ar[i].~T();
 
-			free(m_ar);
+				free(m_ar);
+			}
 		}
 
 		ArrayList(ArrayList&& other)
@@ -37,9 +40,9 @@ namespace ahabin
 			m_ar = other.m_ar;
 			m_length = other.m_length;
 			m_capacity = other.m_capacity;
-			m_ar = nullptr;
-			m_length = 0;
-			m_capacity = 0;
+			other.m_ar = nullptr;
+			other.m_length = 0;
+			other.m_capacity = 0;
 		}
 
 		ArrayList& operator =(ArrayList&& other)
@@ -76,7 +79,15 @@ namespace ahabin
 
 		Result Reserve(size_t capacity)
 		{
-			if (capacity == 0 || capacity < m_length)
+			if (capacity == 0)
+				return R_INVALID_OPERATION;
+
+			size_t bits;
+			for (bits = 1; capacity >> bits != 0; ++bits) { }
+			if (capacity != (1 << (bits - 1)))
+				capacity = 1 << bits;
+
+			if (capacity < m_length)
 			{
 				return R_INVALID_OPERATION;
 			}
@@ -114,10 +125,7 @@ namespace ahabin
 
 			if (length > m_capacity)
 			{
-				size_t cap;
-				for (cap = m_capacity * 2; cap < length; cap *= 2) { }
-
-				if (RESULT_FAIL(rs = Reserve(cap)))
+				if (RESULT_FAIL(rs = Reserve(length)))
 					return rs;
 			}
 
@@ -140,12 +148,12 @@ namespace ahabin
 		{
 			Result rs;
 
-			m_length++;
-			if (m_length > m_capacity)
+			if (m_length + 1 > m_capacity)
 			{
-				if (RESULT_FAIL(rs = Reserve(m_capacity * 2)))
+				if (RESULT_FAIL(rs = Reserve(m_length + 1)))
 					return rs;
 			}
+			m_length++;
 
 			new (&m_ar[m_length - 1]) T(std::forward<U>(data));
 			return R_SUCCESS;

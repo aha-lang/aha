@@ -13,8 +13,11 @@ namespace ahabin
 		if (SizeOfRefer % sizeof(aha_i32) != 0)
 			return R_BAD_IMAGE_STRINGS;
 
+		if (RESULT_FAIL(rs = refers.Relength(SizeOfRefer / sizeof(aha_i32))))
+			return rs;
+
 		if (RESULT_FAIL(rs = strm.Read(&refers[0], SizeOfRefer)))
-			return R_BAD_IMAGE_STRINGS;
+			return (rs == R_END_OF_FILE) ? R_BAD_IMAGE_STRINGS : rs;
 
 		/*
 		for (ahabin::aha_i32 i = 0; i < refers.Get().GetLength(); ++i)
