@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ahabindef.h"
+#include "noncopyable.h"
 #include "Result.h"
 #include "AhaClass.h"
 #include "ArrayList.h"
@@ -9,7 +10,7 @@ namespace ahabin
 {
 	class ReadStream;
 
-	class AhaBody
+	class AhaBody : private noncopyable
 	{
 	private:
 		ArrayList<AhaClass> m_ClassList;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ahabindef.h"
+#include "noncopyable.h"
 #include "Result.h"
 #include "StringUTF16.h"
 #include "ArrayList.h"
@@ -9,7 +10,7 @@ namespace ahabin
 {
 	class ReadStream;
 
-	class AhaStrings
+	class AhaStrings : private noncopyable
 	{
 	private:
 		ArrayList<StringUTF16> m_strings;

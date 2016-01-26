@@ -1,11 +1,12 @@
 #pragma once
 
 #include "ahabindef.h"
+#include "noncopyable.h"
 #include "Result.h"
 
 namespace ahabin
 {
-	class ReadStream
+	class ReadStream : private noncopyable
 	{
 	public:
 		virtual ~ReadStream() = 0;

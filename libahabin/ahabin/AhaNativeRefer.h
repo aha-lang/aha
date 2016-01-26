@@ -1,12 +1,13 @@
 #pragma once
 
 #include "ahabindef.h"
+#include "noncopyable.h"
 #include "Result.h"
 #include "AhaRefer.h"
 
 namespace ahabin
 {
-	class AhaNativeRefer
+	class AhaNativeRefer : private noncopyable
 	{
 	private:
 		AhaRefer m_impl;

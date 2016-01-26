@@ -142,6 +142,7 @@
     <ClInclude Include="ahabin\AhaRefer.h" />
     <ClInclude Include="ahabin\AhaStrings.h" />
     <ClInclude Include="ahabin\ArrayList.h" />
+    <ClInclude Include="ahabin\noncopyable.h" />
     <ClInclude Include="ahabin\ReadFileStream.h" />
     <ClInclude Include="ahabin\ReadMemoryStream.h" />
     <ClInclude Include="ahabin\Result.h" />

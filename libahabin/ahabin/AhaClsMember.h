@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ahabindef.h"
+#include "noncopyable.h"
 #include "Result.h"
 #include "AhaAccess.h"
 #include "AhaType.h"
@@ -52,7 +53,7 @@ namespace ahabin
 		};
 	};
 
-	class AhaClsMember
+	class AhaClsMember : private noncopyable
 	{
 	private:
 		AhaClsMember_raw m_raw;

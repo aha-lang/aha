@@ -75,6 +75,9 @@
     <ClInclude Include="ahabin\ReadFileStream.h">
       <Filter>ahabin</Filter>
     </ClInclude>
+    <ClInclude Include="ahabin\noncopyable.h">
+      <Filter>ahabin</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
