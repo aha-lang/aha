@@ -14,9 +14,6 @@ namespace ahabin
 
 	Result ReadMemoryStream::Read(void *buf, size_t size)
 	{
-		if (m_pMemory == nullptr)
-			return R_INVALID_OPERATION;
-
 		size_t left = m_left;
 
 		if (m_left < size)
@@ -31,9 +28,6 @@ namespace ahabin
 
 	bool ReadMemoryStream::EndOfFile()
 	{
-		if (m_pMemory == nullptr)
-			return false;
-
 		return (m_left == 0);
 	}
 }
