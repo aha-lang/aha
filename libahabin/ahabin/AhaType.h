@@ -2,7 +2,7 @@
 
 #include "ahabindef.h"
 
-namespace ahabin
+namespace aha
 {
 	// 참조형의 경우에는 refer의 index
 	//  -> 31bit가 0

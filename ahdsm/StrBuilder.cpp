@@ -1,21 +1,11 @@
 #include "stdafx.h"
 #include "StrBuilder.h"
 
-void StrBuilder::write(const ahabin::StringUTF16& str)
-{
-	write(&str[0], &str[0] + str.GetLength());
-}
-
 void StrBuilder::write(const char16_t* str)
 {
 	size_t len;
 	for (len = 0; str[len] != u'\x0'; ++len) { }
 	write(str, str + len);
-}
-
-void StrBuilder::write(const ahabin::aha_u16* begin, const ahabin::aha_u16* end)
-{
-	write((const char16_t*)begin, (const char16_t*)end);
 }
 
 void StrBuilder::write(const char16_t* begin, const char16_t* end)

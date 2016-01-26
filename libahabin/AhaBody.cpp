@@ -2,7 +2,7 @@
 #include "ahabin/AhaBody.h"
 #include "ahabin/ReadStream.h"
 
-namespace ahabin
+namespace aha
 {
 	Result AhaBody::Read(aha_i32 SizeOfBody, ReadStream& strm)
 	{

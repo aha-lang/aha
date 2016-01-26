@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ahabin/ReadFileStream.h"
 
-namespace ahabin
+namespace aha
 {
 	Result ReadFileStream::Create(const char* filename)
 	{

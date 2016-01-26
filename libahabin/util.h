@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdlib.h>
+#include <memory>
 
 namespace util
 {

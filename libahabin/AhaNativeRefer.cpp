@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ahabin/AhaNativeRefer.h"
 
-namespace ahabin
+namespace aha
 {
 	Result AhaNativeRefer::Read(aha_i32 SizeOfNativeRefer, ReadStream& strm)
 	{

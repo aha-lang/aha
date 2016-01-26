@@ -8,7 +8,7 @@
 #include "AhaNativeRefer.h"
 #include "AhaBody.h"
 
-namespace ahabin
+namespace aha
 {
 	class ReadStream;
 

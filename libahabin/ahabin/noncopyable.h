@@ -2,7 +2,7 @@
 
 #include "ahabindef.h"
 
-namespace ahabin
+namespace aha
 {
 	class noncopyable
 	{

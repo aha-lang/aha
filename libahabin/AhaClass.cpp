@@ -2,7 +2,7 @@
 #include "ahabin/AhaClass.h"
 #include "ahabin/ReadStream.h"
 
-namespace ahabin
+namespace aha
 {
 	Result AhaClass::Read(ReadStream& strm, size_t& read)
 	{

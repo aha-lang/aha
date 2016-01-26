@@ -5,7 +5,7 @@
 #include "AhaAccess.h"
 #include "AhaType.h"
 
-namespace ahabin
+namespace aha
 {
 	class ReadStream;
 

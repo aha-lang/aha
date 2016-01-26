@@ -36,9 +36,6 @@
     <ClInclude Include="ahabin\AhaRefer.h">
       <Filter>ahabin</Filter>
     </ClInclude>
-    <ClInclude Include="ahabin\StringUTF16.h">
-      <Filter>ahabin</Filter>
-    </ClInclude>
     <ClInclude Include="ahabin\AhaStrings.h">
       <Filter>ahabin</Filter>
     </ClInclude>
@@ -84,9 +81,6 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="AhaRefer.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="StringUTF16.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="AhaStrings.cpp">

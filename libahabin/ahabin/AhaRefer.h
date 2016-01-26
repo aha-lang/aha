@@ -3,7 +3,7 @@
 #include "ahabindef.h"
 #include "Result.h"
 
-namespace ahabin
+namespace aha
 {
 	class ReadStream;
 

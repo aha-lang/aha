@@ -4,7 +4,7 @@
 #include "ReadStream.h"
 #include "Result.h"
 
-namespace ahabin
+namespace aha
 {
 	class ReadFileStream : public ReadStream
 	{

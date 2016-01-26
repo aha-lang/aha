@@ -3,7 +3,7 @@
 #include <ahabin/AhaOpcode.h>
 #include <ahabin/AhaStrings.h>
 
-std::wstring DisasOpcode(const std::vector<ahabin::aha_u8>& opcodes, const ahabin::AhaStrings& strings, const wchar_t* prefix)
+std::wstring DisasOpcode(const std::vector<aha::aha_u8>& opcodes, const aha::AhaStrings& strings, const wchar_t* prefix)
 {
 	// TODO
 

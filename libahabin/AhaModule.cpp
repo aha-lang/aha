@@ -4,10 +4,10 @@
 
 namespace
 {
-	static constexpr ahabin::aha_u8 abf_mark[4] = { '\0', 'A', 'H', 'E' };
+	static constexpr aha::aha_u8 abf_mark[4] = { '\0', 'A', 'H', 'E' };
 }
 
-namespace ahabin
+namespace aha
 {
 	Result AhaModule::Read(ReadStream& strm)
 	{

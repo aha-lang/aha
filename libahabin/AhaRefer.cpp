@@ -2,7 +2,7 @@
 #include "ahabin/AhaRefer.h"
 #include "ahabin/ReadStream.h"
 
-namespace ahabin
+namespace aha
 {
 	Result AhaRefer::Read(aha_i32 SizeOfRefer, ReadStream& strm)
 	{

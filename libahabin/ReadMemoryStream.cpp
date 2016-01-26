@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ahabin/ReadMemoryStream.h"
 
-namespace ahabin
+namespace aha
 {
 	Result ReadMemoryStream::Create(const void *pMem, size_t size)
 	{

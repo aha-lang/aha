@@ -4,7 +4,7 @@
 #include "noncopyable.h"
 #include "Result.h"
 
-namespace ahabin
+namespace aha
 {
 	class ReadStream : private noncopyable
 	{

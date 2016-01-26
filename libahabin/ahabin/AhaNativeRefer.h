@@ -4,7 +4,7 @@
 #include "Result.h"
 #include "AhaRefer.h"
 
-namespace ahabin
+namespace aha
 {
 	class AhaNativeRefer
 	{

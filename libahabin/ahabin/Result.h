@@ -2,7 +2,7 @@
 
 #include "ahabindef.h"
 
-namespace ahabin
+namespace aha
 {
 	enum Result : aha_i32
 	{

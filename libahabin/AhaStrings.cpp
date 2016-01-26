@@ -3,20 +3,20 @@
 #include "ahabin/ReadStream.h"
 #include "util.h"
 
-namespace ahabin
+namespace aha
 {
 	Result AhaStrings::Read(aha_i32 SizeOfStrings, ReadStream& strm)
 	{
 		Result rs;
 
-		std::vector<StringUTF16> strings;
+		std::vector<std::u16string> strings;
 		aha_u8 padding[4];
 
 		size_t read = 0, szofstr = (size_t)SizeOfStrings;
 
 		while (read < szofstr)
 		{
-			StringUTF16 str;
+			std::u16string str;
 			aha_i32 size;
 
 			read += sizeof(size);
@@ -31,7 +31,9 @@ namespace ahabin
 			read += size;
 			if (read > szofstr)
 				return R_BAD_IMAGE_STRINGS;
-			if (RESULT_FAIL(rs = str.Read(strm, size / sizeof(aha_u16))))
+
+			str.resize(size / sizeof(char16_t));
+			if (RESULT_FAIL(rs = strm.Read(&str[0], size)))
 				return R_BAD_IMAGE_STRINGS;
 
 			if (size % 4 != 0)
@@ -52,7 +54,7 @@ namespace ahabin
 		return R_SUCCESS;
 	}
 
-	const std::vector<StringUTF16>& AhaStrings::Get() const
+	const std::vector<std::u16string>& AhaStrings::Get() const
 	{
 		return m_strings;
 	}

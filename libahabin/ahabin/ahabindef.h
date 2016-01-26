@@ -3,10 +3,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <string.h>
 
-#include <memory>
+#include <vector>
+#include <string>
 
-namespace ahabin
+namespace aha
 {
 	typedef std::uint8_t aha_bool;
 	typedef std::int8_t aha_i8;
