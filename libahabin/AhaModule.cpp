@@ -14,7 +14,7 @@ namespace ahabin
 		Result rs;
 
 		if (RESULT_FAIL(rs = strm.Read(&m_Header, sizeof(m_Header))))
-			return (rs == R_END_OF_FILE) ? R_BAD_IMAGE_HEADER : rs;
+			return R_BAD_IMAGE_REFER;
 
 		if (memcmp(&m_Header.mark, &abf_mark, sizeof(abf_mark)) != 0)
 			return R_BAD_IMAGE_HEADER;

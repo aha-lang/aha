@@ -1,23 +1,21 @@
 #pragma once
 
 #include "ahabindef.h"
-#include "noncopyable.h"
 #include "Result.h"
 #include "StringUTF16.h"
-#include "ArrayList.h"
 
 namespace ahabin
 {
 	class ReadStream;
 
-	class AhaStrings : private noncopyable
+	class AhaStrings
 	{
 	private:
-		ArrayList<StringUTF16> m_strings;
+		std::vector<StringUTF16> m_strings;
 
 	public:
 		Result Read(aha_i32 SizeOfStrings, ReadStream& strm);
 
-		const ArrayList<StringUTF16>& Get() const;
+		const std::vector<StringUTF16>& Get() const;
 	};
 }

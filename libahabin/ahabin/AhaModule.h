@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ahabindef.h"
-#include "noncopyable.h"
 #include "Result.h"
 
 #include "AhaStrings.h"
@@ -23,7 +22,7 @@ namespace ahabin
 		aha_i32 ModuleName;
 	};
 
-	class AhaModule : private noncopyable
+	class AhaModule
 	{
 	private:
 		AhaModuleHeader m_Header;

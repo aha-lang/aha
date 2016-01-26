@@ -42,9 +42,6 @@
     <ClInclude Include="ahabin\AhaStrings.h">
       <Filter>ahabin</Filter>
     </ClInclude>
-    <ClInclude Include="ahabin\ArrayList.h">
-      <Filter>ahabin</Filter>
-    </ClInclude>
     <ClInclude Include="ahabin\AhaNativeRefer.h">
       <Filter>ahabin</Filter>
     </ClInclude>
@@ -99,9 +96,6 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="AhaBody.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="ReadStream.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="AhaClass.cpp">

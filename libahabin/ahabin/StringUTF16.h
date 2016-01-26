@@ -23,8 +23,9 @@ namespace ahabin
 		StringUTF16& operator =(StringUTF16&& other);
 		void swap(StringUTF16& other);
 
-		static Result Create(const aha_u16* str, StringUTF16& obj);
-		static Result Create(ReadStream& strm, aha_i32 length, StringUTF16& obj);
+		StringUTF16(const aha_u16* str);
+
+		Result Read(ReadStream& strm, aha_i32 length);
 
 		aha_i32 GetLength() const;
 

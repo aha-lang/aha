@@ -6,4 +6,7 @@
 #include <stdint.h>
 
 #include <memory>
+#include <vector>
 #include <utility>
+#include <stdexcept>
+#include <new>

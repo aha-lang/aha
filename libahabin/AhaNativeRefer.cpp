@@ -9,7 +9,7 @@ namespace ahabin
 		return (rs == R_BAD_IMAGE_REFER) ? R_BAD_IMAGE_NATIVE_REFER : rs;
 	}
 
-	const ArrayList<aha_i32>& AhaNativeRefer::Get() const
+	const std::vector<aha_i32>& AhaNativeRefer::Get() const
 	{
 		return m_impl.Get();
 	}

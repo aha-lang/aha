@@ -9,7 +9,7 @@ namespace ahabin
 	class ReadStream : private noncopyable
 	{
 	public:
-		virtual ~ReadStream() = 0;
+		virtual ~ReadStream() = default;
 
 		virtual Result Read(void *buf, size_t size) = 0;
 		virtual bool EndOfFile() = 0;

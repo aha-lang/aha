@@ -7,7 +7,7 @@ using ahabin::RESULT_FAIL;
 using ahabin::RESULT_SUCS;
 
 // opcode.cpp
-std::wstring DisasOpcode(const ahabin::ArrayList<ahabin::aha_u8>& opcodes, const ahabin::AhaStrings& strings, const wchar_t* prefix);
+std::wstring DisasOpcode(const std::vector<ahabin::aha_u8>& opcodes, const ahabin::AhaStrings& strings, const wchar_t* prefix);
 
 void OutputStrings(const ahabin::AhaStrings& strings);
 void OutputRefer(const ahabin::AhaRefer& refer, const ahabin::AhaStrings& strings);
@@ -74,11 +74,9 @@ void OutputStrings(const ahabin::AhaStrings& strings)
 {
 	output_builder.write(u"strings\n");
 
-	auto& lst = strings.Get();
-
-	for (ahabin::aha_i32 i = 0; (size_t)i < lst.GetLength(); ++i)
+	for (const ahabin::StringUTF16& str : strings.Get())
 	{
-		OutputString(lst[i]);
+		OutputString(str);
 		output_builder.write(u"\n");
 	}
 
@@ -89,13 +87,11 @@ void OutputRefer(const ahabin::AhaRefer& refer, const ahabin::AhaStrings& string
 {
 	output_builder.write(u"refer\n");
 
-	auto& lst = refer.Get();
-
-	for (ahabin::aha_i32 i = 0; (size_t)i < lst.GetLength(); ++i)
+	for (ahabin::aha_i32 idx : refer.Get())
 	{
-		output_builder.write(std::to_wstring(lst[i]));
+		output_builder.write(std::to_wstring(idx));
 		output_builder.write(u" # ");
-		OutputString(strings.Get()[lst[i]]);
+		OutputString(strings.Get()[idx]);
 		output_builder.write(u"\n");
 	}
 
@@ -106,13 +102,11 @@ void OutputNativeRefer(const ahabin::AhaNativeRefer& nrefer, const ahabin::AhaSt
 {
 	output_builder.write(u"nrefer\n");
 
-	auto& lst = nrefer.Get();
-
-	for (ahabin::aha_i32 i = 0; (size_t)i < lst.GetLength(); ++i)
+	for (ahabin::aha_i32 idx : nrefer.Get())
 	{
-		output_builder.write(std::to_wstring(lst[i]));
+		output_builder.write(std::to_wstring(idx));
 		output_builder.write(u" # ");
-		OutputString(strings.Get()[lst[i]]);
+		OutputString(strings.Get()[idx]);
 		output_builder.write(u"\n");
 	}
 
@@ -123,11 +117,9 @@ void OutputBody(const ahabin::AhaBody& body, const ahabin::AhaStrings& strings)
 {
 	output_builder.write(u"body\n\n");
 
-	auto& lst = body.Get();
-
-	for (ahabin::aha_i32 i = 0; (size_t)i < lst.GetLength(); ++i)
+	for (const ahabin::AhaClass& cls : body.Get())
 	{
-		OutputClass(lst[i], strings);
+		OutputClass(cls, strings);
 		output_builder.write(u"\n");
 	}
 
@@ -174,11 +166,9 @@ void OutputClass(const ahabin::AhaClass& cls, const ahabin::AhaStrings& strings)
 
 	output_builder.write(u"\n\n");
 
-	auto& lst =  cls.GetMembers();
-
-	for (ahabin::aha_i32 i = 0; (size_t)i < lst.GetLength(); ++i)
+	for (const ahabin::AhaClsMember& clsmem : cls.GetMembers())
 	{
-		OutputClsMember(lst[i], strings);
+		OutputClsMember(clsmem, strings);
 	}
 
 	output_builder.write(u"\tendclass\n");
@@ -204,9 +194,9 @@ void OutputClsMember(const ahabin::AhaClsMember& clsmem, const ahabin::AhaString
 		output_builder.write(u"\t\t\t( ");
 
 		auto& params = clsmem.GetParams();
-		ahabin::aha_i32 i;
+		size_t i;
 
-		for (i = 0; (size_t)i < params.GetLength(); ++i)
+		for (i = 0; i < params.size(); ++i)
 		{
 			if (i != 0)
 				output_builder.write(u", ");

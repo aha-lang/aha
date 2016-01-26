@@ -7,6 +7,8 @@ namespace ahabin
 	{
 		if (fopen_s(&m_fp, filename, "rb") != 0)
 			return R_IO_ERROR;
+
+		return R_SUCCESS;
 	}
 
 	Result ReadFileStream::Read(void* buf, size_t size)

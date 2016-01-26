@@ -1,11 +1,9 @@
 #pragma once
 
 #include "ahabindef.h"
-#include "noncopyable.h"
 #include "Result.h"
 #include "AhaAccess.h"
 #include "AhaType.h"
-#include "ArrayList.h"
 
 namespace ahabin
 {
@@ -53,18 +51,18 @@ namespace ahabin
 		};
 	};
 
-	class AhaClsMember : private noncopyable
+	class AhaClsMember
 	{
 	private:
 		AhaClsMember_raw m_raw;
-		ArrayList<AhaType> m_params;
-		ArrayList<aha_u8> m_opcode;
+		std::vector<AhaType> m_params;
+		std::vector<aha_u8> m_opcode;
 
 	public:
 		Result Read(ReadStream& strm, size_t& read);
 
 		const AhaClsMember_raw& GetRaw() const;
-		const ArrayList<AhaType>& GetParams() const;
-		const ArrayList<aha_u8>& GetOpcode() const;
+		const std::vector<AhaType>& GetParams() const;
+		const std::vector<aha_u8>& GetOpcode() const;
 	};
 }

@@ -34,39 +34,35 @@ namespace ahabin
 		std::swap(m_length, other.m_length);
 	}
 
-	Result StringUTF16::Create(const aha_u16* str, StringUTF16& obj)
+	StringUTF16::StringUTF16(const aha_u16* str)
 	{
-		free(obj.m_str);
-
 		aha_i32 length;
 		for (length = 0; str[length] != 0; ++length) { }
 
 		util::malloc_unique_ptr<aha_u16> newstr((aha_u16*)malloc(sizeof(aha_u16) * length));
 		if (newstr == nullptr)
-			return R_OUT_OF_MEMORY;
+			throw std::bad_alloc();
 
 		memcpy(newstr.get(), str, sizeof(aha_u16) * length);
 
-		obj.m_str = newstr.release();
-		obj.m_length = length;
-		return R_SUCCESS;
+		m_str = newstr.release();
+		m_length = length;
 	}
 
-	Result StringUTF16::Create(ReadStream& strm, aha_i32 length, StringUTF16& obj)
+	Result StringUTF16::Read(ReadStream& strm, aha_i32 length)
 	{
-		free(obj.m_str);
-
 		Result rs;
 
 		util::malloc_unique_ptr<aha_u16> newstr((aha_u16*)malloc(sizeof(aha_u16) * length));
 		if (newstr == nullptr)
-			return R_OUT_OF_MEMORY;
+			throw std::bad_alloc();
 
 		if (RESULT_FAIL(rs = strm.Read(newstr.get(), sizeof(aha_u16) * length)))
 			return rs;
 
-		obj.m_str = newstr.release();
-		obj.m_length = length;
+		free(m_str);
+		m_str = newstr.release();
+		m_length = length;
 		return R_SUCCESS;
 	}
 

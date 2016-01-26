@@ -9,7 +9,7 @@ namespace ahabin
 	{
 		Result rs;
 
-		ArrayList<StringUTF16> strings;
+		std::vector<StringUTF16> strings;
 		aha_u8 padding[4];
 
 		size_t read = 0, szofstr = (size_t)SizeOfStrings;
@@ -23,7 +23,7 @@ namespace ahabin
 			if (read >= szofstr)
 				return R_BAD_IMAGE_STRINGS;
 			if (RESULT_FAIL(rs = strm.Read(&size, sizeof(size))))
-				return (rs == R_END_OF_FILE) ? R_BAD_IMAGE_STRINGS : rs;
+				return R_BAD_IMAGE_STRINGS;
 
 			if (size % sizeof(aha_i16) != 0)
 				return R_BAD_IMAGE_STRINGS;
@@ -31,18 +31,18 @@ namespace ahabin
 			read += size;
 			if (read > szofstr)
 				return R_BAD_IMAGE_STRINGS;
-			if (RESULT_FAIL(rs = StringUTF16::Create(strm, size / sizeof(aha_i16), str)))
-				return (rs == R_END_OF_FILE) ? R_BAD_IMAGE_STRINGS : rs;
+			if (RESULT_FAIL(rs = str.Read(strm, size / sizeof(aha_u16))))
+				return R_BAD_IMAGE_STRINGS;
 
 			if (size % 4 != 0)
 			{
 				size_t padding_sz = 4 - size % 4;
 				if (RESULT_FAIL(rs = strm.Read(padding, padding_sz)))
-					return (rs == R_END_OF_FILE) ? R_BAD_IMAGE_STRINGS : rs;
+					return R_BAD_IMAGE_STRINGS;
 				read += padding_sz;
 			}
 
-			strings.PushBack(std::move(str));
+			strings.push_back(std::move(str));
 		}
 
 		if (read != szofstr)
@@ -52,7 +52,7 @@ namespace ahabin
 		return R_SUCCESS;
 	}
 
-	const ArrayList<StringUTF16>& AhaStrings::Get() const
+	const std::vector<StringUTF16>& AhaStrings::Get() const
 	{
 		return m_strings;
 	}
