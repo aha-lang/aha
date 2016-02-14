@@ -7,7 +7,7 @@ namespace aha
 {
 	class ModuleManager;
 
-	class Module : private noncopyable
+	class Module : private boost::noncopyable
 	{
 	private:
 		ModuleManager *m_pManager;

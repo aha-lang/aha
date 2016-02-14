@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ahabindef.h"
-#include "Result.h"
 
 #include "AhaStrings.h"
 #include "AhaRefer.h"
@@ -10,8 +9,6 @@
 
 namespace aha
 {
-	class ReadStream;
-
 	struct AhaModuleHeader
 	{
 		aha_u8 mark[4];
@@ -32,7 +29,7 @@ namespace aha
 		AhaBody m_Body;
 
 	public:
-		Result Read(ReadStream& strm);
+		void Read(std::istream& strm);
 
 		AhaStrings& GetStrings();
 		AhaRefer& GetRefer();

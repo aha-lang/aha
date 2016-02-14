@@ -1,28 +1,21 @@
 #include "stdafx.h"
 #include "ahabin/AhaClass.h"
-#include "ahabin/ReadStream.h"
 
 namespace aha
 {
-	Result AhaClass::Read(ReadStream& strm, size_t& read)
+	void AhaClass::Read(std::istream& strm, size_t& read)
 	{
-		Result rs;
-
 		m_members.resize(0);
 
-		if (RESULT_FAIL(rs = strm.Read(&m_raw, sizeof(m_raw))))
-			return R_BAD_IMAGE_CLASS;
+		strm.read((char*)&m_raw, sizeof(m_raw));
 		read += sizeof(m_raw);
 
 		m_members.resize(m_raw.CountOfMembers);
 
 		for (aha_i32 i = 0; i < m_raw.CountOfMembers; ++i)
 		{
-			if (RESULT_FAIL(rs = m_members[i].Read(strm, read)))
-				return rs;
+			m_members[i].Read(strm, read);
 		}
-
-		return R_SUCCESS;
 	}
 
 	const AhaClass_raw AhaClass::GetRaw() const

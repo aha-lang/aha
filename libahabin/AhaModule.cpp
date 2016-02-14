@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "ahabin/AhaModule.h"
-#include "ahabin/ReadStream.h"
+#include "ahabin/exceptions.h"
 
 namespace
 {
@@ -9,29 +9,19 @@ namespace
 
 namespace aha
 {
-	Result AhaModule::Read(ReadStream& strm)
+	void AhaModule::Read(std::istream& strm)
 	{
-		Result rs;
+		strm.exceptions(std::ios::badbit | std::ios::failbit);
 
-		if (RESULT_FAIL(rs = strm.Read(&m_Header, sizeof(m_Header))))
-			return R_BAD_IMAGE_REFER;
+		strm.read((char *)&m_Header, sizeof(m_Header));
 
 		if (memcmp(&m_Header.mark, &abf_mark, sizeof(abf_mark)) != 0)
-			return R_BAD_IMAGE_HEADER;
+			throw BadModuleHeaderError();
 
-		if (RESULT_FAIL(rs = m_Strings.Read(m_Header.SizeOfStrings, strm)))
-			return rs;
-
-		if (RESULT_FAIL(rs = m_Refer.Read(m_Header.SizeOfRefer, strm)))
-			return rs;
-
-		if (RESULT_FAIL(rs = m_NativeRefer.Read(m_Header.SizeOfNativeRefer, strm)))
-			return rs;
-
-		if (RESULT_FAIL(rs = m_Body.Read(m_Header.SizeOfBody, strm)))
-			return rs;
-
-		return R_SUCCESS;
+		m_Strings.Read(m_Header.SizeOfStrings, strm);
+		m_Refer.Read(m_Header.SizeOfRefer, strm);
+		m_NativeRefer.Read(m_Header.SizeOfNativeRefer, strm);
+		m_Body.Read(m_Header.SizeOfBody, strm);
 	}
 
 	AhaStrings& AhaModule::GetStrings()

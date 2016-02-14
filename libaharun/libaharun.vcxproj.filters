@@ -33,9 +33,6 @@
     <ClInclude Include="aharun\aharundef.h">
       <Filter>aharun</Filter>
     </ClInclude>
-    <ClInclude Include="aharun\Stack.h">
-      <Filter>aharun</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -48,9 +45,6 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Context.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Stack.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ahabindef.h"
-#include "Result.h"
 #include "AhaRefer.h"
 
 namespace aha
@@ -12,7 +11,7 @@ namespace aha
 		AhaRefer m_impl;
 
 	public:
-		Result Read(aha_i32 SizeOfNativeRefer, ReadStream& strm);
+		void Read(aha_i32 SizeOfNativeRefer, std::istream& strm);
 
 		const std::vector<aha_i32>& Get() const;
 	};

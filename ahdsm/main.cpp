@@ -1,10 +1,8 @@
 #include "stdafx.h"
 #include "StrBuilder.h"
 
-#include <ahabin/ReadFileStream.h>
 #include <ahabin/AhaModule.h>
-using aha::RESULT_FAIL;
-using aha::RESULT_SUCS;
+#include <ahabin/exceptions.h>
 
 // opcode.cpp
 std::wstring DisasOpcode(const std::vector<aha::aha_u8>& opcodes, const aha::AhaStrings& strings, const wchar_t* prefix);
@@ -38,18 +36,21 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
-	aha::ReadFileStream strm;
+	std::ifstream strm(argv[1], std::ios::in | std::ios::binary);
 	aha::AhaModule module;
 
-	if (RESULT_FAIL(strm.Create(argv[1])))
+	try
 	{
-		fprintf(stderr, "fail to read file '%s'\n", argv[1]);
+		module.Read(strm);
+	}
+	catch (aha::BadModuleError& e)
+	{
+		fprintf(stderr, "%s", e.what());
 		return -2;
 	}
-
-	if (RESULT_FAIL(module.Read(strm)))
+	catch (std::ios::failure& e)
 	{
-		fprintf(stderr, "fail to load module.\n");
+		fprintf(stderr, "I/O Error : %s", e.what());
 		return -2;
 	}
 
@@ -66,6 +67,8 @@ int main(int argc, char *argv[])
 
 	std::wstring result_str = output_builder.make();
 	std::wcout << result_str;
+
+	getchar();
 
 	return 0;
 }

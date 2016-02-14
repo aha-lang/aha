@@ -24,9 +24,6 @@
     <ClInclude Include="ahabin\ahabindef.h">
       <Filter>ahabin</Filter>
     </ClInclude>
-    <ClInclude Include="ahabin\Result.h">
-      <Filter>ahabin</Filter>
-    </ClInclude>
     <ClInclude Include="ahabin\AhaModule.h">
       <Filter>ahabin</Filter>
     </ClInclude>
@@ -45,9 +42,6 @@
     <ClInclude Include="ahabin\AhaBody.h">
       <Filter>ahabin</Filter>
     </ClInclude>
-    <ClInclude Include="ahabin\ReadStream.h">
-      <Filter>ahabin</Filter>
-    </ClInclude>
     <ClInclude Include="ahabin\AhaAccess.h">
       <Filter>ahabin</Filter>
     </ClInclude>
@@ -63,13 +57,7 @@
     <ClInclude Include="ahabin\AhaOpcode.h">
       <Filter>ahabin</Filter>
     </ClInclude>
-    <ClInclude Include="ahabin\ReadMemoryStream.h">
-      <Filter>ahabin</Filter>
-    </ClInclude>
-    <ClInclude Include="ahabin\ReadFileStream.h">
-      <Filter>ahabin</Filter>
-    </ClInclude>
-    <ClInclude Include="ahabin\noncopyable.h">
+    <ClInclude Include="ahabin\exceptions.h">
       <Filter>ahabin</Filter>
     </ClInclude>
   </ItemGroup>
@@ -96,12 +84,6 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="AhaClsMember.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="ReadMemoryStream.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="ReadFileStream.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

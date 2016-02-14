@@ -1,16 +1,14 @@
 #include "stdafx.h"
 #include "ahabin/AhaStrings.h"
-#include "ahabin/ReadStream.h"
+#include "ahabin/exceptions.h"
 #include "util.h"
 
 namespace aha
 {
-	Result AhaStrings::Read(aha_i32 SizeOfStrings, ReadStream& strm)
+	void AhaStrings::Read(aha_i32 SizeOfStrings, std::istream& strm)
 	{
-		Result rs;
-
 		std::vector<std::u16string> strings;
-		aha_u8 padding[4];
+		char padding[4];
 
 		size_t read = 0, szofstr = (size_t)SizeOfStrings;
 
@@ -21,26 +19,23 @@ namespace aha
 
 			read += sizeof(size);
 			if (read >= szofstr)
-				return R_BAD_IMAGE_STRINGS;
-			if (RESULT_FAIL(rs = strm.Read(&size, sizeof(size))))
-				return R_BAD_IMAGE_STRINGS;
+				throw BadModuleStringsError();
+			strm.read((char*)&size, sizeof(size));
 
 			if (size % sizeof(aha_i16) != 0)
-				return R_BAD_IMAGE_STRINGS;
+				return throw BadModuleStringsError();
 
 			read += size;
 			if (read > szofstr)
-				return R_BAD_IMAGE_STRINGS;
+				return throw BadModuleStringsError();
 
 			str.resize(size / sizeof(char16_t));
-			if (RESULT_FAIL(rs = strm.Read(&str[0], size)))
-				return R_BAD_IMAGE_STRINGS;
+			strm.read((char*)&str[0], size);
 
 			if (size % 4 != 0)
 			{
 				size_t padding_sz = 4 - size % 4;
-				if (RESULT_FAIL(rs = strm.Read(padding, padding_sz)))
-					return R_BAD_IMAGE_STRINGS;
+				strm.read(padding, padding_sz);
 				read += padding_sz;
 			}
 
@@ -48,10 +43,9 @@ namespace aha
 		}
 
 		if (read != szofstr)
-			return R_BAD_IMAGE_STRINGS;
+			return throw BadModuleStringsError();
 
 		m_strings = std::move(strings);
-		return R_SUCCESS;
 	}
 
 	const std::vector<std::u16string>& AhaStrings::Get() const

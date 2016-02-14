@@ -1,14 +1,11 @@
 #pragma once
 
 #include "ahabindef.h"
-#include "Result.h"
 #include "AhaAccess.h"
 #include "AhaType.h"
 
 namespace aha
 {
-	class ReadStream;
-
 	enum AhaClsMemberType
 	{
 		AHA_CLSMEM_TYPE_FUNC,
@@ -59,7 +56,7 @@ namespace aha
 		std::vector<aha_u8> m_opcode;
 
 	public:
-		Result Read(ReadStream& strm, size_t& read);
+		void Read(std::istream& strm, size_t& read);
 
 		const AhaClsMember_raw& GetRaw() const;
 		const std::vector<AhaType>& GetParams() const;

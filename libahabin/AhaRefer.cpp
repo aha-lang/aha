@@ -1,22 +1,19 @@
 #include "stdafx.h"
 #include "ahabin/AhaRefer.h"
-#include "ahabin/ReadStream.h"
+#include "ahabin/exceptions.h"
 
 namespace aha
 {
-	Result AhaRefer::Read(aha_i32 SizeOfRefer, ReadStream& strm)
+	void AhaRefer::Read(aha_i32 SizeOfRefer, std::istream& strm)
 	{
-		Result rs;
-
 		std::vector<aha_i32> refers;
 
 		if (SizeOfRefer % sizeof(aha_i32) != 0)
-			return R_BAD_IMAGE_REFER;
+			throw BadModuleReferError();
 
 		refers.resize(SizeOfRefer / sizeof(aha_i32));
 
-		if (RESULT_FAIL(rs = strm.Read(refers.data(), SizeOfRefer)))
-			return R_BAD_IMAGE_REFER;
+		strm.read((char*)refers.data(), SizeOfRefer);
 
 		/*
 		for (ahabin::aha_i32 i = 0; i < refers.Get().GetLength(); ++i)
@@ -26,7 +23,6 @@ namespace aha
 		*/
 
 		m_refers = std::move(refers);
-		return R_SUCCESS;
 	}
 
 	const std::vector<aha_i32>& AhaRefer::Get() const

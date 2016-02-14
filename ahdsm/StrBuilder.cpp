@@ -8,6 +8,11 @@ void StrBuilder::write(const char16_t* str)
 	write(str, str + len);
 }
 
+void StrBuilder::write(const std::u16string & str)
+{
+	write(str.c_str(), str.c_str() + str.size());
+}
+
 void StrBuilder::write(const char16_t* begin, const char16_t* end)
 {
 	std::string utf8;

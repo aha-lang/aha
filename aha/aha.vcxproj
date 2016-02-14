@@ -71,16 +71,16 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>$(OutDir);$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)libaharun;$(IncludePath)</IncludePath>
+    <LibraryPath>$(OutDir);$(BOOST_STAGE_32)\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)libaharun;$(SolutionDir)libahabin;$(BOOST_DIRECTORY);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>$(OutDir);$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)libaharun;$(IncludePath)</IncludePath>
+    <LibraryPath>$(OutDir);$(BOOST_STAGE_32)\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)libaharun;$(SolutionDir)libahabin;$(BOOST_DIRECTORY);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>

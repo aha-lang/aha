@@ -1,13 +1,12 @@
 #pragma once
 
 #include "aharundef.h"
-#include <ahabin/noncopyable.h>
 
 namespace aha
 {
 	class Module;
 
-	class ModuleManager : private noncopyable
+	class ModuleManager : private boost::noncopyable
 	{
 	private:
 		std::unordered_map<std::u16string, std::unique_ptr<Module>> m_modules;
@@ -16,6 +15,6 @@ namespace aha
 		ModuleManager();
 		~ModuleManager();
 
-		void FreeModule(const std::u16string& path);
+		void RemoveModule(const std::u16string& path);
 	};
 }

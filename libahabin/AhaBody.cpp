@@ -1,28 +1,24 @@
 #include "stdafx.h"
 #include "ahabin/AhaBody.h"
-#include "ahabin/ReadStream.h"
+#include "ahabin/exceptions.h"
 
 namespace aha
 {
-	Result AhaBody::Read(aha_i32 SizeOfBody, ReadStream& strm)
+	void AhaBody::Read(aha_i32 SizeOfBody, std::istream& strm)
 	{
-		Result rs;
 		size_t read = 0, szofbody = (size_t)SizeOfBody;
 
 		m_ClassList.resize(0);
 		while (read < szofbody)
 		{
 			AhaClass cls;
-			if (RESULT_FAIL(rs = cls.Read(strm, read)))
-				return rs;
+			cls.Read(strm, read);
 
 			if (read > szofbody)
-				return R_BAD_IMAGE_BODY;
+				throw BadModuleBodyError();
 
 			m_ClassList.push_back(std::move(cls));
 		}
-
-		return R_SUCCESS;
 	}
 
 	const std::vector<AhaClass>& AhaBody::Get() const
