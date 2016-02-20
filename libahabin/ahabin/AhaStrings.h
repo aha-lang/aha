@@ -12,6 +12,7 @@ namespace aha
 	public:
 		void Read(aha_u32 SizeOfStrings, std::istream& strm);
 
+		std::vector<std::u16string>& Get();
 		const std::vector<std::u16string>& Get() const;
 
 		bool ValidateString(aha_u32 idx) const;

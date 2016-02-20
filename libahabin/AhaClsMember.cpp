@@ -70,16 +70,28 @@ namespace aha
 		}
 	}
 
-	const AhaClsMember_raw & AhaClsMember::GetRaw() const
+	AhaClsMember_raw& AhaClsMember::GetRaw()
+	{
+		return m_raw;
+	}
+	const AhaClsMember_raw& AhaClsMember::GetRaw() const
 	{
 		return m_raw;
 	}
 
+	std::vector<AhaType>& AhaClsMember::GetParams()
+	{
+		return m_params;
+	}
 	const std::vector<AhaType>& AhaClsMember::GetParams() const
 	{
 		return m_params;
 	}
 
+	std::vector<aha_u8>& AhaClsMember::GetOpcode()
+	{
+		return m_opcode;
+	}
 	const std::vector<aha_u8>& AhaClsMember::GetOpcode() const
 	{
 		return m_opcode;

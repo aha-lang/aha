@@ -20,6 +20,10 @@ namespace aha
 		m_impl.Validate(strings);
 	}
 
+	std::vector<aha_u32>& AhaNativeRefer::Get()
+	{
+		return m_impl.Get();
+	}
 	const std::vector<aha_u32>& AhaNativeRefer::Get() const
 	{
 		return m_impl.Get();

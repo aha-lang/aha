@@ -4,10 +4,7 @@
 static void trim(std::wstring &str);
 
 Parser::Parser()
-	: m_AttrKind({ L"module" })
-	, m_MemPool(sizeof(uint32_t))
-	, m_separator(L" \f\n\r\t\v")
-	//, m_separator(L"\\", L" \f\n\r\t\v", L"\"")
+	: m_separator(L"\\", L" \f\n\r\t\v", L"\"")
 	, m_PunctSeparator(LR"(!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~)")
 {
 
@@ -15,9 +12,19 @@ Parser::Parser()
 
 Parser::~Parser()
 {
-	for (void *ptr : m_MallocedMem)
+}
+
+aha::aha_u32 Parser::AddOrGetStr(const std::wstring& str)
+{
+	auto it = std::find(m_strtbl.begin(), m_strtbl.end(), str);
+	if (it != m_strtbl.end())
 	{
-		free(ptr);
+		return (aha::aha_u32)(it - m_strtbl.begin());
+	}
+	else
+	{
+		m_strtbl.push_back(str);
+		return m_strtbl.size() - 1;
 	}
 }
 
@@ -25,65 +32,20 @@ bool Parser::Line(std::wstring line)
 {
 	trim(line);
 
-	// 빈 줄과 주석은 무시
+	// 빈 줄은 무시
 	if (line.empty())
 		return false;
-	if (line.front() == L'#')
-		return false;
 
-	if (m_psAttr == ParseState::Yet)
+	if (m_psModuleName == ParseState::Yet)
 	{
-		if (line != L"attribute")
-			throw ParseError(L"there must be 'attribute'");
-		m_psAttr = ParseState::Parsing;
-	}
-	else if (m_psAttr == ParseState::Parsing)
-	{
-		if (line == L"endattr")
-		{
-			m_psAttr = ParseState::Completed;
-		}
-		else
-		{
-			if (!(line.size() >= 5 && line.front() == L'.'))
-				throw ParseError(L"there must be a dot(.)");
+		tokenizer tok(line, m_separator);
+		std::vector<std::wstring> vttok(tok.begin(), tok.end());
 
-			auto it_dot = std::next(line.begin());
-			auto it = std::find_if(
-				it_dot, line.end(), [](wchar_t ch){ return iswspace(ch); });
-			if (it == line.end())
-				throw ParseError(L"unexpected end of line in attr");
+		if (!(vttok.size() == 2 && vttok[0] == L".module"))
+			throw ParseError(L"there must be '.module' directive with module name");
 
-			std::wstring strAttrKind(it_dot, it);
-			auto found = std::find(m_AttrKind.begin(), m_AttrKind.end(), strAttrKind);
-			if (found == m_AttrKind.end())
-				throw ParseError(L"unknown attribute keyword");
-
-			it = std::find_if(
-				it, line.end(), [](wchar_t ch){ return ch == L'"'; });
-			if (it == line.end())
-				throw ParseError(L"there must be a string literal");
-
-			if (!(line.end() - it >= 1 && line.back() == L'"'))
-				throw ParseError(L"there must be a string literal");
-
-			AhaAttributeKind kind = (AhaAttributeKind)(found - m_AttrKind.begin());
-			if (kind == MODULE_ATTRIBUTE)
-			{
-				AhaModuleAttr *pAttr;
-				Result rs = CreateAhaModuleAttr(
-					std::wstring(std::next(it), std::prev(line.end())).c_str(), &pAttr
-					);
-				if (RESULT_FAIL(rs))
-					AMLError::Throw(rs);
-				m_MallocedMem.push_back(pAttr);
-				m_Attr.push_back((AhaAttribute *)pAttr);
-			}
-			else
-			{
-				throw ParseError(L"unknown attribute : '" + strAttrKind + L"'");
-			}
-		}
+		m_ModuleName = vttok[1];
+		m_psModuleName = ParseState::Completed;
 	}
 	else if (m_psRefer == ParseState::Yet)
 	{
@@ -106,13 +68,13 @@ bool Parser::Line(std::wstring line)
 	}
 	else if (m_psNativeRefer == ParseState::Yet)
 	{
-		if (line != L"nativerefer")
-			throw ParseError(L"there must be 'nativerefer'");
+		if (line != L"nrefer")
+			throw ParseError(L"there must be 'nrefer'");
 		m_psNativeRefer = ParseState::Parsing;
 	}
 	else if (m_psNativeRefer == ParseState::Parsing)
 	{
-		if (line == L"endnativerefer")
+		if (line == L"endnrefer")
 		{
 			m_psNativeRefer = ParseState::Completed;
 		}
@@ -123,40 +85,21 @@ bool Parser::Line(std::wstring line)
 			m_NativeRefer.emplace_back(std::next(line.begin()), std::prev(line.end()));
 		}
 	}
-	else if (m_psStrData == ParseState::Yet)
+	else if (m_psBody == ParseState::Yet)
 	{
-		if (line != L"data")
-			throw ParseError(L"there must be 'data'");
-		m_psStrData = ParseState::Parsing;
+		if (line != L"body")
+			throw ParseError(L"there must be 'body'");
+		m_psBody = ParseState::Parsing;
 	}
-	else if (m_psStrData == ParseState::Parsing)
+	else if (m_psBody == ParseState::Parsing)
 	{
-		if (line == L"enddata")
-		{
-			m_psStrData = ParseState::Completed;
-		}
-		else
-		{
-			if (!(line.size() >= 2 && line.front() == L'"' && line.back() == L'"'))
-				throw ParseError(L"there must be a string literal");
-			m_StrData.emplace_back(std::next(line.begin()), std::prev(line.end()));
-		}
-	}
-	else if (m_psTypeInfo == ParseState::Yet)
-	{
-		if (line != L"typeinfo")
-			throw ParseError(L"there must be 'typeinfo'");
-		m_psTypeInfo = ParseState::Parsing;
-	}
-	else if (m_psTypeInfo == ParseState::Parsing)
-	{
-		// TODO!
-		if (line == L"endtype")
+		// TODO
+		if (line == L"endbody")
 		{
 			if (m_psClass == ParseState::Parsing)
-				throw ParseError(L"unexpected end of typeinfo");
+				throw ParseError(L"unexpected end of body");
 
-			m_psTypeInfo = ParseState::Completed;
+			m_psBody = ParseState::Completed;
 		}
 		else
 		{
@@ -183,16 +126,19 @@ void Parser::ParseClass(const std::wstring &line)
 		if (!(vttok.size() == 4 && vttok[2] == L"class"))
 			throw ParseError(L"there must be a declaration of class");
 
-		auto it = std::find_if(m_TypeInfo.begin(), m_TypeInfo.end(),
-			[&vttok](const AhaClass &cls) { return cls.name == vttok[3]; });
-		if (it != m_TypeInfo.end())
+		auto it = std::find_if(m_ClassList.begin(), m_ClassList.end(),
+			[&](const aha::AhaClass &cls) {
+				return m_strtbl[cls.GetRaw().name] == vttok[3];
+			});
+		if (it != m_ClassList.end())
 			throw ParseError(L"class '" + vttok[3] + L"' is already exist in this module");
 
-		m_Class.access = StrToAhaAccess(vttok[0]);
-		m_Class.kind = StrToAhaClassKind(vttok[1]);
-		m_Class.name = MallocStr(vttok[3]);
-		m_Class.base = NULL; // TODO
-		m_Class.interfaces = NULL; // TODO
+		aha::AhaClass_raw &raw = m_Class.GetRaw();
+		raw.access = StrToAhaAccess(vttok[0]);
+		raw.type = StrToAhaClassType(vttok[1]);
+		raw.name = AddOrGetStr(vttok[3]);
+		raw.base = 0xffffffff; // TODO
+		raw.interfaces = 0xffffffff; // TODO
 
 		m_psClass = ParseState::Parsing;
 	}
@@ -203,13 +149,8 @@ void Parser::ParseClass(const std::wstring &line)
 			if (m_psMember == ParseState::Parsing)
 				throw ParseError(L"unexpected end of class");
 
-			Result rs = CreateAhaMemberTable(
-				m_MemberList.data(), m_MemberList.size(), &m_Class.members, &m_Class.SizeOfMembers);
-			if (RESULT_FAIL(rs))
-				AMLError::Throw(rs);
-			m_MallocedMem.push_back(m_Class.members);
-
-			m_TypeInfo.push_back(m_Class);
+			m_Class.GetMembers() = std::move(m_MemberList);
+			m_ClassList.push_back(m_Class);
 
 			m_MemberList.clear();
 
@@ -230,80 +171,59 @@ void Parser::ParseMember(const std::wstring &line, const std::vector<std::wstrin
 			throw ParseError(L"there must be a declaration of member");
 
 		auto it = std::find_if(m_MemberList.begin(), m_MemberList.end(),
-			[&vttok](const AhaMember &cls) { return cls.name == vttok[4]; });
+			[&](const aha::AhaClsMember &cls) {
+				return m_strtbl[cls.GetRaw().name] == vttok[4];
+			});
 		if (it != m_MemberList.end())
-			throw ParseError(L"member '" + vttok[3] + L"' is already exist in '" + m_Class.name + L"' class");
+			throw ParseError(L"member '" + vttok[3] + L"' is already exist in '" + m_strtbl[m_Class.GetRaw().name] + L"' class");
 
-		m_Member.access = StrToAhaAccess(vttok[0]);
-		m_Member.kind = StrToAhaMemberKind(vttok[1]);
-		m_Member.ContainKind = StrToAhaMemberContainKind(vttok[2]);
-		m_Member.rettype.kind = StrToAhaTypeKind(vttok[3]);
-		if (m_Member.rettype.kind == AHA_TYPE_OBJECT)
-			m_Member.TypeName = MallocStr(vttok[3]);
-		else
-			m_Member.TypeName = NULL;
-		m_Member.name = MallocStr(vttok[4]);
+		m_Member.GetRaw().access = StrToAhaAccess(vttok[0]);
+		m_Member.GetRaw().type = StrToAhaClsMemberType(vttok[1]);
+		m_Member.GetRaw().storage = StrToAhaClsMemberStorage(vttok[2]);
+		m_Member.GetRaw().variable.vartype = StrToAhaType(vttok[3]);
+		m_Member.GetRaw().name = AddOrGetStr(vttok[4]);
 
-		if (m_Member.rettype.kind == AHA_TYPE_VOID && m_Member.kind == AHA_MEMBER_VAR)
-			throw ParseError(L"member variables '" + vttok[4] + L"' cannot be void");
+		if (m_Member.GetRaw().variable.vartype == aha::AHA_TYPE_VOID && m_Member.GetRaw().type == aha::AHA_CLSMEM_TYPE_VAR)
+			throw ParseError(L"member variable '" + vttok[4] + L"' cannot be void");
 
-		m_Member.params = NULL;
-		m_Member.TypeName = NULL;
-		m_Member.CountOfParams = 0;
-		m_Member.SizeOfOpcode = 0;
+		m_Member.GetRaw().function.SizeOfOpcode = 0;
 
 		m_psMember = ParseState::Parsing;
 	}
 	else if (m_psMember == ParseState::Parsing)
 	{
-		if (m_Member.SizeOfOpcode == 0)
+		if (m_Member.GetRaw().function.SizeOfOpcode == 0)
 		{
 			if (!(vttok.size() >= 2 && vttok.front() == L"(" && vttok.back() == L")"))
 				throw ParseError(L"there must be ( ) token");
 
-			if (m_Member.kind == AHA_MEMBER_VAR)
+			if (m_Member.GetRaw().type == aha::AHA_CLSMEM_TYPE_VAR)
 			{
 				if (vttok.size() != 3)
-					throw ParseError(L"there must be variables init value");
+					throw ParseError(L"there must be variable init value");
 
-				m_Member.opcode = (uint8_t *)ParseType(m_Member.rettype.kind,
-					vttok[1], &m_Member.SizeOfOpcode);
+				m_Member.GetRaw().variable.initial = ParseType(m_Member.GetRaw().variable.vartype, vttok[1]);
 
 				m_MemberList.push_back(m_Member);
 				m_psMember = ParseState::Yet;
 			}
 			else
 			{
-				std::vector<uint32_t> vt;
 				unsigned count = 0;
-				void *ptr;
 
 				for (auto it = std::next(vttok.begin()); it != std::prev(vttok.end()); it++)
 				{
-					vt.push_back((uint32_t)StrToAhaTypeKind(*it));
-					if (vt.back() == AHA_TYPE_VOID)
+					m_Params.push_back(StrToAhaType(*it));
+					if (m_Params.back() == aha::AHA_TYPE_VOID)
 					{
 						throw ParseError(L"parameter of function cannot be 'void'");
 					}
-					else if (vt.back() == AHA_TYPE_OBJECT)
+					else if (!(m_Params.back() & 0x80000000))
 					{
-						vt.push_back((uint32_t)MallocStr(*it));
+						m_Params.push_back((aha::AhaType)AddOrGetStr(*it));
 					}
 					count++;
 				}
-
-				if (!vt.empty())
-				{
-					ptr = malloc(vt.size() * sizeof(uint32_t));
-					if (ptr == NULL)
-						throw std::bad_alloc();
-
-					memcpy(ptr, vt.data(), vt.size() * sizeof(uint32_t));
-					m_MallocedMem.push_back(ptr);
-					m_Member.params = (AhaType *)ptr;
-					m_Member.CountOfParams = count;
-				}
-				m_Member.SizeOfOpcode = 1;
 			}
 		}
 		else
@@ -321,14 +241,11 @@ void Parser::ParseMember(const std::wstring &line, const std::vector<std::wstrin
 					if (m_Opcode.empty())
 						throw ParseError(L"body of function cannnot be empty");
 
-					void *ptr = malloc(m_Opcode.size());
-					memcpy(ptr, m_Opcode.data(), m_Opcode.size());
-					m_MallocedMem.push_back(ptr);
-
-					m_Member.opcode = (uint8_t *)ptr;
-					m_Member.SizeOfOpcode = m_Opcode.size();
+					m_Member.GetParams() = m_Params;
+					m_Member.GetOpcode() = m_Opcode;
 
 					m_Opcode.clear();
+					m_Params.clear();
 					m_MemberList.push_back(m_Member);
 
 					m_psOpcode = ParseState::Yet;
@@ -343,28 +260,7 @@ void Parser::ParseMember(const std::wstring &line, const std::vector<std::wstrin
 	}
 }
 
-
 // utility
-
-const AhaChar *Parser::MallocStr(const std::wstring &str)
-{
-	AhaChar *ret = (AhaChar *)calloc(str.size() + 1, sizeof(AhaChar));
-	if (ret == NULL)
-		throw std::bad_alloc();
-	memcpy(ret, str.c_str(), (str.size() + 1) * sizeof(wchar_t));
-
-	try
-	{
-		m_MallocedMem.push_back(ret);
-		return ret;
-	}
-	catch (...)
-	{
-		free(ret);
-		throw;
-	}
-}
-
 static void trim(std::wstring &str)
 {
 	str.erase(str.begin(),
@@ -377,22 +273,4 @@ static void trim(std::wstring &str)
 			std::find_if(str.rbegin(), str.rend(), [](wchar_t ch) { return !iswspace(ch); }).base()
 			);
 	}
-}
-
-const char *AMLError::what() const throw()
-{
-	static const char *tbl[] = {
-		"R_SUCCESS",
-		"R_PROCESSED_PARTIAL",
-		"R_FUNCTION_RETURN",
-		"R_FAIL",
-		"R_OUT_OF_MEMORY",
-		"R_STACK_OVERFLOW",
-		"R_STACK_UNDERFLOW",
-		"R_INVALID_OPERATION",
-		"R_INVALID_CAST",
-		"R_BAD_REFER",
-		"R_BAD_NATIVE_REFER"
-	};
-	return tbl[m_rs];
 }

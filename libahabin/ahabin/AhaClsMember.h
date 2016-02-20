@@ -69,8 +69,13 @@ namespace aha
 		void Read(std::istream& strm, size_t& read);
 		void Validate(const AhaStrings& strings) const;
 
+		AhaClsMember_raw& GetRaw();
 		const AhaClsMember_raw& GetRaw() const;
+
+		std::vector<AhaType>& GetParams();
 		const std::vector<AhaType>& GetParams() const;
+
+		std::vector<aha_u8>& GetOpcode();
 		const std::vector<aha_u8>& GetOpcode() const;
 	};
 }

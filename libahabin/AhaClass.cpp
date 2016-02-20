@@ -46,11 +46,19 @@ namespace aha
 		}
 	}
 
+	AhaClass_raw AhaClass::GetRaw()
+	{
+		return m_raw;
+	}
 	const AhaClass_raw AhaClass::GetRaw() const
 	{
 		return m_raw;
 	}
 
+	std::vector<AhaClsMember>& AhaClass::GetMembers()
+	{
+		return m_members;
+	}
 	const std::vector<AhaClsMember>& AhaClass::GetMembers() const
 	{
 		return m_members;

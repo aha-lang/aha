@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "Parser.h"
 
-AhaAccess Parser::StrToAhaAccess(const std::wstring &str)
+aha::AhaAccess Parser::StrToAhaAccess(const std::wstring &str)
 {
-	std::vector<std::wstring> vt = {
+	static std::vector<std::wstring> vt = {
 		L"public",
 		L"protected",
 		L"protected_internal",
@@ -13,12 +13,12 @@ AhaAccess Parser::StrToAhaAccess(const std::wstring &str)
 	auto it = std::find(vt.begin(), vt.end(), str);
 	if (it == vt.end())
 		throw ParseError(L"'" + str + L"' is not an access modifier");
-	return (AhaAccess)(it - vt.begin());
+	return (aha::AhaAccess)(it - vt.begin());
 }
 
-AhaClassKind Parser::StrToAhaClassKind(const std::wstring &str)
+aha::AhaClassType Parser::StrToAhaClassType(const std::wstring &str)
 {
-	std::vector<std::wstring> vt = {
+	static std::vector<std::wstring> vt = {
 		L"normal",
 		L"abstract",
 		L"sealed",
@@ -28,61 +28,64 @@ AhaClassKind Parser::StrToAhaClassKind(const std::wstring &str)
 	auto it = std::find(vt.begin(), vt.end(), str);
 	if (it == vt.end())
 		throw ParseError(L"'" + str + L"' is not a class modifier");
-	return (AhaClassKind)(it - vt.begin());
+	return (aha::AhaClassType)(it - vt.begin());
 }
 
-AhaMemberKind Parser::StrToAhaMemberKind(const std::wstring &str)
+aha::AhaClsMemberType Parser::StrToAhaClsMemberType(const std::wstring &str)
 {
-	std::vector<std::wstring> vt = {
+	static std::vector<std::wstring> vt = {
 		L"func",
 		L"var",
 	};
 	auto it = std::find(vt.begin(), vt.end(), str);
 	if (it == vt.end())
 		throw ParseError(L"'" + str + L"' is not a member modifier");
-	return (AhaMemberKind)(it - vt.begin());
+	return (aha::AhaClsMemberType)(it - vt.begin());
 }
 
-AhaMemberContainKind Parser::StrToAhaMemberContainKind(const std::wstring &str)
+aha::AhaClsMemberStorage Parser::StrToAhaClsMemberStorage(const std::wstring &str)
 {
-	std::vector<std::wstring> vt = {
+	static std::vector<std::wstring> vt = {
 		L"classof",
 		L"instof",
 	};
 	auto it = std::find(vt.begin(), vt.end(), str);
 	if (it == vt.end())
 		throw ParseError(L"'" + str + L"' is not a member contain-kind modifier");
-	return (AhaMemberContainKind)(it - vt.begin());
+	return (aha::AhaClsMemberStorage)(it - vt.begin());
 }
 
-AhaTypeKind Parser::StrToAhaTypeKind(const std::wstring &str)
+aha::AhaType Parser::StrToAhaType(const std::wstring &str)
 {
-	std::vector<std::wstring> vt = {
-		L"void",	// AHA_TYPE_VOID
-		L"bool",	// AHA_TYPE_BOOL
-		L"byte",	// AHA_TYPE_BYTE
-		L"int8",	// AHA_TYPE_INT8
-		L"int16",	// AHA_TYPE_INT16
-		L"int32",	// AHA_TYPE_INT32
-		L"int64",	// AHA_TYPE_INT64
-		L"float32",	// AHA_TYPE_FLOAT32
-		L"float64",	// AHA_TYPE_FLOAT64
-		L"intptr"	// AHA_TYPE_INTPTR
+	static std::vector<std::wstring> vt = {
+		L"void", // AHA_TYPE_VOID
+		L"bool", // AHA_TYPE_BOOL
+		L"int8", // AHA_TYPE_INT8
+		L"uint8", // AHA_TYPE_UINT8
+		L"int16", // AHA_TYPE_INT16
+		L"uint16", // AHA_TYPE_UINT16
+		L"int32", // AHA_TYPE_INT32
+		L"uint32", // AHA_TYPE_UINT32
+		L"int64", // AHA_TYPE_INT64
+		L"uint64", // AHA_TYPE_UINT64
+		L"float32", // AHA_TYPE_FLOAT32
+		L"float64", // AHA_TYPE_FLOAT64
+		L"intptr", // AHA_TYPE_INTPTR
 	};
 	auto it = std::find(vt.begin(), vt.end(), str);
 	if (it != vt.end())
 	{
-		return (AhaTypeKind)(it - vt.begin());
+		return (aha::AhaType)((unsigned)(it - vt.begin()) | 0x80000000);
 	}
 	else
 	{
-		return AHA_TYPE_OBJECT;
+		return AddOrGetStr(str);
 	}
 }
 
-Opcode Parser::StrToOpcode(const std::wstring &str)
+aha::AhaOpcode Parser::StrToAhaOpcode(const std::wstring &str)
 {
-	std::vector<std::wstring> vt = {
+	static std::vector<std::wstring> vt = {
 		L"add",
 		L"sub",
 		L"mul",
@@ -135,17 +138,17 @@ Opcode Parser::StrToOpcode(const std::wstring &str)
 	auto it = std::find(vt.begin(), vt.end(), str);
 	if (it == vt.end())
 		throw ParseError(L"'" + str + L"' is not a opcode");
-	return (Opcode)(it - vt.begin());
+	return (aha::AhaOpcode)(it - vt.begin());
 }
 
-NativeCallType Parser::StrToNativeCallType(const std::wstring &str)
+aha::AhaNativeCallType Parser::StrToAhaNativeCallType(const std::wstring &str)
 {
-	std::vector<std::wstring> vt = {
+	static std::vector<std::wstring> vt = {
 		L"stdcall",
 		L"cdecl",
 	};
 	auto it = std::find(vt.begin(), vt.end(), str);
 	if (it == vt.end())
 		throw ParseError(L"'" + str + L"' is not a native call type");
-	return (NativeCallType)(it - vt.begin());
+	return (aha::AhaNativeCallType)(it - vt.begin());
 }

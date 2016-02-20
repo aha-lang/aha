@@ -26,4 +26,3 @@
 
 #include <boost/tokenizer.hpp>
 #include <boost/pool/pool.hpp>
-#include <boost/scope_exit.hpp>

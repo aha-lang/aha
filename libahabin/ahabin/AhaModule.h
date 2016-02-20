@@ -32,9 +32,17 @@ namespace aha
 		void Read(std::istream& strm);
 
 		AhaStrings& GetStrings();
+		const AhaStrings& GetStrings() const;
+
 		AhaRefer& GetRefer();
+		const AhaRefer& GetRefer() const;
+
 		AhaNativeRefer& GetNativeRefer();
+		const AhaNativeRefer& GetNativeRefer() const;
+
 		AhaBody& GetBody();
+		const AhaBody& GetBody() const;
+
 		aha_u32 GetModuleName() const;
 	};
 }

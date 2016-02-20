@@ -47,6 +47,10 @@ namespace aha
 		m_strings = std::move(strings);
 	}
 
+	std::vector<std::u16string>& AhaStrings::Get()
+	{
+		return m_strings;
+	}
 	const std::vector<std::u16string>& AhaStrings::Get() const
 	{
 		return m_strings;

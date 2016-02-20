@@ -31,8 +31,16 @@ namespace aha
 	{
 		return m_Strings;
 	}
+	const AhaStrings& AhaModule::GetStrings() const
+	{
+		return m_Strings;
+	}
 
 	AhaRefer& AhaModule::GetRefer()
+	{
+		return m_Refer;
+	}
+	const AhaRefer& AhaModule::GetRefer() const
 	{
 		return m_Refer;
 	}
@@ -41,8 +49,16 @@ namespace aha
 	{
 		return m_NativeRefer;
 	}
+	const AhaNativeRefer& AhaModule::GetNativeRefer() const
+	{
+		return m_NativeRefer;
+	}
 
 	AhaBody& AhaModule::GetBody()
+	{
+		return m_Body;
+	}
+	const AhaBody& AhaModule::GetBody() const
 	{
 		return m_Body;
 	}

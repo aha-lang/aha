@@ -26,6 +26,10 @@ namespace aha
 		}
 	}
 
+	std::vector<aha_u32>& AhaRefer::Get()
+	{
+		return m_refers;
+	}
 	const std::vector<aha_u32>& AhaRefer::Get() const
 	{
 		return m_refers;
