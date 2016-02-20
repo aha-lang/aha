@@ -3,7 +3,7 @@
 
 namespace aha
 {
-	void AhaNativeRefer::Read(aha_i32 SizeOfNativeRefer, std::istream& strm)
+	void AhaNativeRefer::Read(aha_u32 SizeOfNativeRefer, std::istream& strm)
 	{
 		try
 		{
@@ -15,7 +15,12 @@ namespace aha
 		}
 	}
 
-	const std::vector<aha_i32>& AhaNativeRefer::Get() const
+	void AhaNativeRefer::Validate(const AhaStrings& strings)
+	{
+		m_impl.Validate(strings);
+	}
+
+	const std::vector<aha_u32>& AhaNativeRefer::Get() const
 	{
 		return m_impl.Get();
 	}

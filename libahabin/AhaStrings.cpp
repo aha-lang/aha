@@ -4,7 +4,7 @@
 
 namespace aha
 {
-	void AhaStrings::Read(aha_i32 SizeOfStrings, std::istream& strm)
+	void AhaStrings::Read(aha_u32 SizeOfStrings, std::istream& strm)
 	{
 		std::vector<std::u16string> strings;
 		char padding[4];
@@ -14,7 +14,7 @@ namespace aha
 		while (read < szofstr)
 		{
 			std::u16string str;
-			aha_i32 size;
+			aha_u32 size;
 
 			read += sizeof(size);
 			if (read >= szofstr)
@@ -50,5 +50,10 @@ namespace aha
 	const std::vector<std::u16string>& AhaStrings::Get() const
 	{
 		return m_strings;
+	}
+
+	bool AhaStrings::ValidateString(aha_u32 idx) const
+	{
+		return (idx < m_strings.size());
 	}
 }

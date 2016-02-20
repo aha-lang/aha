@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <vector>
+#include <memory>
 #include <string>
 
 namespace aha

@@ -24,9 +24,6 @@
     <ClInclude Include="ahabin\AhaModule.h">
       <Filter>ahabin</Filter>
     </ClInclude>
-    <ClInclude Include="util.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="ahabin\AhaRefer.h">
       <Filter>ahabin</Filter>
     </ClInclude>
@@ -55,6 +52,9 @@
       <Filter>ahabin</Filter>
     </ClInclude>
     <ClInclude Include="ahabin\exceptions.h">
+      <Filter>ahabin</Filter>
+    </ClInclude>
+    <ClInclude Include="ahabin\util.h">
       <Filter>ahabin</Filter>
     </ClInclude>
   </ItemGroup>

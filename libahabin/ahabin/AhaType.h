@@ -24,7 +24,12 @@ namespace aha
 		AHA_TYPE_FLOAT64	= 0x8000000bu,
 		AHA_TYPE_INTPTR		= 0x8000000cu,
 		AHA_TYPE_UINTPTR	= 0x0000000du,
+		MAX_AHA_TYPE_PRIMITIVE = AHA_TYPE_UINTPTR,
 	};
+	inline bool ValidateAhaType(AhaType i)
+	{
+		return (!(i & 0x80000000) || i <= MAX_AHA_TYPE_PRIMITIVE);
+	}
 
 	inline size_t AhaTypeGetSize(AhaType type)
 	{

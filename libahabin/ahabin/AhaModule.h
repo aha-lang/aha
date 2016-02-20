@@ -12,11 +12,11 @@ namespace aha
 	struct AhaModuleHeader
 	{
 		aha_u8 mark[4];
-		aha_i32 SizeOfStrings;
-		aha_i32 SizeOfRefer;
-		aha_i32 SizeOfNativeRefer;
-		aha_i32 SizeOfBody;
-		aha_i32 ModuleName;
+		aha_u32 SizeOfStrings;
+		aha_u32 SizeOfRefer;
+		aha_u32 SizeOfNativeRefer;
+		aha_u32 SizeOfBody;
+		aha_u32 ModuleName;
 	};
 
 	class AhaModule
@@ -35,6 +35,6 @@ namespace aha
 		AhaRefer& GetRefer();
 		AhaNativeRefer& GetNativeRefer();
 		AhaBody& GetBody();
-		aha_i32 GetModuleName() const;
+		aha_u32 GetModuleName() const;
 	};
 }

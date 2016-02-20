@@ -4,13 +4,17 @@
 
 namespace aha
 {
-	enum AhaAccess : aha_i32
+	enum AhaAccess : aha_u32
 	{
 		AHA_PUBLIC,
 		AHA_PROTECTED,
 		AHA_PROTECTED_INTERNAL,
 		AHA_INTERNAL,
 		AHA_PRIVATE,
-		AHA_ACCESS_SIZE
+		COUNT_AHA_ACCESS
 	};
+	inline bool ValidateAhaAccess(AhaAccess i)
+	{
+		return (i < COUNT_AHA_ACCESS);
+	}
 }

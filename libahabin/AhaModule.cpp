@@ -21,6 +21,10 @@ namespace aha
 		m_Refer.Read(m_Header.SizeOfRefer, strm);
 		m_NativeRefer.Read(m_Header.SizeOfNativeRefer, strm);
 		m_Body.Read(m_Header.SizeOfBody, strm);
+
+		m_Refer.Validate(m_Strings);
+		m_NativeRefer.Validate(m_Strings);
+		m_Body.Validate(m_Strings);
 	}
 
 	AhaStrings& AhaModule::GetStrings()
@@ -43,7 +47,7 @@ namespace aha
 		return m_Body;
 	}
 
-	aha_i32 AhaModule::GetModuleName() const
+	aha_u32 AhaModule::GetModuleName() const
 	{
 		return m_Header.ModuleName;
 	}

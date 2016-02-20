@@ -19,6 +19,8 @@ namespace aha
 	DEFINE_EXCEPT(BadModuleReferError, BadModuleError, "bad refer of abf file")
 	DEFINE_EXCEPT(BadModuleNativeReferError, BadModuleError, "bad native refer of abf file")
 	DEFINE_EXCEPT(BadModuleBodyError, BadModuleError, "bad body of abf file")
+	DEFINE_EXCEPT(BadModuleClassError, BadModuleError, "bad class of abf file")
+	DEFINE_EXCEPT(BadModuleClsMemError, BadModuleError, "bad class member of abf file")
 
 #undef DEFINE_EXCEPT
 }

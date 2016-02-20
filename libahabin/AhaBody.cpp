@@ -3,7 +3,7 @@
 
 namespace aha
 {
-	void AhaBody::Read(aha_i32 SizeOfBody, std::istream& strm)
+	void AhaBody::Read(aha_u32 SizeOfBody, std::istream& strm)
 	{
 		size_t read = 0, szofbody = (size_t)SizeOfBody;
 
@@ -17,6 +17,14 @@ namespace aha
 				throw BadModuleBodyError();
 
 			m_ClassList.push_back(std::move(cls));
+		}
+	}
+
+	void AhaBody::Validate(const AhaStrings& strings)
+	{
+		for (const AhaClass& cls : m_ClassList)
+		{
+			cls.Validate(strings);
 		}
 	}
 

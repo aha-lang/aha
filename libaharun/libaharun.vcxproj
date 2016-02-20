@@ -141,14 +141,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="aharun\aharundef.h" />
+    <ClInclude Include="aharun\ClassInfo.h" />
     <ClInclude Include="aharun\Context.h" />
     <ClInclude Include="aharun\exceptions.h" />
     <ClInclude Include="aharun\Module.h" />
     <ClInclude Include="aharun\ModuleManager.h" />
     <ClInclude Include="aharun\NativeLibrary.h" />
     <ClInclude Include="aharun\Thread.h" />
+    <ClInclude Include="aharun\TypeVar.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ClassInfo.cpp" />
     <ClCompile Include="Context.cpp" />
     <ClCompile Include="Module.cpp" />
     <ClCompile Include="ModuleManager.cpp" />

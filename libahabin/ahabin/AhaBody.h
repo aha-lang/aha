@@ -5,13 +5,16 @@
 
 namespace aha
 {
+	class AhaStrings;
+
 	class AhaBody
 	{
 	private:
 		std::vector<AhaClass> m_ClassList;
 
 	public:
-		void Read(aha_i32 SizeOfBody, std::istream& strm);
+		void Read(aha_u32 SizeOfBody, std::istream& strm);
+		void Validate(const AhaStrings& strings);
 
 		const std::vector<AhaClass>& Get() const;
 	};

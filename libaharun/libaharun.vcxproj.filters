@@ -39,6 +39,12 @@
     <ClInclude Include="aharun\NativeLibrary.h">
       <Filter>aharun</Filter>
     </ClInclude>
+    <ClInclude Include="aharun\ClassInfo.h">
+      <Filter>aharun</Filter>
+    </ClInclude>
+    <ClInclude Include="aharun\TypeVar.h">
+      <Filter>aharun</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Module.cpp">
@@ -54,6 +60,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="NativeLibrary.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ClassInfo.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

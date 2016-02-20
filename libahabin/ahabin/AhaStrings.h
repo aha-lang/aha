@@ -10,8 +10,10 @@ namespace aha
 		std::vector<std::u16string> m_strings;
 
 	public:
-		void Read(aha_i32 SizeOfStrings, std::istream& strm);
+		void Read(aha_u32 SizeOfStrings, std::istream& strm);
 
 		const std::vector<std::u16string>& Get() const;
+
+		bool ValidateString(aha_u32 idx) const;
 	};
 }

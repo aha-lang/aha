@@ -4,7 +4,7 @@
 
 namespace aha
 {
-	enum AhaOpcode : aha_i32
+	enum AhaOpcode : aha_u8
 	{
 		AHA_OPCODE_add,
 		AHA_OPCODE_sub,
@@ -56,11 +56,19 @@ namespace aha
 		AHA_OPCODE_ldthis,
 		COUNT_AHA_OPCODE
 	};
+	inline bool ValidateAhaOpcode(AhaOpcode i)
+	{
+		return (i < COUNT_AHA_OPCODE);
+	}
 
-	enum AhaNativeCallType : aha_i32
+	enum AhaNativeCallType : aha_u32
 	{
 		AHA_NATIVECALL_stdcall,
 		AHA_NATIVECALL_cdecl,
 		COUNT_AHA_NATIVECALL
 	};
+	inline bool ValidateAhaNativeCallType(AhaNativeCallType i)
+	{
+		return (i < COUNT_AHA_NATIVECALL);
+	}
 }

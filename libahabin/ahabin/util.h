@@ -1,9 +1,8 @@
 #pragma once
 
-#include <stdlib.h>
-#include <memory>
+#include "ahabindef.h"
 
-namespace util
+namespace aha
 {
 	struct malloc_deleter
 	{

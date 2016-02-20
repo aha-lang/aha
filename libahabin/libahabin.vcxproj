@@ -146,7 +146,7 @@
     <ClInclude Include="ahabin\AhaStrings.h" />
     <ClInclude Include="ahabin\AhaType.h" />
     <ClInclude Include="ahabin\exceptions.h" />
-    <ClInclude Include="util.h" />
+    <ClInclude Include="ahabin\util.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AhaBody.cpp" />
