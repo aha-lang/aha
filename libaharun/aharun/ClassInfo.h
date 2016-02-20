@@ -45,7 +45,7 @@ namespace aha
 		bool m_bAtomicAllocable;
 
 	public:
-		explicit ClassInfo(AhaClass* pClass, AhaStrings* pStrings, Context* pContext, Module* pModule);
+		explicit ClassInfo(const AhaClass& cls, const AhaStrings& strings, Context* pContext, Module* pModule);
 		~ClassInfo();
 	};
 }

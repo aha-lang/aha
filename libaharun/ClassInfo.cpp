@@ -5,22 +5,22 @@
 
 namespace aha
 {
-	ClassInfo::ClassInfo(AhaClass* pClass, AhaStrings* pStrings, Context* pContext, Module* pModule)
+	ClassInfo::ClassInfo(const AhaClass& cls, const AhaStrings& strings, Context* pContext, Module* pModule)
 		: m_pContext(pContext), m_pModule(pModule)
 	{
-		m_name = pStrings->Get()[pClass->GetRaw().name];
-		m_access = pClass->GetRaw().access;
-		m_ClassType = pClass->GetRaw().type;
+		m_name = strings.Get()[cls.GetRaw().name];
+		m_access = cls.GetRaw().access;
+		m_ClassType = cls.GetRaw().type;
 
 		std::vector<uint8_t> InsVarInitial, ClsVarTable;
 
-		for (auto& member : pClass->GetMembers())
+		for (auto& member : cls.GetMembers())
 		{
 			VariableInfo vi;
 
 			if (member.GetRaw().type == AHA_CLSMEM_TYPE_VAR)
 			{
-				vi.name = pStrings->Get()[member.GetRaw().name];
+				vi.name = strings.Get()[member.GetRaw().name];
 				vi.access = member.GetRaw().access;
 				vi.type.type = member.GetRaw().variable.vartype;
 				
