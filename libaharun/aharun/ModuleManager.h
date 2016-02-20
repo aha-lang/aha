@@ -4,17 +4,21 @@
 
 namespace aha
 {
+	class Context;
 	class Module;
 
 	class ModuleManager : private boost::noncopyable
 	{
 	private:
-		std::unordered_map<std::u16string, std::unique_ptr<Module>> m_modules;
+		Context *m_pContext;
+
+		std::unordered_map<fs::path, std::unique_ptr<Module>> m_modules;
 
 	public:
-		ModuleManager();
+		explicit ModuleManager(Context *pContext);
 		~ModuleManager();
 
-		void RemoveModule(const std::u16string& path);
+		boost::intrusive_ptr<Module> LoadModule(const fs::path& path, const fs::path& findPath);
+		void RemoveModule(const fs::path& path);
 	};
 }

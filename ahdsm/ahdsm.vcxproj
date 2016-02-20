@@ -31,10 +31,6 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="StrBuilder.h" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="runtest.abf" />
-    <None Include="runtest.ahsm" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0BB8624D-358C-4CA3-9CD9-C8C5A200EAD6}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

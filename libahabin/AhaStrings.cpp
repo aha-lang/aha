@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "ahabin/AhaStrings.h"
 #include "ahabin/exceptions.h"
 #include "util.h"

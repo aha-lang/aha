@@ -1,85 +1,56 @@
-﻿attribute
-.module "libtest"
-endattr
+﻿#				00 41 48 45 "\0AHE"    (Aha mark)
+#				34 00 00 00 0x00000034 (Strings size)
+#				00 00 00 00 0x00000000 (Refer size)
+#				00 00 00 00 0x00000000 (NativeRefer size)
+#				40 00 00 00 0x00000040 (Body size)
+#				00 00 00 00 0x00000000 (Module Name) u"libtest"
+.module 0
+
+strings
+"libtest"
+#					0E 00 00 00 0x0000000E (size)
+#					6C 00 69 00 62 00 74 00 65 00 73 00 74 00 u"libtest" 00 00 <<padding>>
+"Library"
+#					0E 00 00 00 0x0000000E (size)
+#					4C 00 69 00 62 00 72 00 61 00 72 00 79 00 u"Library" 00 00 <<padding>>
+"Func"
+#					08 00 00 00 0x00000008 (size)
+#					46 00 75 00 6E 00 63 00 u"Func"
+endstrings
 
 refer
 endrefer
 
-nativerefer
-endnativerefer
+nrefer
+endnrefer
 
-data
-enddata
+body
 
-typeinfo
+	public static class Library
+#				00 00 00 00 AHA_PUBLIC     (access)
+#				03 00 00 00 AHA_CLS_STATIC (type)
+#				01 00 00 00 1 u"Library"   (name)
+#				FF FF FF FF -1 <<none>>    (base)
+#				FF FF FF FF -1 <<none>>    (interfaces)
+#				01 00 00 00 1              (CountOfMembers)
 
-public static class Library
-	public func classof int32 Func
-		( )
-	{
-		ldc_i32 7
-		ret
-	}
-endclass
+		public func classof int32 Func
+			( )
+#				00 00 00 00 AHA_PUBLIC                 (access)
+#				00 00 00 00 AHA_CLSMEM_TYPE_FUNC       (type)
+#				00 00 00 00 AHA_CLSMEM_STORAGE_CLASSOF (storage)
+#				02 00 00 00 2 u"Func"                  (name)
+#				06 00 00 80 AHA_TYPE_INT32             (rettype)
+#				00 00 00 00 <<padding>>                (_padding)
+#				00 00 00 00 0x00000000                 (CountOfParams)
+#				06 00 00 00 0x00000006                 (SizeOfOpcode)
+		{
+			ldc_i32 7       # 14 07 00 00 00
+			ret             # 1A
+		} # 00 00 <<padding>>
 
-endtype
+	endclass
 
-#				00 41 48 45 "\0AHE" (Aha mark)
-#				18 00 00 00 0x00000018 (Attr size)
-#				00 00 00 00 0x00000000 (Refer size)
-#				00 00 00 00 0x00000000 (NativeRefer size)
-#				00 00 00 00 0x00000000 (StrData size)
-#				70 00 00 00 0x000000F0 (TypeInfo size)
-#
-# attribute
-# .module "libtest"	18 00 00 00 0x00000018 (size)
-#				00 00 00 00 0x00000000 MODULE_ATTRIBUTE
-#				6C 00 69 00 62 00 74 00 65 00 73 00 74 00 00 00 u"libtest"
-# endattr
-#
-# refer
-# endrefer
-#
-# data
-# enddata
-#
-# typeinfo
-#
-# public static class Library
-#				70 00 00 00 0x000000F0 (size)
-#				00 00 00 00 AHA_PUBLIC
-#				03 00 00 00 AHA_CLS_STATIC
-#				20 00 00 00 name pointer
-#				00 00 00 00 base pointer (null)
-#				00 00 00 00 interfaces pointer (null)
-#				30 00 00 00 members pointer
-#				40 00 00 00 0x00000040 (SizeOfMembers)
-#				<name>
-#				4C 00 69 00 62 00 72 00 61 00 72 00 79 00 00 00 u"Library"
-#
-#	public func classof void Func
-#		( )
-#				<members>
-#				40 00 00 00 0x00000040 (size_member)
-#				00 00 00 00 AHA_PUBLIC
-#				00 00 00 00 AHA_MEMBER_FUNC
-#				00 00 00 00 AHA_CONT_MEMBER_CLASSOF
-#				05 00 00 00 AHA_TYPE_INT32
-#				00 00 00 00 TypeName pointer (null)
-#				08 00 00 00 0x00000008 (size_opcode)
-#				38 00 00 00 opcode pointer
-#				2C 00 00 00 name pointer
-#				00 00 00 00 params pointer (null)
-#				00 00 00 00 0x00000000 (params count)
-#				<name>
-#				46 00 75 00 6E 00 63 00 00 00 00 00 u"Func"
-#				<opcode>
-#	{
-#		ldc_i32 7		14 07 00 00 00
-#		ret				1A
-#	}	00 00 // padding
-# endclass
-#
-# endtype
+endbody
 
 end

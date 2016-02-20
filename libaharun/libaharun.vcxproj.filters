@@ -18,26 +18,29 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="aharun\Context.h">
       <Filter>aharun</Filter>
     </ClInclude>
     <ClInclude Include="aharun\Module.h">
       <Filter>aharun</Filter>
     </ClInclude>
+    <ClInclude Include="aharun\aharundef.h">
+      <Filter>aharun</Filter>
+    </ClInclude>
+    <ClInclude Include="aharun\Thread.h">
+      <Filter>aharun</Filter>
+    </ClInclude>
+    <ClInclude Include="aharun\exceptions.h">
+      <Filter>aharun</Filter>
+    </ClInclude>
     <ClInclude Include="aharun\ModuleManager.h">
       <Filter>aharun</Filter>
     </ClInclude>
-    <ClInclude Include="aharun\aharundef.h">
+    <ClInclude Include="aharun\NativeLibrary.h">
       <Filter>aharun</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Module.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -45,6 +48,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Context.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Thread.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="NativeLibrary.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
