@@ -17,7 +17,7 @@ namespace aha
 		m_refers = std::move(refers);
 	}
 
-	void AhaRefer::Validate(const AhaStrings& strings)
+	void AhaRefer::Validate(const AhaStrings& strings) const
 	{
 		for (aha_u32 idx : m_refers)
 		{

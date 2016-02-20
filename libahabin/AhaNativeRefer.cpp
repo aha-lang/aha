@@ -15,7 +15,7 @@ namespace aha
 		}
 	}
 
-	void AhaNativeRefer::Validate(const AhaStrings& strings)
+	void AhaNativeRefer::Validate(const AhaStrings& strings) const
 	{
 		m_impl.Validate(strings);
 	}

@@ -35,7 +35,7 @@ namespace aha
 		}
 	}
 
-	void AhaClsMember::Validate(const AhaStrings& strings)
+	void AhaClsMember::Validate(const AhaStrings& strings) const
 	{
 		if (!ValidateAhaAccess(m_raw.access))
 			throw BadModuleClsMemError();
@@ -56,11 +56,15 @@ namespace aha
 			if (m_raw.variable.vartype == AHA_TYPE_VOID)
 				throw BadModuleClsMemError();
 			
-			uint8_t zero[sizeof(AhaVariable)] = { 0 };
-			size_t z_sz = sizeof(AhaVariable) - AhaTypeGetSize(m_raw.type);
-			if (z_sz != 0)
+			size_t v_sz = AhaTypeGetSize(m_raw.variable.vartype);
+			if (v_sz != sizeof(AhaVariable))
 			{
-				if (memcmp(&m_raw.variable.initial, zero, sizeof(AhaVariable)) != 0)
+				uint8_t zero[sizeof(AhaVariable)] = { 0 };
+				size_t z_sz = sizeof(AhaVariable) - v_sz;
+
+				void* zr_mem = ((aha_u8*)&m_raw.variable.initial) + v_sz;
+
+				if (memcmp(zr_mem, zero, z_sz) != 0)
 					throw BadModuleClsMemError();
 			}
 		}

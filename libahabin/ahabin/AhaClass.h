@@ -41,7 +41,7 @@ namespace aha
 
 	public:
 		void Read(std::istream& strm, size_t& read);
-		void Validate(const AhaStrings& strings);
+		void Validate(const AhaStrings& strings) const;
 
 		const AhaClass_raw GetRaw() const;
 		const std::vector<AhaClsMember>& GetMembers() const;

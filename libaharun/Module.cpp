@@ -2,6 +2,7 @@
 #include "aharun/Context.h"
 #include "aharun/ModuleManager.h"
 #include "aharun/NativeLibrary.h"
+#include "aharun/ClassInfo.h"
 
 namespace aha
 {
@@ -51,6 +52,8 @@ namespace aha
 
 		fs::path moduleDir = path.parent_path();
 
+		m_name = module.GetStrings().Get()[module.GetModuleName()];
+
 		for (aha::aha_i32 idx : module.GetRefer().Get())
 		{
 			const std::u16string& str = module.GetStrings().Get()[idx];
@@ -63,6 +66,11 @@ namespace aha
 		{
 			const std::u16string& str = module.GetStrings().Get()[idx];
 			m_NativeRefers.push_back(NativeLibrary::Load(str, std::vector<fs::path> { m_path.parent_path() }));
+		}
+
+		for (const AhaClass& cls : module.GetBody().Get())
+		{
+			m_ClassList.push_back(std::make_unique<ClassInfo>(cls, module.GetStrings(), this));
 		}
 	}
 

@@ -3,7 +3,6 @@
 #include <ahabin/ahabindef.h>
 
 #include <unordered_map>
-#include <memory>
 
 #define BOOST_LOCALE_ENABLE_CHAR32_T
 #define BOOST_LOCALE_ENABLE_CHAR16_T

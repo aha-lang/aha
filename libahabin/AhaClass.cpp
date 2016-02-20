@@ -1,3 +1,5 @@
+#include <set>
+
 #include "ahabin/AhaClass.h"
 #include "ahabin/AhaStrings.h"
 #include "ahabin/exceptions.h"
@@ -19,7 +21,7 @@ namespace aha
 		}
 	}
 
-	void AhaClass::Validate(const AhaStrings& strings)
+	void AhaClass::Validate(const AhaStrings& strings) const
 	{
 		if (!ValidateAhaAccess(m_raw.access))
 			throw BadModuleClassError();
@@ -27,13 +29,21 @@ namespace aha
 			throw BadModuleClassError();
 		if (!strings.ValidateString(m_raw.name))
 			throw BadModuleClassError();
-		if (!strings.ValidateString(m_raw.base))
+		if (m_raw.base != 0xffffffff && !strings.ValidateString(m_raw.base))
 			throw BadModuleClassError();
-		if (!strings.ValidateString(m_raw.interfaces))
+		if (m_raw.interfaces != 0xffffffff && !strings.ValidateString(m_raw.interfaces))
 			throw BadModuleClassError();
 
+		std::set<std::u16string> chkset;
+
 		for (const AhaClsMember& mem : m_members)
+		{
 			mem.Validate(strings);
+
+			auto rs = chkset.insert(strings.Get()[mem.GetRaw().name]);
+			if (!rs.second)
+				throw BadModuleClassError();
+		}
 	}
 
 	const AhaClass_raw AhaClass::GetRaw() const

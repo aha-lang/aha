@@ -1,6 +1,6 @@
 #include "ahabin/AhaStrings.h"
 #include "ahabin/exceptions.h"
-#include "util.h"
+#include "ahabin/util.h"
 
 namespace aha
 {

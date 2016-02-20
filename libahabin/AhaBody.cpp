@@ -1,4 +1,7 @@
+#include <set>
+
 #include "ahabin/AhaBody.h"
+#include "ahabin/AhaStrings.h"
 #include "ahabin/exceptions.h"
 
 namespace aha
@@ -20,11 +23,17 @@ namespace aha
 		}
 	}
 
-	void AhaBody::Validate(const AhaStrings& strings)
+	void AhaBody::Validate(const AhaStrings& strings) const
 	{
+		std::set<std::u16string> chkset;
+
 		for (const AhaClass& cls : m_ClassList)
 		{
 			cls.Validate(strings);
+
+			auto rs = chkset.insert(strings.Get()[cls.GetRaw().name]);
+			if (!rs.second)
+				throw BadModuleBodyError();
 		}
 	}
 

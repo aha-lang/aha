@@ -6,6 +6,7 @@
 namespace aha
 {
 	class ClassInfo;
+	class Module;
 
 	struct TypeVar
 	{
@@ -15,5 +16,7 @@ namespace aha
 			ClassInfo* pClsInfo;
 		};
 		bool bPrimitive;
+
+		void Init(AhaType t, Module* pModule);
 	};
 }

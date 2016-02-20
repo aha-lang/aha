@@ -14,7 +14,7 @@ namespace aha
 
 	public:
 		void Read(aha_u32 SizeOfNativeRefer, std::istream& strm);
-		void Validate(const AhaStrings& strings);
+		void Validate(const AhaStrings& strings) const;
 
 		const std::vector<aha_u32>& Get() const;
 	};

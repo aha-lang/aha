@@ -144,6 +144,7 @@
     <ClInclude Include="aharun\ClassInfo.h" />
     <ClInclude Include="aharun\Context.h" />
     <ClInclude Include="aharun\exceptions.h" />
+    <ClInclude Include="aharun\FunctionInfo.h" />
     <ClInclude Include="aharun\Module.h" />
     <ClInclude Include="aharun\ModuleManager.h" />
     <ClInclude Include="aharun\NativeLibrary.h" />
@@ -153,10 +154,12 @@
   <ItemGroup>
     <ClCompile Include="ClassInfo.cpp" />
     <ClCompile Include="Context.cpp" />
+    <ClCompile Include="FunctionInfo.cpp" />
     <ClCompile Include="Module.cpp" />
     <ClCompile Include="ModuleManager.cpp" />
     <ClCompile Include="NativeLibrary.cpp" />
     <ClCompile Include="Thread.cpp" />
+    <ClCompile Include="TypeVar.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
