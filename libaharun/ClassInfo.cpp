@@ -16,10 +16,10 @@ namespace aha
 
 		for (auto& member : cls.GetMembers())
 		{
-			VariableInfo vi;
-
 			if (member.GetRaw().type == AHA_CLSMEM_TYPE_VAR)
 			{
+				VariableInfo vi;
+
 				vi.name = strings.Get()[member.GetRaw().name];
 				vi.access = member.GetRaw().access;
 				vi.type.type = member.GetRaw().variable.vartype;
