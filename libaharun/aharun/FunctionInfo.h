@@ -4,10 +4,14 @@
 #include <ahabin/AhaClsMember.h>
 
 #include "TypeVar.h"
+#include "Code.h"
 
 namespace aha
 {
 	class AhaStrings;
+
+	class Context;
+	class Module;
 	class ClassInfo;
 
 	class FunctionInfo : private boost::noncopyable
@@ -23,34 +27,28 @@ namespace aha
 		TypeVar m_rettype;
 
 		std::vector<AhaType> m_params;
-		std::vector<aha_u8> m_opcode;
+
+		Code m_code;
 
 	public:
 		explicit FunctionInfo(const AhaClsMember& clsmem, const AhaStrings& strings, ClassInfo *pClassInfo);
 		~FunctionInfo();
 
-		const std::u16string& GetName() const
-		{
-			return m_name;
-		}
+		void Call(void* thiz, void** param);
 
-		AhaAccess GetAccess() const
-		{
-			return m_access;
-		}
-		AhaClsMemberStorage GetStorage() const
-		{
-			return m_storage;
-		}
-		const TypeVar& GetTypeVar() const
-		{
-			return m_rettype;
-		}
+		const std::u16string& GetName() const;
 
-		ClassInfo* GetClassInfo() const
-		{
-			return m_pClassInfo;
-		}
+		AhaAccess GetAccess() const;
+		AhaClsMemberStorage GetStorage() const;
+		const TypeVar& GetRetType() const;
+		const std::vector<AhaType> GetParams() const;
+
+		Code& GetCode();
+		const Code& GetCode() const;
+
+		ClassInfo* GetClassInfo() const;
+		Module* GetModule() const;
+		Context* GetContext() const;
 
 		bool operator <(const FunctionInfo& rhs) const
 		{

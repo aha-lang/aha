@@ -48,6 +48,9 @@
     <ClInclude Include="aharun\FunctionInfo.h">
       <Filter>aharun</Filter>
     </ClInclude>
+    <ClInclude Include="aharun\Code.h">
+      <Filter>aharun</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Module.cpp">
@@ -72,6 +75,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="TypeVar.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Code.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Code_Compile.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

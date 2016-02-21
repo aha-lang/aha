@@ -4,7 +4,9 @@
 #include <utility>
 
 #include "aharun/Context.h"
+
 #include "aharun/ModuleManager.h"
+#include "aharun/Code.h"
 
 namespace aha
 {
@@ -32,6 +34,8 @@ namespace aha
 			}
 		}
 
+		m_CodeHeap = CodeHeap::Create();
+
 		m_pModuleManager = std::make_unique<ModuleManager>(this);
 	}
 
@@ -42,5 +46,20 @@ namespace aha
 	boost::intrusive_ptr<Module> Context::LoadModule(const boost::filesystem::path& modulePath)
 	{
 		return m_pModuleManager->LoadModule(modulePath, GetCurrentPath());
+	}
+
+	const std::vector<fs::path> Context::GetFindingPaths() const
+	{
+		return m_FindingPaths;
+	}
+
+	const fs::path Context::GetCurrentPath() const
+	{
+		return m_CurrentPath;
+	}
+
+	void* Context::GetCodeHeap() const
+	{
+		return m_CodeHeap;
 	}
 }

@@ -38,5 +38,5 @@ break_2:
 		return -2;
 	}
 
-	// execute
+	pfnMain->Call(nullptr, nullptr);
 }

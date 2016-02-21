@@ -38,36 +38,15 @@ namespace aha
 		void IncRef();
 		void DecRef();
 
-		unsigned GetRef() const
-		{
-			return m_refcount;
-		}
+		unsigned GetRef() const;
 
-		const fs::path& GetPath() const
-		{
-			return m_path;
-		}
+		const fs::path& GetPath() const;
 
-		const std::u16string& GetName() const
-		{
-			return m_name;
-		}
-		const std::vector<boost::intrusive_ptr<Module>>& GetRefers() const
-		{
-			return m_Refers;
-		}
-		const std::vector<std::unique_ptr<NativeLibrary>> GetNativeRefers() const
-		{
-			m_NativeRefers;
-		}
-		const std::vector<std::unique_ptr<ClassInfo>>& GetClassList() const
-		{
-			return m_ClassList;
-		}
+		const std::u16string& GetName() const;
+		const std::vector<boost::intrusive_ptr<Module>>& GetRefers() const;
+		const std::vector<std::unique_ptr<NativeLibrary>>& GetNativeRefers() const;
+		const std::vector<std::unique_ptr<ClassInfo>>& GetClassList() const;
 
-		Context* GetContext() const
-		{
-			return m_pContext;
-		}
+		Context* GetContext() const;
 	};
 }

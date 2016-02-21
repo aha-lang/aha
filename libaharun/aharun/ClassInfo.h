@@ -10,6 +10,8 @@
 namespace aha
 {
 	class AhaStrings;
+
+	class Context;
 	class Module;
 
 	class FunctionInfo;
@@ -57,26 +59,12 @@ namespace aha
 		const VariableInfo* FindClsVariable(const std::u16string& name);
 		const VariableInfo* FindInsVariable(const std::u16string& name);
 
-		const std::u16string& GetName() const
-		{
-			return m_name;
-		}
-		AhaAccess GetAccess() const
-		{
-			return m_access;
-		}
-		AhaClassType GetClassType() const
-		{
-			return m_ClassType;
-		}
-		const std::vector<std::unique_ptr<FunctionInfo>>& GetFunctionList() const
-		{
-			return m_FunctionList;
-		}
+		const std::u16string& GetName() const;
+		AhaAccess GetAccess() const;
+		AhaClassType GetClassType() const;
+		const std::vector<std::unique_ptr<FunctionInfo>>& GetFunctionList() const;
 
-		Module* GetModule() const
-		{
-			return m_pModule;
-		}
+		Module* GetModule() const;
+		Context* GetContext() const;
 	};
 }

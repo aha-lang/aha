@@ -5,6 +5,9 @@
 #include "aharun/exceptions.h"
 
 #include <Windows.h>
+#ifdef GetClassInfo
+#undef GetClassInfo
+#endif
 
 namespace aha
 {

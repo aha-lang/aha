@@ -2,6 +2,7 @@
 
 #include <ahabin/ahabindef.h>
 
+#include <type_traits>
 #include <unordered_map>
 
 #define BOOST_LOCALE_ENABLE_CHAR32_T

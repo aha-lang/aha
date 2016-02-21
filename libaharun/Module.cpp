@@ -1,5 +1,5 @@
 #include "aharun/Module.h"
-#include "aharun/Context.h"
+
 #include "aharun/ModuleManager.h"
 #include "aharun/NativeLibrary.h"
 #include "aharun/ClassInfo.h"
@@ -90,4 +90,39 @@ namespace aha
 			m_pManager->RemoveModule(m_path);
 		}
 	}
+
+	unsigned Module::GetRef() const
+	{
+		return m_refcount;
+	}
+
+	const fs::path& Module::GetPath() const
+	{
+		return m_path;
+	}
+
+	const std::u16string& Module::GetName() const
+	{
+		return m_name;
+	}
+
+	const std::vector<boost::intrusive_ptr<Module>>& Module::GetRefers() const
+	{
+		return m_Refers;
+	}
+	const std::vector<std::unique_ptr<NativeLibrary>>& Module::GetNativeRefers() const
+	{
+		return m_NativeRefers;
+	}
+
+	const std::vector<std::unique_ptr<ClassInfo>>& Module::GetClassList() const
+	{
+		return m_ClassList;
+	}
+
+	Context* Module::GetContext() const
+	{
+		return m_pContext;
+	}
+
 }

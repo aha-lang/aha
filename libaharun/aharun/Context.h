@@ -14,6 +14,8 @@ namespace aha
 		std::vector<fs::path> m_FindingPaths;
 		fs::path m_CurrentPath;
 
+		void* m_CodeHeap;
+
 	public:
 		static void InitGC();
 
@@ -22,14 +24,8 @@ namespace aha
 
 		boost::intrusive_ptr<Module> LoadModule(const fs::path& modulePath);
 
-		const std::vector<fs::path> GetFindingPaths() const
-		{
-			return m_FindingPaths;
-		}
-
-		const fs::path GetCurrentPath() const
-		{
-			return m_CurrentPath;
-		}
+		const std::vector<fs::path> GetFindingPaths() const;
+		const fs::path GetCurrentPath() const;
+		void* GetCodeHeap() const;
 	};
 }

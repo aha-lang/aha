@@ -2,7 +2,9 @@
 #include <new>
 
 #include "aharun/ClassInfo.h"
+
 #include "aharun/FunctionInfo.h"
+#include "aharun/Module.h"
 
 #include <ahabin/AhaStrings.h>
 
@@ -122,5 +124,35 @@ namespace aha
 		{
 			return nullptr;
 		}
+	}
+
+	const std::u16string& ClassInfo::GetName() const
+	{
+		return m_name;
+	}
+
+	AhaAccess ClassInfo::GetAccess() const
+	{
+		return m_access;
+	}
+
+	AhaClassType ClassInfo::GetClassType() const
+	{
+		return m_ClassType;
+	}
+
+	const std::vector<std::unique_ptr<FunctionInfo>>& ClassInfo::GetFunctionList() const
+	{
+		return m_FunctionList;
+	}
+
+	Module* ClassInfo::GetModule() const
+	{
+		return m_pModule;
+	}
+
+	Context* ClassInfo::GetContext() const
+	{
+		return GetModule()->GetContext();
 	}
 }
