@@ -15,6 +15,11 @@ namespace aha
 		}
 	}
 
+	aha_u32 AhaNativeRefer::Write(std::ostream& strm)
+	{
+		return m_impl.Write(strm);
+	}
+
 	void AhaNativeRefer::Validate(const AhaStrings& strings) const
 	{
 		m_impl.Validate(strings);

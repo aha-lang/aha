@@ -1,22 +1,17 @@
-﻿#				00 41 48 45 "\0AHE"    (Aha mark)
+#				00 41 48 45 "\0AHE"    (Aha mark)
 #				34 00 00 00 0x00000034 (Strings size)
 #				00 00 00 00 0x00000000 (Refer size)
 #				00 00 00 00 0x00000000 (NativeRefer size)
 #				40 00 00 00 0x00000040 (Body size)
 #				00 00 00 00 0x00000000 (Module Name) u"libtest"
-.module 0
+.module libtest
 
-strings
-"libtest"
 #					0E 00 00 00 0x0000000E (size)
 #					6C 00 69 00 62 00 74 00 65 00 73 00 74 00 u"libtest" 00 00 <<padding>>
-"Library"
 #					0E 00 00 00 0x0000000E (size)
 #					4C 00 69 00 62 00 72 00 61 00 72 00 79 00 u"Library" 00 00 <<padding>>
-"Func"
 #					08 00 00 00 0x00000008 (size)
 #					46 00 75 00 6E 00 63 00 u"Func"
-endstrings
 
 refer
 endrefer

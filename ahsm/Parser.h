@@ -23,12 +23,12 @@ private:
 	ParseState m_psMember = ParseState::Yet;
 	ParseState m_psOpcode = ParseState::Yet;
 
-	std::wstring m_ModuleName;
+	aha::aha_u32 m_ModuleName;
 
 	std::vector<std::wstring> m_strtbl;
 
-	std::vector<std::wstring> m_Refer;
-	std::vector<std::wstring> m_NativeRefer;
+	std::vector<aha::aha_u32> m_Refer;
+	std::vector<aha::aha_u32> m_NativeRefer;
 
 	std::vector<aha::AhaClass> m_ClassList;
 	aha::AhaClass m_Class;

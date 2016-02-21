@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Parser.h"
 
-std::wstring without_comment(std::wstring &str);
+std::wstring without_comment(const std::wstring &str);
 
 int main(int argc, char *argv[])
 {
@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 	Parser parser;
 
 	// 에러시 예외를 던지도록 함.
-	source.exceptions(std::ios::failbit | std::ios::badbit);
+	source.exceptions(std::ios::badbit);
 	try
 	{
 		source.open(argv[1]);
@@ -107,7 +107,7 @@ std::wstring without_comment(const std::wstring &str)
 	bool single_quote = false;
 	bool double_quote = false;
 
-	for (int idx = str.size() - 1; idx > 0; --idx)
+	for (int idx = str.size() - 1; idx >= 0; --idx)
 	{
 		if (str[idx] == L'\'')
 		{

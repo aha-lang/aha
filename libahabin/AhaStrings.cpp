@@ -47,6 +47,32 @@ namespace aha
 		m_strings = std::move(strings);
 	}
 
+	aha_u32 AhaStrings::Write(std::ostream& strm)
+	{
+		static char padding[4] = { 0 };
+
+		aha_u32 written = 0;
+
+		for (const std::u16string& str : m_strings)
+		{
+			aha_u32 size = sizeof(char16_t) * str.size();
+
+			strm.write((const char*)&size, sizeof(size));
+			written += sizeof(size);
+			strm.write((const char*)str.c_str(), size);
+			written += size;
+
+			if (size % 4 != 0)
+			{
+				aha_u32 padding_sz = 4 - size % 4;
+				strm.write(padding, padding_sz);
+				written += padding_sz;
+			}
+		}
+
+		return written;
+	}
+
 	std::vector<std::u16string>& AhaStrings::Get()
 	{
 		return m_strings;

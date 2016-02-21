@@ -104,7 +104,7 @@ void Parser::ParseOpcode_locals(const std::vector<std::wstring> &vttok)
 		{
 			errno = 0;
 			unsigned long ul = wcstoul(it->c_str(), &endptr, 0);
-			if (errno == ERANGE || *endptr != L'\0' || ul >= m_strtbl.size())
+			if (errno == ERANGE || *endptr != L'\0' /* || ul >= m_strtbl.size() */)
 				throw ParseError(L"there must be a primitive type name or an string index");
 
 			m_Opcode.insert(m_Opcode.end(), (uint8_t *)&ul, (uint8_t *)&ul + sizeof(ul));
@@ -130,12 +130,12 @@ void Parser::ParseOpcode_native(const std::vector<std::wstring> &vttok)
 
 	errno = 0;
 	unsigned long lib = wcstoul(vttok2[0].c_str(), &endptr, 0);
-	if (errno == ERANGE || *endptr != L'\0' || lib >= m_strtbl.size())
+	if (errno == ERANGE || *endptr != L'\0' /* || lib >= m_strtbl.size() */)
 		throw ParseError(L"there must be an string index");
 
 	errno = 0;
 	unsigned long func = wcstoul(vttok2[1].c_str(), &endptr, 0);
-	if (errno == ERANGE || *endptr != L'\0' || func >= m_strtbl.size())
+	if (errno == ERANGE || *endptr != L'\0' /* || func >= m_strtbl.size() */)
 		throw ParseError(L"there must be an string index");
 
 	m_Opcode.push_back((uint8_t)calltype);
@@ -202,17 +202,17 @@ void Parser::ParseOpcode_call(const std::vector<std::wstring> &vttok)
 
 	errno = 0;
 	unsigned long lib = wcstoul(vttok2[0].c_str(), &endptr, 0);
-	if (errno == ERANGE || *endptr != L'\0' || lib >= m_strtbl.size())
+	if (errno == ERANGE || *endptr != L'\0' /* || lib >= m_strtbl.size()*/)
 		throw ParseError(L"there must be an string index");
 
 	errno = 0;
 	unsigned long cls = wcstoul(vttok2[1].c_str(), &endptr, 0);
-	if (errno == ERANGE || *endptr != L'\0' || cls >= m_strtbl.size())
+	if (errno == ERANGE || *endptr != L'\0' /* || cls >= m_strtbl.size() */)
 		throw ParseError(L"there must be an string index");
 
 	errno = 0;
 	unsigned long func = wcstoul(vttok2[2].c_str(), &endptr, 0);
-	if (errno == ERANGE || *endptr != L'\0' || func >= m_strtbl.size())
+	if (errno == ERANGE || *endptr != L'\0' /* || func >= m_strtbl.size() */)
 		throw ParseError(L"there must be an string index");
 
 	m_Opcode.insert(m_Opcode.end(), (uint8_t *)&lib, (uint8_t *)&lib + sizeof(lib));
@@ -234,17 +234,17 @@ void Parser::ParseOpcode_newobj(const std::vector<std::wstring> &vttok)
 
 	errno = 0;
 	unsigned long lib = wcstoul(vttok2[0].c_str(), &endptr, 0);
-	if (errno == ERANGE || *endptr != L'\0' || lib >= m_strtbl.size())
+	if (errno == ERANGE || *endptr != L'\0' /* || lib >= m_strtbl.size() */)
 		throw ParseError(L"there must be an string index");
 
 	errno = 0;
 	unsigned long cls = wcstoul(vttok2[1].c_str(), &endptr, 0);
-	if (errno == ERANGE || *endptr != L'\0' || cls >= m_strtbl.size())
+	if (errno == ERANGE || *endptr != L'\0' /* || cls >= m_strtbl.size() */)
 		throw ParseError(L"there must be an string index");
 
 	errno = 0;
 	unsigned long ctor = wcstoul(vttok2[2].c_str(), &endptr, 0);
-	if (errno == ERANGE || *endptr != L'\0' || ctor >= m_strtbl.size())
+	if (errno == ERANGE || *endptr != L'\0' /* || ctor >= m_strtbl.size() */)
 		throw ParseError(L"there must be an string index");
 
 	m_Opcode.insert(m_Opcode.end(), (uint8_t *)&lib, (uint8_t *)&lib + sizeof(lib));

@@ -23,6 +23,18 @@ namespace aha
 		}
 	}
 
+	aha_u32 AhaBody::Write(std::ostream& strm)
+	{
+		aha_u32 written = 0;
+
+		for (AhaClass& cls : m_ClassList)
+		{
+			written += cls.Write(strm);
+		}
+
+		return written;
+	}
+
 	void AhaBody::Validate(const AhaStrings& strings) const
 	{
 		std::set<std::u16string> chkset;
@@ -37,6 +49,10 @@ namespace aha
 		}
 	}
 
+	std::vector<AhaClass>& AhaBody::Get()
+	{
+		return m_ClassList;
+	}
 	const std::vector<AhaClass>& AhaBody::Get() const
 	{
 		return m_ClassList;

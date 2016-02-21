@@ -29,7 +29,12 @@ namespace aha
 		AhaBody m_Body;
 
 	public:
-		void Read(std::istream& strm);
+		void Read(std::istream& strm, bool bValidate = true);
+		void Write(std::ostream& strm, bool bValidate = true);
+		void Validate() const;
+
+		AhaModuleHeader& GetHeader();
+		const AhaModuleHeader& GetHeader() const;
 
 		AhaStrings& GetStrings();
 		const AhaStrings& GetStrings() const;

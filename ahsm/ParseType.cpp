@@ -15,6 +15,7 @@ aha::AhaVariable Parser::ParseType(aha::AhaType type, const std::wstring &str)
 	wchar_t *endptr;
 
 	aha::AhaVariable var;
+	var.v_uint64 = 0;
 
 	union
 	{

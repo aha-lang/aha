@@ -44,7 +44,7 @@ bool Parser::Line(std::wstring line)
 		if (!(vttok.size() == 2 && vttok[0] == L".module"))
 			throw ParseError(L"there must be '.module' directive with module name");
 
-		m_ModuleName = vttok[1];
+		m_ModuleName = AddOrGetStr(vttok[1]);
 		m_psModuleName = ParseState::Completed;
 	}
 	else if (m_psRefer == ParseState::Yet)
@@ -63,7 +63,12 @@ bool Parser::Line(std::wstring line)
 		{
 			if (!(line.size() >= 2 && line.front() == L'"' && line.back() == L'"'))
 				throw ParseError(L"there must be a string literal");
-			m_Refer.emplace_back(std::next(line.begin()), std::prev(line.end()));
+
+			aha::aha_u32 idstr = AddOrGetStr(
+				std::wstring(
+					std::next(line.begin()), std::prev(line.end())
+					));
+			m_Refer.emplace_back(idstr);
 		}
 	}
 	else if (m_psNativeRefer == ParseState::Yet)
@@ -82,7 +87,12 @@ bool Parser::Line(std::wstring line)
 		{
 			if (!(line.size() >= 2 && line.front() == L'"' && line.back() == L'"'))
 				throw ParseError(L"there must be a string literal");
-			m_NativeRefer.emplace_back(std::next(line.begin()), std::prev(line.end()));
+
+			aha::aha_u32 idstr = AddOrGetStr(
+				std::wstring(
+					std::next(line.begin()), std::prev(line.end())
+					));
+			m_NativeRefer.emplace_back(idstr);
 		}
 	}
 	else if (m_psBody == ParseState::Yet)
@@ -133,12 +143,11 @@ void Parser::ParseClass(const std::wstring &line)
 		if (it != m_ClassList.end())
 			throw ParseError(L"class '" + vttok[3] + L"' is already exist in this module");
 
-		aha::AhaClass_raw &raw = m_Class.GetRaw();
-		raw.access = StrToAhaAccess(vttok[0]);
-		raw.type = StrToAhaClassType(vttok[1]);
-		raw.name = AddOrGetStr(vttok[3]);
-		raw.base = 0xffffffff; // TODO
-		raw.interfaces = 0xffffffff; // TODO
+		m_Class.GetRaw().access = StrToAhaAccess(vttok[0]);
+		m_Class.GetRaw().type = StrToAhaClassType(vttok[1]);
+		m_Class.GetRaw().name = AddOrGetStr(vttok[3]);
+		m_Class.GetRaw().base = 0xffffffff; // TODO
+		m_Class.GetRaw().interfaces = 0xffffffff; // TODO
 
 		m_psClass = ParseState::Parsing;
 	}
@@ -224,6 +233,8 @@ void Parser::ParseMember(const std::wstring &line, const std::vector<std::wstrin
 					}
 					count++;
 				}
+
+				m_Member.GetRaw().function.SizeOfOpcode = 1;
 			}
 		}
 		else
@@ -269,8 +280,9 @@ static void trim(std::wstring &str)
 
 	if (!str.empty())
 	{
-		str.erase(str.rbegin().base(),
-			std::find_if(str.rbegin(), str.rend(), [](wchar_t ch) { return !iswspace(ch); }).base()
+		str.erase(
+			std::find_if(str.rbegin(), str.rend(), [](wchar_t ch) { return !iswspace(ch); }).base(),
+			str.end()
 			);
 	}
 }

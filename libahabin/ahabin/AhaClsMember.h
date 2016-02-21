@@ -67,6 +67,7 @@ namespace aha
 
 	public:
 		void Read(std::istream& strm, size_t& read);
+		aha_u32 Write(std::ostream& strm);
 		void Validate(const AhaStrings& strings) const;
 
 		AhaClsMember_raw& GetRaw();

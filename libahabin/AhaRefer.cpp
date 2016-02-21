@@ -17,6 +17,12 @@ namespace aha
 		m_refers = std::move(refers);
 	}
 
+	aha_u32 AhaRefer::Write(std::ostream& strm)
+	{
+		strm.write((const char*)m_refers.data(), sizeof(aha_u32) * m_refers.size());
+		return sizeof(aha_u32) * m_refers.size();
+	}
+
 	void AhaRefer::Validate(const AhaStrings& strings) const
 	{
 		for (aha_u32 idx : m_refers)

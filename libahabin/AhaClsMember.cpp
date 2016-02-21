@@ -35,6 +35,41 @@ namespace aha
 		}
 	}
 
+	aha_u32 AhaClsMember::Write(std::ostream& strm)
+	{
+		aha_u32 written = 0;
+
+		m_raw.variable._padding = 0;
+
+		if (m_raw.type == AHA_CLSMEM_TYPE_FUNC)
+		{
+			m_raw.function.CountOfParams = m_params.size();
+			m_raw.function.SizeOfOpcode = m_opcode.size();
+		}
+
+		strm.write((const char*)&m_raw, sizeof(m_raw));
+		written += sizeof(m_raw);
+
+		if (m_raw.type == AHA_CLSMEM_TYPE_FUNC)
+		{
+			strm.write((const char*)m_params.data(), sizeof(AhaType) * m_params.size());
+			written += sizeof(AhaType) * m_params.size();
+
+			strm.write((const char*)m_opcode.data(), m_opcode.size());
+			written += m_opcode.size();
+
+			if (m_opcode.size() % 4 != 0)
+			{
+				char padding[4] = { 0 };
+				aha_u32 padding_sz = 4 - m_opcode.size() % 4;
+				strm.write(padding, padding_sz);
+				written += padding_sz;
+			}
+		}
+
+		return written;
+	}
+
 	void AhaClsMember::Validate(const AhaStrings& strings) const
 	{
 		if (!ValidateAhaAccess(m_raw.access))

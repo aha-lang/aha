@@ -14,8 +14,10 @@ namespace aha
 
 	public:
 		void Read(aha_u32 SizeOfBody, std::istream& strm);
+		aha_u32 Write(std::ostream& strm);
 		void Validate(const AhaStrings& strings) const;
 
+		std::vector<AhaClass>& Get();
 		const std::vector<AhaClass>& Get() const;
 	};
 }

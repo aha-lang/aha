@@ -21,6 +21,23 @@ namespace aha
 		}
 	}
 
+	aha_u32 AhaClass::Write(std::ostream& strm)
+	{
+		aha_u32 written = 0;
+
+		m_raw.CountOfMembers = m_members.size();
+
+		strm.write((const char*)&m_raw, sizeof(m_raw));
+		written += sizeof(m_raw);
+
+		for (AhaClsMember& clsmem : m_members)
+		{
+			written += clsmem.Write(strm);
+		}
+
+		return written;
+	}
+
 	void AhaClass::Validate(const AhaStrings& strings) const
 	{
 		if (!ValidateAhaAccess(m_raw.access))
@@ -46,11 +63,11 @@ namespace aha
 		}
 	}
 
-	AhaClass_raw AhaClass::GetRaw()
+	AhaClass_raw &AhaClass::GetRaw()
 	{
 		return m_raw;
 	}
-	const AhaClass_raw AhaClass::GetRaw() const
+	const AhaClass_raw &AhaClass::GetRaw() const
 	{
 		return m_raw;
 	}

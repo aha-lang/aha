@@ -13,6 +13,7 @@ namespace aha
 
 	public:
 		void Read(aha_u32 SizeOfRefer, std::istream& strm);
+		aha_u32 Write(std::ostream& strm);
 		void Validate(const AhaStrings& strings) const;
 
 		std::vector<aha_u32>& Get();

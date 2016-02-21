@@ -11,6 +11,7 @@ namespace aha
 
 	public:
 		void Read(aha_u32 SizeOfStrings, std::istream& strm);
+		aha_u32 Write(std::ostream& strm);
 
 		std::vector<std::u16string>& Get();
 		const std::vector<std::u16string>& Get() const;

@@ -34,6 +34,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="output.abf" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3CBBB0BB-EE2C-487F-91A0-898830CF6EB1}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
