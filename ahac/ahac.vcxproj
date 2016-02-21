@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -11,20 +11,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{7747D132-6014-4AC7-AD67-5A85C0F5FDB6}</ProjectGuid>
+    <ProjectGuid>{38CE8B8D-D7AA-4876-9004-6BB6C6E26E40}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>libahabin</RootNamespace>
+    <RootNamespace>ahac</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -32,8 +32,6 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
-  <ImportGroup Label="Shared">
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -43,64 +41,70 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(BOOST_DIRECTORY);$(IncludePath)</IncludePath>
-    <LibraryPath>$(BOOST_STAGE_32)\lib;$(LibraryPath)</LibraryPath>
+    <LinkIncremental>true</LinkIncremental>
+    <LibraryPath>$(OutDir);$(BOOST_STAGE_32)\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)libahabin;$(BOOST_DIRECTORY);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(BOOST_DIRECTORY);$(IncludePath)</IncludePath>
-    <LibraryPath>$(BOOST_STAGE_32)\lib;$(LibraryPath)</LibraryPath>
+    <LinkIncremental>false</LinkIncremental>
+    <LibraryPath>$(OutDir);$(BOOST_STAGE_32)\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)libahabin;$(BOOST_DIRECTORY);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>false</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+	  <AdditionalDependencies>libahabin.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>false</SDLCheck>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ahabin\AhaAccess.h" />
-    <ClInclude Include="ahabin\ahabindef.h" />
-    <ClInclude Include="ahabin\AhaBody.h" />
-    <ClInclude Include="ahabin\AhaClass.h" />
-    <ClInclude Include="ahabin\AhaClsMember.h" />
-    <ClInclude Include="ahabin\AhaModule.h" />
-    <ClInclude Include="ahabin\AhaNativeRefer.h" />
-    <ClInclude Include="ahabin\AhaOpcode.h" />
-    <ClInclude Include="ahabin\AhaRefer.h" />
-    <ClInclude Include="ahabin\AhaStrings.h" />
-    <ClInclude Include="ahabin\AhaType.h" />
-    <ClInclude Include="ahabin\exceptions.h" />
-    <ClInclude Include="ahabin\util.h" />
+    <ClCompile Include="AhaCompiler.cpp" />
+    <ClCompile Include="AhaLangPack.cpp" />
+    <ClCompile Include="AhaParser.cpp" />
+    <ClCompile Include="AhaType.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="AhaScaner.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AhaBody.cpp" />
-    <ClCompile Include="AhaClass.cpp" />
-    <ClCompile Include="AhaClsMember.cpp" />
-    <ClCompile Include="AhaModule.cpp" />
-    <ClCompile Include="AhaNativeRefer.cpp" />
-    <ClCompile Include="AhaRefer.cpp" />
-    <ClCompile Include="AhaStrings.cpp" />
+    <ClInclude Include="AhaCompiler.h" />
+    <ClInclude Include="AhaError.h" />
+    <ClInclude Include="AhaLangPack.h" />
+    <ClInclude Include="AhaParser.h" />
+    <ClInclude Include="AhaScaner.h" />
+    <ClInclude Include="AhaToken.h" />
+    <ClInclude Include="AhaType.h" />
+    <ClInclude Include="Utility.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="test.aha" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
