@@ -16,13 +16,15 @@ namespace aha
 
 		if (m_raw.type == AHA_CLSMEM_TYPE_FUNC)
 		{
-			m_params.resize(m_raw.function.CountOfParams);
+			m_locals.resize(m_raw.function.CountOfLocals);
+			strm.read((char*)m_locals.data(), sizeof(AhaType) * m_raw.function.CountOfLocals);
+			read += sizeof(AhaType) * m_raw.function.CountOfLocals;
 
+			m_params.resize(m_raw.function.CountOfParams);
 			strm.read((char*)m_params.data(), sizeof(AhaType) * m_raw.function.CountOfParams);
 			read += sizeof(AhaType) * m_raw.function.CountOfParams;
 
 			m_opcode.resize(m_raw.function.SizeOfOpcode);
-
 			strm.read((char*)m_opcode.data(), m_raw.function.SizeOfOpcode);
 			read += m_raw.function.SizeOfOpcode;
 
@@ -39,12 +41,15 @@ namespace aha
 	{
 		aha_u32 written = 0;
 
-		m_raw.variable._padding = 0;
-
 		if (m_raw.type == AHA_CLSMEM_TYPE_FUNC)
 		{
+			m_raw.function.CountOfLocals = m_locals.size();
 			m_raw.function.CountOfParams = m_params.size();
 			m_raw.function.SizeOfOpcode = m_opcode.size();
+		}
+		else
+		{
+			m_raw.variable._padding = 0;
 		}
 
 		strm.write((const char*)&m_raw, sizeof(m_raw));
@@ -52,6 +57,9 @@ namespace aha
 
 		if (m_raw.type == AHA_CLSMEM_TYPE_FUNC)
 		{
+			strm.write((const char*)m_locals.data(), sizeof(AhaType) * m_locals.size());
+			written += sizeof(AhaType) * m_locals.size();
+
 			strm.write((const char*)m_params.data(), sizeof(AhaType) * m_params.size());
 			written += sizeof(AhaType) * m_params.size();
 
@@ -83,11 +91,12 @@ namespace aha
 
 		if (!ValidateAhaType(m_raw.variable.vartype))
 			throw BadModuleClsMemError();
-		if (m_raw.variable._padding != 0)
-			throw BadModuleClsMemError();
 
 		if (m_raw.type == AHA_CLSMEM_TYPE_VAR)
 		{
+			if (m_raw.variable._padding != 0)
+				throw BadModuleClsMemError();
+
 			if (m_raw.variable.vartype == AHA_TYPE_VOID)
 				throw BadModuleClsMemError();
 			
@@ -112,6 +121,15 @@ namespace aha
 	const AhaClsMember_raw& AhaClsMember::GetRaw() const
 	{
 		return m_raw;
+	}
+
+	std::vector<AhaType>& AhaClsMember::GetLocals()
+	{
+		return m_locals;
+	}
+	const std::vector<AhaType>& AhaClsMember::GetLocals() const
+	{
+		return m_locals;
 	}
 
 	std::vector<AhaType>& AhaClsMember::GetParams()

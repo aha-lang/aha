@@ -27,7 +27,7 @@ namespace aha
 
 	void FunctionInfo::Call(void* thiz, void** param)
 	{
-		;
+		m_code.Run();
 	}
 
 	const std::u16string& FunctionInfo::GetName() const

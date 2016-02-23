@@ -227,7 +227,7 @@ void Parser::ParseMember(const std::wstring &line, const std::vector<std::wstrin
 					{
 						throw ParseError(L"parameter of function cannot be 'void'");
 					}
-					else if (!(m_Params.back() & 0x80000000))
+					else if (!(m_Params.back() & aha::AHA_TYPE_FLG_PRIMITIVE))
 					{
 						m_Params.push_back((aha::AhaType)AddOrGetStr(*it));
 					}

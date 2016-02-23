@@ -194,22 +194,37 @@ void OutputClsMember(const aha::AhaClsMember& clsmem, const aha::AhaStrings& str
 
 	if (clsmem.GetRaw().type == aha::AHA_CLSMEM_TYPE_FUNC)
 	{
-		output_builder.write(u"\t\t\t( ");
-
-		auto& params = clsmem.GetParams();
 		size_t i;
 
-		for (i = 0; i < params.size(); ++i)
+		output_builder.write(u"\t\t\t( ");
+
+		for (i = 0; i < clsmem.GetParams().size(); ++i)
 		{
 			if (i != 0)
 				output_builder.write(u", ");
 
-			OutputTypeStr(params[i], strings);
+			OutputTypeStr(clsmem.GetParams()[i], strings);
 		}
-
 		if (i != 0)
 			output_builder.write(u" ");
+
 		output_builder.write(u")\n\t\t{\n");
+
+		if (!clsmem.GetLocals().empty())
+		{
+			output_builder.write(u"\t\t\t.locals (\n");
+			for (i = 0; i < clsmem.GetLocals().size(); ++i)
+			{
+				if (i != 0)
+					output_builder.write(u",\n");
+
+				output_builder.write(u"\t\t\t\t");
+				OutputTypeStr(clsmem.GetLocals()[i], strings);
+			}
+			if (i != 0)
+				output_builder.write(u"\n");
+			output_builder.write(u"\t\t\t\t)\n");
+		}
 
 		output_builder.write(DisasOpcode(clsmem.GetOpcode(), strings, L"\t\t\t"));
 
@@ -272,9 +287,9 @@ void OutputTypeStr(aha::AhaType type, const aha::AhaStrings& strings)
 		u"uintptr",
 	};
 
-	if (type & 0x80000000)
+	if (type & aha::AHA_TYPE_FLG_PRIMITIVE)
 	{
-		output_builder.write(str[type & 0x7fffffff]);
+		output_builder.write(str[type & aha::AHA_TYPE_MASK_NONFLG]);
 	}
 	else
 	{
@@ -284,58 +299,68 @@ void OutputTypeStr(aha::AhaType type, const aha::AhaStrings& strings)
 
 std::wstring InitialValStr(aha::AhaType type, aha::AhaVariable initial)
 {
-	if (type & 0x80000000)
+	std::wstring ret;
+
+	if (type & aha::AHA_TYPE_FLG_PRIMITIVE)
 	{
-		switch (type)
+		switch (type & aha::AHA_TYPE_MASK_NONFLG)
 		{
 			case aha::AHA_TYPE_BOOL:
-				return initial.v_bool ? L"true" : L"false";
+				ret = initial.v_bool ? L"true" : L"false";
 				break;
 			case aha::AHA_TYPE_INT8:
-				return std::to_wstring(initial.v_int8);
+				ret = std::to_wstring(initial.v_int8);
 				break;
 			case aha::AHA_TYPE_UINT8:
-				return std::to_wstring(initial.v_uint8);
+				ret = std::to_wstring(initial.v_uint8);
 				break;
 			case aha::AHA_TYPE_INT16:
-				return std::to_wstring(initial.v_int16);
+				ret = std::to_wstring(initial.v_int16);
 				break;
 			case aha::AHA_TYPE_UINT16:
-				return std::to_wstring(initial.v_uint16);
+				ret = std::to_wstring(initial.v_uint16);
 				break;
 			case aha::AHA_TYPE_INT32:
-				return std::to_wstring(initial.v_int32);
+				ret = std::to_wstring(initial.v_int32);
 				break;
 			case aha::AHA_TYPE_UINT32:
-				return std::to_wstring(initial.v_uint32);
+				ret = std::to_wstring(initial.v_uint32);
 				break;
 			case aha::AHA_TYPE_INT64:
-				return std::to_wstring(initial.v_int64);
+				ret = std::to_wstring(initial.v_int64);
 				break;
 			case aha::AHA_TYPE_UINT64:
-				return std::to_wstring(initial.v_uint64);
+				ret = std::to_wstring(initial.v_uint64);
 				break;
 			case aha::AHA_TYPE_FLOAT32:
-				return std::to_wstring(initial.v_float32);
+				ret = std::to_wstring(initial.v_float32);
 				break;
 			case aha::AHA_TYPE_FLOAT64:
-				return std::to_wstring(initial.v_float64);
+				ret = std::to_wstring(initial.v_float64);
 				break;
 			case aha::AHA_TYPE_INTPTR:
-				return std::to_wstring(initial.v_intptr);
+				ret = std::to_wstring(initial.v_intptr);
 				break;
 			case aha::AHA_TYPE_UINTPTR:
-				return std::to_wstring(initial.v_uintptr);
+				ret = std::to_wstring(initial.v_uintptr);
+				break;
+			case aha::AHA_TYPE_CHAR:
+				// TODO
+				ret = std::wstring((wchar_t)initial.v_char, 1);
 				break;
 		}
+
+		if (type & aha::AHA_TYPE_FLG_POINTER)
+			ret += L'*';
+
+		return ret;
 	}
 	else
 	{
 		return L"null";
 	}
 
-	assert(false);
-	return L"errrrrrrrrrr";
+	abort();
 }
 
 const char16_t* AccessStr(aha::AhaAccess access)

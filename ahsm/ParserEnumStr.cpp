@@ -58,24 +58,34 @@ aha::AhaClsMemberStorage Parser::StrToAhaClsMemberStorage(const std::wstring &st
 aha::AhaType Parser::StrToAhaType(const std::wstring &str)
 {
 	static std::vector<std::wstring> vt = {
-		L"void", // AHA_TYPE_VOID
-		L"bool", // AHA_TYPE_BOOL
-		L"int8", // AHA_TYPE_INT8
-		L"uint8", // AHA_TYPE_UINT8
-		L"int16", // AHA_TYPE_INT16
-		L"uint16", // AHA_TYPE_UINT16
-		L"int32", // AHA_TYPE_INT32
-		L"uint32", // AHA_TYPE_UINT32
-		L"int64", // AHA_TYPE_INT64
-		L"uint64", // AHA_TYPE_UINT64
-		L"float32", // AHA_TYPE_FLOAT32
-		L"float64", // AHA_TYPE_FLOAT64
-		L"intptr", // AHA_TYPE_INTPTR
+		L"void",
+		L"bool",
+		L"int8",
+		L"uint8",
+		L"int16",
+		L"uint16",
+		L"int32",
+		L"uint32",
+		L"int64",
+		L"uint64",
+		L"float32",
+		L"float64",
+		L"intptr",
+		L"uintptr",
+		L"char",
 	};
-	auto it = std::find(vt.begin(), vt.end(), str);
+
+	std::vector<std::wstring>::iterator it;
+
+	if (str.back() == '*')
+		it = std::find(vt.begin(), vt.end(), str.substr(0, str.size() - 1));
+	else
+		it = std::find(vt.begin(), vt.end(), str);
+
 	if (it != vt.end())
 	{
-		return (aha::AhaType)((unsigned)(it - vt.begin()) | 0x80000000);
+		return (aha::AhaType)((unsigned)(it - vt.begin())
+			| aha::AHA_TYPE_FLG_PRIMITIVE | (str.back() == '*' ? aha::AHA_TYPE_FLG_POINTER : 0));
 	}
 	else
 	{

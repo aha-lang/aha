@@ -10,25 +10,41 @@ namespace aha
 	typedef aha_u32 AhaType;
 	enum : AhaType
 	{
-		AHA_TYPE_VOID		= 0x80000000u,
-		AHA_TYPE_BOOL		= 0x80000001u,
-		AHA_TYPE_INT8		= 0x80000002u,
-		AHA_TYPE_UINT8		= 0x80000003u,
-		AHA_TYPE_INT16		= 0x80000004u,
-		AHA_TYPE_UINT16		= 0x80000005u,
-		AHA_TYPE_INT32		= 0x80000006u,
-		AHA_TYPE_UINT32		= 0x80000007u,
-		AHA_TYPE_INT64		= 0x80000008u,
-		AHA_TYPE_UINT64		= 0x80000009u,
-		AHA_TYPE_FLOAT32	= 0x8000000au,
-		AHA_TYPE_FLOAT64	= 0x8000000bu,
-		AHA_TYPE_INTPTR		= 0x8000000cu,
-		AHA_TYPE_UINTPTR	= 0x8000000du,
-		MAX_AHA_TYPE_PRIMITIVE = AHA_TYPE_UINTPTR,
+		AHA_TYPE_FLG_POINTER	= 0x40000000u,
+		AHA_TYPE_FLG_PRIMITIVE	= 0x80000000u,
+		AHA_TYPE_MASK_NONFLG	= 0x3fffffffu,
+
+		AHA_TYPE_VOID			= 0,
+		AHA_TYPE_BOOL			= 1,
+		AHA_TYPE_INT8			= 2,
+		AHA_TYPE_UINT8			= 3,
+		AHA_TYPE_INT16			= 4,
+		AHA_TYPE_UINT16			= 5,
+		AHA_TYPE_INT32			= 6,
+		AHA_TYPE_UINT32			= 7,
+		AHA_TYPE_INT64			= 8,
+		AHA_TYPE_UINT64			= 9,
+		AHA_TYPE_FLOAT32		= 10,
+		AHA_TYPE_FLOAT64		= 11,
+		AHA_TYPE_INTPTR			= 12,
+		AHA_TYPE_UINTPTR		= 13,
+		AHA_TYPE_CHAR			= 14,
+		COUNT_AHA_TYPE,
 	};
-	inline bool ValidateAhaType(AhaType i)
+	inline bool ValidateAhaType(AhaType type)
 	{
-		return (!(i & 0x80000000) || i <= MAX_AHA_TYPE_PRIMITIVE);
+		if (type & AHA_TYPE_FLG_PRIMITIVE)
+		{
+			// void*는 허용되지 않음
+			if (type == (AHA_TYPE_FLG_PRIMITIVE | AHA_TYPE_FLG_POINTER | AHA_TYPE_VOID))
+				return false;
+
+			return (type & AHA_TYPE_MASK_NONFLG) < COUNT_AHA_TYPE;
+		}
+		else
+		{
+			return true;
+		}
 	}
 
 	inline unsigned AhaTypeGetSize(AhaType type)
@@ -48,8 +64,13 @@ namespace aha
 			sizeof(aha_f64),	/* AHA_TYPE_FLOAT64 */
 			sizeof(aha_iptr),	/* AHA_TYPE_INTPTR */
 			sizeof(aha_uptr),	/* AHA_TYPE_UINTPTR */
+			sizeof(aha_char),	/* AHA_TYPE_CHAR */
 		};
-		return (type & 0x80000000) ? ar[type & 0x7fffffff] : sizeof(void *);
+
+		if (type & AHA_TYPE_FLG_PRIMITIVE)
+			return ar[type & AHA_TYPE_MASK_NONFLG];
+		else
+			return sizeof(void *);
 	}
 
 	union AhaVariable
@@ -67,6 +88,7 @@ namespace aha
 		aha_f64 v_float64;
 		aha_iptr v_intptr;
 		aha_uptr v_uintptr;
+		aha_char v_char;
 		void *v_object;
 	};
 }

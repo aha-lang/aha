@@ -47,9 +47,10 @@ namespace aha
 			struct
 			{
 				AhaType rettype;
-				aha_u32 _padding;
+				aha_u32 CountOfLocals;
 				aha_u32 CountOfParams;
 				aha_u32 SizeOfOpcode;
+				// AhaType locals[CountOfLocals];
 				// AhaType params[CountOfParams];
 				// aha_byte opcode[SizeOfOpcode];
 			} function;
@@ -62,6 +63,8 @@ namespace aha
 	{
 	private:
 		AhaClsMember_raw m_raw;
+
+		std::vector<AhaType> m_locals;
 		std::vector<AhaType> m_params;
 		std::vector<aha_u8> m_opcode;
 
@@ -72,6 +75,9 @@ namespace aha
 
 		AhaClsMember_raw& GetRaw();
 		const AhaClsMember_raw& GetRaw() const;
+
+		std::vector<AhaType>& GetLocals();
+		const std::vector<AhaType>& GetLocals() const;
 
 		std::vector<AhaType>& GetParams();
 		const std::vector<AhaType>& GetParams() const;

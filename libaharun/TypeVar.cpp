@@ -7,7 +7,7 @@ namespace aha
 	{
 		type = t;
 
-		if (type & 0x80000000)
+		if (type & aha::AHA_TYPE_FLG_PRIMITIVE)
 		{
 			bPrimitive = true;
 		}

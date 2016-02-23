@@ -69,8 +69,7 @@ private:
 	void ParseMember(const std::wstring &line, const std::vector<std::wstring> &vttok);
 
 	void ParseOpcode(const std::vector<std::wstring> &vttok);
-	void ParseOpcode_locals(const std::vector<std::wstring> &vttok);
-	void ParseOpcode_native(const std::vector<std::wstring> &vttok);
+	void ParseOpcode_callnative(const std::vector<std::wstring> &vttok);
 	void ParseOpcode_NiladicOp(const std::vector<std::wstring> &vttok);
 	void ParseOpcode_UnaryOp_uintptr(const std::vector<std::wstring> &vttok);
 	void ParseOpcode_ldc_XXX(aha::AhaOpcode opcode, const std::vector<std::wstring> &vttok);

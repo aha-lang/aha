@@ -10,11 +10,8 @@ void Parser::ParseOpcode(const std::vector<std::wstring> &vttok)
 	switch (opcode)
 	{
 		// 선두 opcode
-		case aha::AHA_OPCODE_locals:
-			ParseOpcode_locals(vttok);
-			break;
-		case aha::AHA_OPCODE_native:
-			ParseOpcode_native(vttok);
+		case aha::AHA_OPCODE_callnative:
+			ParseOpcode_callnative(vttok);
 			break;
 
 		// 무항 opcode
@@ -29,9 +26,7 @@ void Parser::ParseOpcode(const std::vector<std::wstring> &vttok)
 		case aha::AHA_OPCODE_shr:
 		case aha::AHA_OPCODE_not:
 		case aha::AHA_OPCODE_dup:
-		case aha::AHA_OPCODE_ldthis:
 		case aha::AHA_OPCODE_ret:
-		case aha::AHA_OPCODE_conv_byte:
 		case aha::AHA_OPCODE_conv_i8:
 		case aha::AHA_OPCODE_conv_i16:
 		case aha::AHA_OPCODE_conv_i32:
@@ -46,8 +41,6 @@ void Parser::ParseOpcode(const std::vector<std::wstring> &vttok)
 		// 단항 opcode - uintptr_t를 인수로 받음
 		case aha::AHA_OPCODE_ldloc:
 		case aha::AHA_OPCODE_stloc:
-		case aha::AHA_OPCODE_ldvar:
-		case aha::AHA_OPCODE_stvar:
 		case aha::AHA_OPCODE_ldstr:
 		case aha::AHA_OPCODE_jmp:
 		case aha::AHA_OPCODE_je:
@@ -56,14 +49,11 @@ void Parser::ParseOpcode(const std::vector<std::wstring> &vttok)
 		case aha::AHA_OPCODE_jle:
 		case aha::AHA_OPCODE_jg:
 		case aha::AHA_OPCODE_jge:
-		case aha::AHA_OPCODE_ldpar:
-		case aha::AHA_OPCODE_stpar:
 			ParseOpcode_UnaryOp_uintptr(vttok);
 			break;
 
 		// ldc_XXX
 		case aha::AHA_OPCODE_ldc_bool:
-		case aha::AHA_OPCODE_ldc_byte:
 		case aha::AHA_OPCODE_ldc_i8:
 		case aha::AHA_OPCODE_ldc_i16:
 		case aha::AHA_OPCODE_ldc_i32:
@@ -84,7 +74,7 @@ void Parser::ParseOpcode(const std::vector<std::wstring> &vttok)
 			break;
 	}
 }
-
+/*
 void Parser::ParseOpcode_locals(const std::vector<std::wstring> &vttok)
 {
 	if (m_Opcode.size() != 1)
@@ -104,15 +94,15 @@ void Parser::ParseOpcode_locals(const std::vector<std::wstring> &vttok)
 		{
 			errno = 0;
 			unsigned long ul = wcstoul(it->c_str(), &endptr, 0);
-			if (errno == ERANGE || *endptr != L'\0' /* || ul >= m_strtbl.size() */)
+			if (errno == ERANGE || *endptr != L'\0' || ul >= m_strtbl.size())
 				throw ParseError(L"there must be a primitive type name or an string index");
 
 			m_Opcode.insert(m_Opcode.end(), (uint8_t *)&ul, (uint8_t *)&ul + sizeof(ul));
 		}
 	}
 }
-
-void Parser::ParseOpcode_native(const std::vector<std::wstring> &vttok)
+*/
+void Parser::ParseOpcode_callnative(const std::vector<std::wstring> &vttok)
 {
 	if (m_Opcode.size() != 1)
 		throw ParseError(L"'native' must be at first of body of function");
@@ -172,7 +162,6 @@ void Parser::ParseOpcode_ldc_XXX(aha::AhaOpcode opcode, const std::vector<std::w
 	switch (opcode)
 	{
 		case aha::AHA_OPCODE_ldc_bool: type = aha::AHA_TYPE_BOOL; break;
-		case aha::AHA_OPCODE_ldc_byte: type = aha::AHA_TYPE_UINT8; break;
 		case aha::AHA_OPCODE_ldc_i8: type = aha::AHA_TYPE_INT8; break;
 		case aha::AHA_OPCODE_ldc_i16: type = aha::AHA_TYPE_INT16; break;
 		case aha::AHA_OPCODE_ldc_i32: type = aha::AHA_TYPE_INT32; break;

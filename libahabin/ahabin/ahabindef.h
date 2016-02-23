@@ -21,10 +21,11 @@ namespace aha
 	typedef std::uint32_t aha_u32;
 	typedef std::int64_t aha_i64;
 	typedef std::uint64_t aha_u64;
-	typedef std::intptr_t aha_iptr;
 	typedef float aha_f32;
 	typedef double aha_f64;
+	typedef std::intptr_t aha_iptr;
 	typedef std::uintptr_t aha_uptr;
+	typedef std::uint32_t aha_char;
 
 	constexpr aha_bool aha_true = 1;
 	constexpr aha_bool aha_false = 0;
