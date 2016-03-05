@@ -63,7 +63,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-	  <AdditionalDependencies>libahabin.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libahabin.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -87,24 +87,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AhaCompiler.cpp" />
-    <ClCompile Include="AhaLangPack.cpp" />
-    <ClCompile Include="AhaParser.cpp" />
-    <ClCompile Include="AhaType.cpp" />
+    <ClCompile Include="AhaScanner.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="AhaScaner.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AhaCompiler.h" />
-    <ClInclude Include="AhaError.h" />
-    <ClInclude Include="AhaLangPack.h" />
-    <ClInclude Include="AhaParser.h" />
-    <ClInclude Include="AhaScaner.h" />
-    <ClInclude Include="AhaToken.h" />
-    <ClInclude Include="AhaType.h" />
-    <ClInclude Include="Utility.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="test.aha" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AhaCodeGenerator.hpp" />
+    <ClInclude Include="AhaCompiler.h" />
+    <ClInclude Include="AhaParser.hpp" />
+    <ClInclude Include="AhaScanner.h" />
+    <ClInclude Include="AhaTokens.h" />
+    <ClInclude Include="AhaType.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

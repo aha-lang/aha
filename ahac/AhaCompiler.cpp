@@ -1,122 +1,45 @@
 #include "AhaCompiler.h"
 
-#include <locale>
-#include <codecvt>
+#include "AhaScanner.h"
+#include "AhaParser.hpp"
 
+#include <stdio.h>
 
-CAhaCompiler::CAhaCompiler(CAhaParser _parser) : parser(_parser)
+source::source(const std::string filename)
 {
-}
+	FILE* fp = 0;
+	fopen_s(&fp, filename.c_str(), "rt");
 
-CAhaCompiler::~CAhaCompiler()
-{
-}
-
-void CAhaCompiler::MakeAHSM(const char* filename)
-{
-	file.open(filename);
-	file.imbue(std::locale(std::locale(), new std::codecvt_utf8<wchar_t>()));
-
-	if (file.is_open())
+	if (!fp)
 	{
-		_writeAttribute();
-		file << endl;
-		_writeRefer(parser.refers);
-		file << endl;
-		_writeNativeRefer();
-		file << endl;
-		_writeData(parser.datas);
-		file << endl;
-		_writeTypeinfo(parser.classes);
+		throw compiler_error("파일을 불러올 수 없습니다.", code_position(filename, -1));
 	}
 
-	file.close();
+	fseek(fp, 0, SEEK_END);
+	size_t len = ftell(fp);
+	fseek(fp, 0, SEEK_SET);
+
+	code.resize(len);
+	fread(&code[0], len, 1, fp);
+
+	fclose(fp);
 }
 
-void CAhaCompiler::_writeAttribute()
+std::string compile(const std::vector<source>& src)
 {
-	file << L"attribute" << endl;
-	file << L".module test" << endl;
-	file << L"endattr" << endl;
-}
+	compile_context ctx;
 
-void CAhaCompiler::_writeRefer(vector<wstring>& refers)
-{
-	file << L"refer" << endl;
-
-	for (const wstring& refer : refers)
-		file << "\"" << refer << "\"" << endl;
-
-	file << L"endrefer" << endl;
-}
-
-void CAhaCompiler::_writeNativeRefer()
-{
-	file << L"nativerefer" << endl;
-	file << L"endnativerefer" << endl;
-}
-
-void CAhaCompiler::_writeData(vector<wstring>& datas)
-{
-	file << L"data" << endl;
-
-	for (const wstring& data : datas)
-		file << "\"" << data << "\"" << endl;
-
-	file << L"enddata" << endl;
-}
-
-void CAhaCompiler::_writeTypeinfo(vector<sClass>& classes)
-{
-	file << L"typeinfo" << endl;
-
-	for (const sClass& cls : classes)
+	for (auto& it : src)
 	{
-		file << AccessTypeStr[cls.at] << L" "
-			<< ClassTypeStr[cls.ct] << L" " 
-			<< L"class" << L" "
-			<< cls.name << endl;
+		scanner scan(it);
+		scan.Scan();
 
-		for (const sVar& var : cls.vars)
-		{
-			file << L"\t" << AccessTypeStr[var.at] << L" "
-				<< L"var classof " << var.tn << L" "
-				<< var.name << L" { " << var.init << L" }"
-				<< endl;
-		}
-
-		file << endl;
-
-		for (const sFunction& func : cls.funcs)
-		{
-			file << L"\t" << AccessTypeStr[func.at] << L" "
-				<< L"func classof " << func.tn << L" "
-				<< func.name << L"( ";
-
-			for (const sVar& parm : func.params)
-			{
-				file << parm.tn << L" "
-					<< parm.name;
-
-				if (parm.init.size() > 0)
-				{
-					file << " = " << parm.init;
-				}
-
-				if (parm != *(func.params.end() - 1))
-					file << L", ";
-			}
-
-			file << L" )" << endl
-				<< "\t" << L"{" << endl;
-
-
-
-			file << "\t" << L"}" << endl;
-		}
-
-		file << L"endclass" << endl;
+		parser parse(ctx, it, scan.Get());
+		parse.Parse();
+		parse.SaveToFile("test.txt");
 	}
 
-	file << L"endtype" << endl;
+
+
+	return "";
 }

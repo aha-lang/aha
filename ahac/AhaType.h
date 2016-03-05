@@ -1,100 +1,113 @@
 #pragma once
 
-#include <string>
 #include <vector>
 
-#include "AhaToken.h"
+#include "AhaTokens.h"
 
-enum eAccessType
+enum AccessType
 {
-	PUBLIC,
+	INTERNAL,
 	PRIVATE,
+	PUBLIC,
 	PROTECTED,
-	PROTECTED_INTERNAL,
-	INTERNAL
+	PROCTED_INTERNAL
 };
 
-extern const wchar_t* AccessTypeStr[];
+const std::string AccessTypeStr[] = {
+	"internal",
+	"private",
+	"public",
+	"protected",
+	"protected internal"
+};
 
-enum eClassType
+enum ClassType
 {
+	NORMAL,
 	ABSTRACT,
 	SEALED,
 	STATIC,
 	INTERFACE,
-	NORMAL
 };
 
-extern const wchar_t* ClassTypeStr[];
+const std::string ClassTypeStr[] = {
+	"",
+	"abstract",
+	"sealed",
+	"static",
+	"interface"
+};
 
-struct sVar
+struct Var
 {
-	eAccessType at;
-	std::wstring tn;
+	AccessType at;
+	Token tn;
 
-	std::wstring name;
+	std::string name;
 
-	std::wstring init;
+	Token init;
 
-	sVar() { }
-	sVar(eAccessType _at, const std::wstring& _tn, const std::wstring& _name, const std::wstring& _init)
+	Var() { }
+	Var(AccessType _at, const Token& _tn, const std::string& _name, const Token& _init)
 		: at(_at), tn(_tn), name(_name), init(_init)
 	{
 	}
 
-	bool operator==(const sVar& var) const
+	bool operator==(const Var& var) const
 	{
 		return ((at == var.at) && (tn == var.tn)
 			&& (name == var.name) && (init == var.init));
 	}
 
-	bool operator!=(const sVar& var) const
+	bool operator!=(const Var& var) const
 	{
 		return !(*this == var);
 	}
 };
 
-struct sFunction
+struct Function
 {
-	eAccessType at;
-	std::wstring tn;
+	AccessType at;
+	Token tn;
 
-	std::wstring name;
+	std::string name;
 
-	std::vector<sVar> params;
-	std::vector<TokenType> inner;
+	std::vector<Var> params;
+	std::vector<Token> inner;
 
-	bool operator==(const sFunction& func) const
+	bool operator==(const Function& func) const
 	{
 		return ((at == func.at) && (tn == func.tn)
 			&& (name == func.name) && (params == func.params)
 			&& (inner == func.inner));
 	}
 
-	bool operator!=(const sFunction& func) const
+	bool operator!=(const Function& func) const
 	{
 		return !(*this == func);
 	}
 };
 
-struct sClass
+struct Class
 {
-	eAccessType at;
-	eClassType ct;
+	AccessType at;
+	ClassType ct;
 
-	std::vector<sVar> vars;
-	std::vector<sFunction> funcs;
+	std::vector<std::string> parents;
 
-	std::wstring name;
+	std::vector<Var> vars;
+	std::vector<Function> funcs;
 
-	bool operator==(const sClass& cls) const
+	std::string name;
+
+	bool operator==(const Class& cls) const
 	{
 		return ((at == cls.at) && (ct == cls.ct)
 			&& (name == cls.name) && (vars == cls.vars)
 			&& (funcs == cls.funcs));
 	}
 
-	bool operator!=(const sClass& cls) const
+	bool operator!=(const Class& cls) const
 	{
 		return !(*this == cls);
 	}

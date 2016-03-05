@@ -13,57 +13,39 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Language">
-      <UniqueIdentifier>{65e599b4-bc34-4eb8-8fcd-895d66fca38c}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AhaScaner.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="AhaParser.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="AhaCompiler.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="AhaType.cpp">
+    <ClCompile Include="AhaScanner.cpp">
       <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="AhaLangPack.cpp">
-      <Filter>Language</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AhaScaner.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="AhaToken.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Utility.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="AhaParser.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
+    <None Include="test.aha" />
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="AhaCompiler.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="AhaType.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="AhaLangPack.h">
-      <Filter>Language</Filter>
+    <ClInclude Include="AhaTokens.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="AhaError.h">
-      <Filter>Language</Filter>
+    <ClInclude Include="AhaScanner.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="test.aha" />
+    <ClInclude Include="AhaParser.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="AhaCodeGenerator.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

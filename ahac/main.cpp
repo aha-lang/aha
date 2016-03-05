@@ -1,99 +1,90 @@
-#include <iostream>
-#include <fstream>
+#include <stdio.h>
+
+#include <vector>
 #include <string>
-#include <codecvt>
 
-#include <time.h>
-
-#include "AhaScaner.h"
-#include "AhaParser.h"
 #include "AhaCompiler.h"
-#include "AhaLangPack.h"
 
-using namespace std;
-
-AhaLangPack err_lang;
+struct param_error : public std::runtime_error {
+	param_error(const std::string& msg)
+		: std::runtime_error(msg) { }
+};
 
 int main(int argc, char** argv)
 {
-	wifstream file;
-
-	vector<string> sources;
-	string asmfile;
-	string objfile;
-
-	bool save_temp = false;
-
-	setlocale(LC_ALL, "");
-
-	err_lang.Load("./lang/error.lang");
-	
-	for (int i = 1; i < argc; i++)
+	if (argc < 2)
 	{
-		if (strcmp(argv[i], "-o") == 0)
-		{
-			if (argc >= i + 1)
-			{
-				i++;
-				
-				objfile = argv[i];
-			}
-		}
-		else if (strcmp(argv[i], "-S") == 0)
-		{
-			if (argc >= i + 1)
-			{
-				i++;
-
-				asmfile = argv[i];
-			}
-		}
-		else if (strcmp(argv[i], "--save-temps") == 0)
-		{
-			save_temp = true;
-		}
-		else
-		{
-			sources.push_back(argv[i]);
-		}
+		printf("Usage: %s -o <out> -f <src1> <src2> ...\n", argv[0]);
+		return -1;
 	}
 
-	for (const string& src : sources)
+	try
 	{
-		file.open(src, ios::in);
-		file.imbue(std::locale(std::locale(), new std::codecvt_utf8<wchar_t>()));
+		printf("Aha Compiler v100\n");
+		printf("Copyrightⓒ 2016 PJY All rights reserved.\n");
 
-		if (file.is_open())
+		std::string outfile, asmout;
+		std::vector<std::string> srcs;
+
+		bool is_src = false;
+
+		for (int i = 1; i < argc; i++)
 		{
-			wstring source;
-
-			while (!file.eof())
+			if (is_src)
 			{
-				wstring temp;
-				std::getline(file, temp);
-				temp += L"\n";
-
-				source.append(temp);
+				srcs.push_back(argv[i]);
 			}
-
-			CAhaScaner scaner(src, source);
-			scaner.Scan();
-
-			CAhaParser parser(src, scaner.get());
-			parser.Parse();
-
-			if (save_temp)
+			else
 			{
-				scaner.SaveToFile((src + ".s").c_str());
-				parser.SaveToFile((src + ".p").c_str());
+				if (strcmp(argv[i], "-o") == 0)
+				{
+					if (argc - i == 0)
+					{
+						throw param_error("매개인자가 부족합니다.");
+					}
+
+					outfile = argv[++i];
+				}
+				else if (strcmp(argv[i], "-a") == 0)
+				{
+					if (argc - i == 0)
+					{
+						throw param_error("매개인자가 부족합니다.");
+					}
+
+					asmout = argv[++i];
+				}
+				else if (strcmp(argv[i], "-f") == 0)
+				{
+					is_src = true;
+				}
 			}
-
-			CAhaCompiler compiler(parser);
-
-			if(!asmfile.empty())
-				compiler.MakeAHSM(asmfile.c_str());
 		}
+
+		if (outfile.empty() && asmout.empty())
+		{
+			throw param_error("내보낼 파일 이름이 정해지지 않았습니다.");
+		}
+
+		if (srcs.empty())
+		{
+			throw param_error("컴파일할 소스 파일이 없습니다.");
+		}
+
+		std::vector<source> src;
+		for (auto& it : srcs) src.push_back(source(it));
+		compile(src);
+	}
+	catch (const compiler_error& e)
+	{
+		printf("Error: %s(%d): %s\n", e.pos.file.c_str(), e.pos.line, e.what());
+		return -1;
+	}
+	catch (const param_error& e)
+	{
+		printf("Error: %s\n", e.what());
+		return -1;
 	}
 
-	return 0;
+	return -1;
 }
