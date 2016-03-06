@@ -117,7 +117,8 @@ enum class CodeType
 	CALL_FUNC,
 	CALC,
 	VAR,
-	RETURN
+	RETURN,
+	BLOCK
 };
 
 struct code

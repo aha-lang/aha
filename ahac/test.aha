@@ -1,9 +1,16 @@
-import aha.system;
-
 static class Program
 {
 	private void Main()
 	{
-		Console.Print("Hell World!");
+		int A = 0;
+	
+		if(A == 0)
+		{
+			Console.Print("A");
+		}
+		else if(B == 0)
+		{
+			Console.Print("B");
+		}
 	}
 }

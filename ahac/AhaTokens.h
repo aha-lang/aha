@@ -87,7 +87,7 @@ enum TokenType
 #define IS_KEYWORD(t) ((sym_void <= t) && (sym_return >= t))
 #define IS_TYPE(t) ((sym_void <= t) && (sym_bool >= t))
 #define IS_ITERATOR(it) ((sym_for <= it) && (sym_do >= it))
-#define IS_CONTROL(ct) ((sym_if <= ct) && (ct == sym_switch))
+#define IS_CONTROL(ct) ((sym_if <= ct) && (sym_else >= ct))
 #define IS_SWITCH(sw) ((sym_switch <= sw) && (sym_default >= sw))
 #define IS_ACESS_TYPE(at) ((sym_internal <= at) && (sym_protected >= at))
 #define IS_CLASS_TYPE(ct) ((sym_abstract <= ct) && (sym_interface >= ct))

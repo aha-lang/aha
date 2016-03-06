@@ -242,7 +242,7 @@ public:
 									{
 										i++; mparan_cnt++;
 
-										while (mparan_cnt > 0 && tokens[i].number != tmrparan)
+										while (!(mparan_cnt == 1 && tokens[i].number == tmrparan))
 										{
 											if (tokens[i].number == tstring)
 											{
