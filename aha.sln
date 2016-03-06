@@ -37,6 +37,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libaharun", "libaharun\liba
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ahac", "ahac\ahac.vcxproj", "{38CE8B8D-D7AA-4876-9004-6BB6C6E26E40}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7747D132-6014-4AC7-AD67-5A85C0F5FDB6} = {7747D132-6014-4AC7-AD67-5A85C0F5FDB6}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

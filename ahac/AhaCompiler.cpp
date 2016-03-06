@@ -2,6 +2,7 @@
 
 #include "AhaScanner.h"
 #include "AhaParser.hpp"
+#include "AhaCodeTreeGenerator.hpp"
 
 #include <stdio.h>
 
@@ -33,10 +34,12 @@ std::string compile(const std::vector<source>& src)
 	{
 		scanner scan(it);
 		scan.Scan();
+		scan.SaveToFile("Test.txt");
 
 		parser parse(ctx, it, scan.Get());
 		parse.Parse();
-		parse.SaveToFile("test.txt");
+
+		code_tree_generator::Generate(ctx, it);
 	}
 
 

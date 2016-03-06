@@ -1,18 +1,9 @@
 import aha.system;
 
-class Property_Test
-{
-	public string Test { get; set; }
-	
-	private string test;
-}
-
 static class Program
 {
 	private void Main()
 	{
-		Property_Test test;
-		
-		test.Test = "Test";
+		Console.Print("Hell World!");
 	}
 }

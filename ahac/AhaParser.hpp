@@ -31,28 +31,17 @@ public:
 			{
 				std::string refer;
 
-				do
+				i++;
+
+				if (tokens[i].number == tsemicolon)
 				{
-					i++;
+					throw compiler_error("인수가 부족합니다.", code_position(src.file, tokens[i].line));
+				}
 
-					if (tokens[i].number != tddot && tokens[i].number != tident)
-					{
-						if (tokens[i].number == tsemicolon) break;
-						throw compiler_error("알 수 없는 토큰입니다.", code_position(src.file, tokens[i].line));
-					}
-
-					if (refer.empty() && tokens[i].number == tsemicolon)
-					{
-						throw compiler_error("인수가 부족합니다.", code_position(src.file, tokens[i].line));
-					}
-
-					if (tokens[i].line != tokens[i - 1].line || i == tokens.size()) // eof
-					{
-						throw compiler_error("';'이 없습니다.", code_position(src.file, tokens[i - 1].line));
-					}
-
-					refer += tokens[i].value;
-				} while (tokens[i].number != tsemicolon);
+				if (tokens[i].line != tokens[i - 1].line || i == tokens.size()) // eof
+				{
+					throw compiler_error("';'이 없습니다.", code_position(src.file, tokens[i - 1].line));
+				}
 
 				ctx.add_refer(refer);
 			}

@@ -22,14 +22,14 @@ namespace
 	bool superLetter(char ch)
 	{
 		if (ch > 0xff) return true;
-		else if (isalpha(ch) || ch == '_') return true;
+		else if (isalpha(ch) || ch == '_' || ch == '.') return true;
 		else return false;
 	}
 
 	bool superLetterOrDigit(char ch)
 	{
 		if (ch > 0xff) return true;
-		else if (isalnum(ch) || ch == '_') return true;
+		else if (isalnum(ch) || ch == '_' || ch == '.') return true;
 		else return false;
 	}
 }
@@ -54,7 +54,7 @@ void scanner::Scan()
 		count++;
 		ch = src.code[count];
 
-		if (superLetter(ch)) // 키워드와 변수 인식
+		if (superLetter(ch) && ch != '.') // 키워드와 변수 인식
 		{
 			i = 0;
 
@@ -63,10 +63,15 @@ void scanner::Scan()
 				count++;
 				ch = src.code[count];
 			} while (superLetterOrDigit(ch));
+			
+			if (id[id.size()] == '.')
+			{
+				throw compiler_error("알 수 없는 식별자 '.'", code_position(src.file, tokens[i].line));
+			}
 
 			count--;
 			ch = src.code[count];
-
+		
 			// 키워드인지 검사
 			bool is_keyword = false;
 
@@ -367,8 +372,8 @@ void scanner::SaveToFile(const std::string & filename)
 
 	for (Token token : tokens)
 	{
-		file << L"Token Num = " << token.number;
-		file << L", Value = " << token.value << std::endl;
+		file << "Token Num = " << token.number;
+		file << ", Value = " << token.value << std::endl;
 	}
 
 	file.close();

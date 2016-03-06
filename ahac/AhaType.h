@@ -4,6 +4,141 @@
 
 #include "AhaTokens.h"
 
+class Tree
+{
+public:
+	class Node
+	{
+	public:
+		Node(Node *parent = nullptr) : Parent(nullptr)
+		{
+			if (parent)
+				parent->AddChild(this);
+		}
+
+		~Node()
+		{
+			RemoveAllChild();
+		}
+
+		void SetParent(Node *parent)
+		{
+			Remove();
+
+			Parent = parent;
+
+			if (Parent)
+				Parent->AddChild(this);
+		}
+
+		Node* GetParent() const
+		{
+			return Parent;
+		}
+
+		void AddChild(Node *child)
+		{
+			if (child && (child != this))
+			{
+				Children.push_back(child);
+				child->Parent = this;
+			}
+		}
+
+		bool RemoveChild(Node *child)
+		{
+			auto it = std::find(Children.begin(), Children.end(), child);
+
+			if (it != Children.end())
+			{
+				(*it)->Parent = nullptr;
+				Children.erase(it);
+				return true;
+			}
+
+			return false;
+		}
+
+		void RemoveAllChild()
+		{
+			for (auto& it : Children)
+			{
+				it->Parent = nullptr;
+			}
+
+			Children.clear();
+		}
+
+		void AllDelete()
+		{
+			Parent = nullptr;
+
+			for (auto& it : Children)
+			{
+				it->AllDelete();
+				delete it;
+			}
+
+			Children.clear();
+		}
+
+		void Remove()
+		{
+			if (Parent)
+				Parent->RemoveChild(this);
+		}
+
+	public:
+		std::vector<Token> tokens;
+
+		Node *Parent;
+		std::vector<Node *> Children;
+	};
+
+public:
+	Tree() : Root(Node(nullptr)) { }
+
+	void AllDelete()
+	{
+		Root.AllDelete();
+	}
+
+	Node& GetRoot()
+	{
+		return Root;
+	}
+
+private:
+	Node Root;
+};
+
+enum class CodeType
+{
+	CALL_FUNC,
+	CALC,
+	VAR,
+	RETURN
+};
+
+struct code
+{
+	code() { }
+	code(CodeType _type, Tree _inner) : type(_type), inner(_inner) { }
+	code(const code& Other) : type(Other.type), inner(Other.inner) { }
+
+	code& operator=(const code& Other)
+	{
+		type = Other.type;
+		inner = Other.inner;
+
+		return *this;
+	}
+
+	CodeType type;
+
+	Tree inner;
+};
+
 enum AccessType
 {
 	INTERNAL,
@@ -74,6 +209,7 @@ struct Function
 
 	std::vector<Var> params;
 	std::vector<Token> inner;
+	std::vector<code> Code;
 
 	bool operator==(const Function& func) const
 	{

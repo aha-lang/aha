@@ -94,7 +94,7 @@
     <None Include="test.aha" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AhaCodeGenerator.hpp" />
+    <ClInclude Include="AhaCodeTreeGenerator.hpp" />
     <ClInclude Include="AhaCompiler.h" />
     <ClInclude Include="AhaParser.hpp" />
     <ClInclude Include="AhaScanner.h" />
